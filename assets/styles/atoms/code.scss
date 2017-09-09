@@ -8,7 +8,7 @@
 // of the MIT license. See the LICENSE file for details.
 
 .SG-component {
-  @import "prismjs/themes/prism-okaidia";
+  @import 'prismjs/themes/prism-okaidia';
 }
 
 /**
@@ -37,8 +37,8 @@
   }
 }
 
-.SG-code__title{
-    display: none;
+.SG-code__title {
+  display: none;
 }
 
 /**

@@ -9,7 +9,6 @@ var Verbose = require('../src/Verbose.js');
 var Substitute = require('../src/Substitute');
 
 describe('Substitution', function () {
-
   it('complains about invalid shortcodes', function () {
     Helpers.hook(Verbose, 'log');
     Substitute.substitute('@{lipsums}');
@@ -30,7 +29,6 @@ describe('Substitution', function () {
 
     assert.ok(subs.indexOf('Test') === 0);
     assert.ok(subs.indexOf('https://unsplash.it/') !== -1);
-
   });
 
   /********************************************************/
@@ -54,6 +52,5 @@ describe('Substitution', function () {
     markup = '@{lipsum:3:words}';
     subs = Substitute.substitute(markup);
     assert.ok(subs.split(' ').length === 3);
-
   });
 });

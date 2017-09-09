@@ -17,11 +17,20 @@ var Mixin = function(raw) {
   Entity.call(this, raw);
 
   // Set mixin-specific entity properties
-  this.type = "Mixin";
-  this.fillable = ['mixin', 'param', 'section', 'description', 'example', 'deprecated'];
+  this.type = 'Mixin';
+  this.fillable = [
+    'mixin',
+    'param',
+    'section',
+    'description',
+    'example',
+    'deprecated',
+  ];
 
   // Validate the raw input data for common mistakes
-  if (!this.validate()) return {};
+  if (!this.validate()) {
+    return {};
+  }
 
   return {
     name: raw.descriptor.match(/[^\s\(]+/)[0],
@@ -35,9 +44,8 @@ var Mixin = function(raw) {
     signature: raw.descriptor.match(/[^\s\(]+(.*)/)[1],
     parameters: this.getParameters(),
     location: 'nuclides.html',
-    hash: this.hash()
+    hash: this.hash(),
   };
-
 };
 
 Mixin.prototype = Object.create(Entity.prototype);
@@ -55,18 +63,18 @@ Mixin.prototype.getParameters = function() {
 
   // If there're no parameters in the descriptor definition,
   // we don't need to take a closer look
-  if(!paramString) {
+  if (!paramString) {
     return [];
   }
 
   // If there's only one parameter, make it an array
-  if(typeof docParameters === 'string') {
+  if (typeof docParameters === 'string') {
     docParameters = [docParameters];
   }
 
-  for(var p in docParameters) {
+  for (var p in docParameters) {
     var param = this.getParameter(docParameters[p]);
-    var paramCodeRE = new RegExp("(\\"+param.name+".*?(?=\\,\\s\\$|$))");
+    var paramCodeRE = new RegExp('(\\' + param.name + '.*?(?=\\,\\s\\$|$))');
     var paramCode = paramString[1].match(paramCodeRE)[0];
     param.optional = paramCode.match(/:/) ? true : false;
     parameters.push(param);
@@ -81,19 +89,20 @@ Mixin.prototype.getParameters = function() {
  * @param  {param} parameterString
  * @return {object}
  */
-Mixin.prototype.getParameter = function( parameterString ) {
+Mixin.prototype.getParameter = function (parameterString) {
   // Remove line breaks from the current annotation string, in order to
   // not break the regexp, since . does not match line breaks.
-  parameterString = parameterString.replace(/\n/g, " ");
+  parameterString = parameterString.replace(/\n/g, ' ');
 
   var param = parameterString.match(/^([^\s]+)(.*)$/);
+
   return {
     name: param[1].trim(),
     description: param[2].trim()
   };
 };
 
-Mixin.prototype.getExample = function() {
+Mixin.prototype.getExample = function () {
   return this.raw.annotations.example;
 };
 

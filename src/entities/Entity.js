@@ -48,7 +48,7 @@ Entity.prototype.validate = function() {
   // Check for edge-cases that would break the processing
   // Set section if not defined
   if (this.raw.annotations.section === undefined) {
-    this.raw.annotations.section = "Other";
+    this.raw.annotations.section = 'Other';
   }
 
   // Section should be nothing else than a string
@@ -75,10 +75,11 @@ Entity.prototype.validate = function() {
  * @return null
  */
 Entity.prototype.setDefaultValues = function() {
-  if(this.fillable.indexOf('description') !== -1) {
+  if (this.fillable.indexOf('description') !== -1) {
     this.raw.annotations.description = this.raw.annotations.description || '';
   }
-  if(this.fillable.indexOf('deprecated') !== -1) {
+
+  if (this.fillable.indexOf('deprecated') !== -1) {
     this.raw.annotations.deprecated = this.raw.annotations.deprecated || false;
   }
 };
@@ -91,7 +92,8 @@ Entity.prototype.setDefaultValues = function() {
 Entity.prototype.getSection = function() {
   return this.raw.annotations.section
     .trim()
-    .replace(/(^\>[ ]*|[ ]*\>$)/g, '');
+    .replace(/(^\>[ ]*|[ ]*\>$)/g, '')
+  ;
 };
 
 /**
@@ -144,8 +146,10 @@ Entity.prototype.getModifiers = function () {
       // Add to the output array.
       formattedModifiers.push(modifier);
     });
+
     return formattedModifiers;
   }
+
   return null;
 };
 

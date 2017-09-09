@@ -17,11 +17,21 @@ var Molecule = function(raw) {
   Entity.call(this, raw);
 
   // Set molecule-specific entity properties
-  this.type = "Molecule";
-  this.fillable = ['molecule', 'section', 'description', 'modifiers', 'markup', 'deprecated','script'];
+  this.type = 'Molecule';
+  this.fillable = [
+    'molecule',
+    'section',
+    'description',
+    'modifiers',
+    'markup',
+    'deprecated',
+    'script',
+  ];
 
   // Validate the raw input data for common mistakes
-  if (!this.validate()) return {};
+  if (!this.validate()) {
+    return {};
+  }
 
   return {
     name: this.getName(),
@@ -34,9 +44,8 @@ var Molecule = function(raw) {
     script: raw.annotations.script || false,
     deprecated: raw.annotations.deprecated,
     hash: this.hash(),
-    location: 'molecules.html'
+    location: 'molecules.html',
   };
-
 };
 
 Molecule.prototype = Object.create(Entity.prototype);
@@ -45,6 +54,7 @@ Molecule.prototype.getName = function() {
   if(this.raw.annotations.molecule === true) {
     this.raw.annotations.molecule = "Unnamed";
   }
+
   return this.raw.annotations.molecule;
 };
 

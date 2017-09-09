@@ -96,6 +96,4 @@ describe('Color', function() {
       }
     });
   });
-
-
 });

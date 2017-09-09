@@ -281,5 +281,4 @@ describe('Crawler', function() {
       Crawler.processFile('./test/component.scss');
     });
   });
-
 });

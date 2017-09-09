@@ -9,7 +9,6 @@ var Helpers = require('./helpers');
 var Verbose = require('../src/Verbose.js');
 
 describe('Atom', function() {
-
   it('should return nothing if the raw input is not valid', function() {
     Helpers.hook(Verbose, 'log');
 
@@ -79,5 +78,4 @@ describe('Atom', function() {
         deprecated: true
     });
   });
-
 });

@@ -73,8 +73,13 @@ Transform.getStyleType = function(style) {
   // Loop through the available type annotations and check if the style
   // has one of these. If there's more than one, show a warning.
   var typeAnnotations = [
-    'color', 'mixin', 'nuclide',
-    'atom', 'icon', 'molecule', 'structure'
+    'color',
+    'mixin',
+    'nuclide',
+    'atom',
+    'icon',
+    'molecule',
+    'structure'
   ];
 
   var foundType = null;
@@ -135,7 +140,9 @@ Transform.createEntity = function(style) {
     default:
       // TODO: Is this possible? Maybe resolve the
       // anti-pattern then.
-      console.log("Skipping unknown entity type.");
+      console.log('Skipping unknown entity type.');
+
+      return false;
   }
   return false;
 };

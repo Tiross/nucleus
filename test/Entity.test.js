@@ -28,7 +28,6 @@ describe('Entity', function() {
   /********************************************************/
 
   describe('#getSection', function() {
-
     it('should return the trimmed section value', function() {
       var e = new Entity({
         type: 'nuclide',
@@ -85,11 +84,10 @@ describe('Entity', function() {
     });
 
     it('should complain if the sections value is malformed', function() {
-
       var e = new Entity({
         type: 'nuclide',
         annotations: {
-          'section': '> Section > Ok'
+          section: '> Section > Ok'
         }
       });
       e.fillable = ['section'];
@@ -109,12 +107,11 @@ describe('Entity', function() {
     });
 
     it('should complain if the sections value is not a string', function() {
-
       var e = new Entity({
         type: 'nuclide',
         annotations: {
-          'section': true
-        }
+          section: true,
+        },
       });
       e.fillable = ['section'];
 
@@ -124,6 +121,5 @@ describe('Entity', function() {
       assert.equal(e.validate(), false);
       assert.ok(Helpers.logCalled >= 1);
     });
-
   });
 });

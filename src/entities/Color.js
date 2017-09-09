@@ -19,11 +19,18 @@ var Color = function(raw) {
   Entity.call(this, raw);
 
   // Set color-specific entity properties
-  this.type = "Color";
-  this.fillable = ['color', 'section', 'description', 'deprecated'];
+  this.type = 'Color';
+  this.fillable = [
+    'color',
+    'section',
+    'description',
+    'deprecated',
+  ];
 
   // Validate the raw input data for common mistakes
-  if (!this.validate()) return {};
+  if (!this.validate()) {
+    return {};
+  }
 
   // Single-line annotation block means @color is the description.
   if (!raw.annotations.description) {
@@ -44,10 +51,9 @@ var Color = function(raw) {
     values: {
       hex: colorValue.hexString(),
       rgba: colorValue.rgbaString(),
-      darker: colorValue.darken(0.1).hexString()
-    }
+      darker: colorValue.darken(0.1).hexString(),
+    },
   };
-
 };
 
 Color.prototype = Object.create(Entity.prototype);

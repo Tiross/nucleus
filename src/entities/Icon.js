@@ -17,11 +17,19 @@ var Icon = function(raw) {
   Entity.call(this, raw);
 
   // Set icon-specific entity properties
-  this.type = "Icon";
-  this.fillable = ['icon', 'section', 'markup', 'description', 'deprecated'];
+  this.type = 'Icon';
+  this.fillable = [
+    'icon',
+    'section',
+    'markup',
+    'description',
+    'deprecated',
+  ];
 
   // Validate the raw input data for common mistakes
-  if (!this.validate()) return {};
+  if (!this.validate()) {
+    return {};
+  }
 
   return {
     name: raw.annotations.icon,
@@ -31,9 +39,8 @@ var Icon = function(raw) {
     markup: raw.annotations.markup,
     deprecated: raw.annotations.deprecated,
     hash: this.hash(),
-    location: 'atoms.html'
+    location: 'atoms.html',
   };
-
 };
 
 Icon.prototype = Object.create(Entity.prototype);

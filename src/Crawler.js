@@ -46,21 +46,22 @@ Crawler.processFile = function ( file ) {
  * @return {object}
  *         Styleguide information
  */
-Crawler.processNodes = function ( nodes, file ) {
+Crawler.processNodes = function (nodes, file) {
   var guides = [];
 
   // Process one node after another
-  while(nodes.length !== 0) {
+  while (nodes.length !== 0) {
     var node = this.nextNode(nodes);
 
     // If it's a comment, we take a closer look
-    if(this.isDocBlock(node.text)) {
+    if (this.isDocBlock(node.text)) {
       var annotations = this.parseDocBlock(node.text);
       var element = this.nextNode(nodes);
+
       guides.push({
         annotations: annotations,
         element: element,
-        file: file
+        file: file,
       });
     }
   }
@@ -68,7 +69,7 @@ Crawler.processNodes = function ( nodes, file ) {
   return guides;
 };
 
-Crawler.parseDocBlock = function ( docBlock ) {
+Crawler.parseDocBlock = function (docBlock) {
   var annotations = {};
   var lines = this.removeCommentChars(docBlock).split('\n');
 
@@ -80,12 +81,13 @@ Crawler.parseDocBlock = function ( docBlock ) {
   var line = lines.shift();
   var lastAnnotationKey = null;
 
-  while(line !== undefined) {
+  while (line !== undefined) {
     annotation = this.getAnnotation(line);
-    if(annotation){
+
+    if (annotation) {
       annotations = this.addAnnotationByType(annotation, annotations, lastAnnotationKey);
 
-      if(annotation.type !== 'content') {
+      if (annotation.type !== 'content') {
         lastAnnotationKey = annotation.key;
       }
     }
@@ -105,9 +107,11 @@ Crawler.parseDocBlock = function ( docBlock ) {
  * @return {mixed}
  *         The first element of the set.
  */
-Crawler.nextNode = function ( nodes ) {
-  if(nodes.length === 0)
-    Verbose.critical("next_node_failed");
+Crawler.nextNode = function (nodes) {
+  if (nodes.length === 0) {
+    Verbose.critical('next_node_failed');
+  }
+
   return nodes.shift();
 };
 
@@ -119,8 +123,11 @@ Crawler.nextNode = function ( nodes ) {
  * @return {Boolean}
  *         Returns true if the comment seems like a DocBlock.
  */
-Crawler.isDocBlock = function ( comment ) {
-  if(!comment) return false;
+Crawler.isDocBlock = function (comment) {
+  if (!comment) {
+    return false;
+  }
+
   return comment.match(/(^|[ ])\*\s\@/gm) !== null;
 };
 
@@ -133,10 +140,11 @@ Crawler.isDocBlock = function ( comment ) {
  * @return {string}
  *         The cleaned content of the comment block
  */
-Crawler.removeCommentChars = function ( docBlock ) {
+Crawler.removeCommentChars = function (docBlock) {
   return docBlock
     .replace(/^(\s+|\*)([ ]|\n|(\*[ ]?))/gm, '') // Leading chars
-    .replace(/[ ]+$/gm, ''); // Trailing spaces
+    .replace(/[ ]+$/gm, '') // Trailing spaces
+  ;
 };
 
 /**
@@ -161,8 +169,12 @@ Crawler.isAnnotationLine = function (line) {
 Crawler.getDescription = function (docBlockLines) {
   var descriptionLines = [];
   var line = docBlockLines.shift();
-  while(line) {
-    if(this.isAnnotationLine(line)) break;
+
+  while (line) {
+    if (this.isAnnotationLine(line)) {
+      break;
+    }
+
     descriptionLines.push(line);
     line = docBlockLines.shift();
   }
@@ -170,7 +182,10 @@ Crawler.getDescription = function (docBlockLines) {
   // Put the last line back (sorry)
   docBlockLines.unshift(line);
 
-  if(descriptionLines.length === 0) return false;
+  if (descriptionLines.length === 0) {
+    return false;
+  }
+
   return descriptionLines.join(' ').trim();
 };
 
@@ -186,15 +201,17 @@ Crawler.getAnnotation = function (line) {
 
   // if it starts with a leading space, it's a multi-line
   // annotation's content.
-  if(line.match(/^[\s]/))
+  if (line.match(/^[\s]/)) {
     return {
       value: line.replace(/^[\s]/, ''),
-      type: 'content'
+      type: 'content',
     };
+  }
 
   // Could not be an annotation at all
-  if(!this.isAnnotationLine(line))
+  if (!this.isAnnotationLine(line)) {
     return false;
+  }
 
   // Otherwise, it's probably a key-value pair
   line.match(/^\@([\w]+)[\s]?([^\n]*)/gm);
@@ -217,38 +234,54 @@ Crawler.getAnnotation = function (line) {
  */
 Crawler.addAnnotationByType = function (annotation, annotations, lastAnnotationKey) {
   // If it's a multiline annotation, add it to the existing text
-  if(annotation.type === 'content') {
+  if (annotation.type === 'content') {
     // There should be an annotation that this content belongs to
-    if(lastAnnotationKey === null) {
+    if (lastAnnotationKey === null) {
       Verbose.error('Multi-line content found, but no annotation key preceeded.', null, false);
+
       return annotations;
     }
 
     var lastAnnotationValue = annotations[lastAnnotationKey];
 
     // Make sure we have content that we can extend
-    if((lastAnnotationValue === true) || !lastAnnotationValue) {
+    if ((lastAnnotationValue === true) || !lastAnnotationValue) {
       lastAnnotationValue = '';
     }
 
     // If the last annotation key is an array, add it to the last element
-    if(typeof lastAnnotationValue === 'object') {
+    if (typeof lastAnnotationValue === 'object') {
       var lastValueIndex = lastAnnotationValue.length - 1;
-      lastAnnotationValue[lastValueIndex] =
-        [lastAnnotationValue[lastValueIndex], annotation.value].join('\n').trim();
+
+      lastAnnotationValue[lastValueIndex] = [
+        lastAnnotationValue[lastValueIndex],
+        annotation.value
+      ].join('\n').trim();
+
       return annotations;
     }
 
-    annotations[lastAnnotationKey] =
-      [lastAnnotationValue, annotation.value].join('\n').trim();
+    annotations[lastAnnotationKey] = [
+      lastAnnotationValue,
+      annotation.value
+    ].join('\n').trim();
 
     return annotations;
   }
 
   var key = annotation.key;
-  if(typeof annotations[key] === 'object') annotations[key].push(annotation.value);
-  if(typeof annotations[key] === 'string') annotations[key] = [annotations[key], annotation.value];
-  if(annotations[key] === undefined) annotations[key] = annotation.value;
+
+  if (typeof annotations[key] === 'object') {
+    annotations[key].push(annotation.value);
+  }
+
+  if (typeof annotations[key] === 'string') {
+    annotations[key] = [annotations[key], annotation.value];
+  }
+
+  if (annotations[key] === undefined) {
+    annotations[key] = annotation.value;
+  }
 
   return annotations;
 };

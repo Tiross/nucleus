@@ -18,11 +18,21 @@ var Atom = function (raw) {
   Entity.call(this, raw);
 
   // Set atom-specific entity properties
-  this.type     = "Atom";
-  this.fillable = ['atom', 'section', 'description', 'modifiers' , 'markup', 'deprecated', 'script'];
+  this.type = 'Atom';
+  this.fillable = [
+    'atom',
+    'section',
+    'description',
+    'modifiers' ,
+    'markup',
+    'deprecated',
+    'script',
+  ];
 
   // Validate the raw input data for common mistakes
-  if (!this.validate()) return {};
+  if (!this.validate()) {
+    return {};
+  }
 
   return {
     name: raw.annotations.atom,
@@ -35,9 +45,8 @@ var Atom = function (raw) {
     script: raw.annotations.script || false,
     deprecated: raw.annotations.deprecated,
     location: 'atoms.html',
-    hash: this.hash()
+    hash: this.hash(),
   };
-
 };
 
 Atom.prototype = Object.create(Entity.prototype);

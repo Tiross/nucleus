@@ -9,7 +9,6 @@ var Verbose = require('../src/Verbose.js');
 var Mixin = require('../src/entities/Mixin.js');
 
 describe('Mixin', function() {
-
   it('should return nothing if the raw input is not valid', function() {
     Helpers.hook(Verbose, 'log');
 
@@ -61,5 +60,4 @@ describe('Mixin', function() {
       description: 'The only parameter'
     }]);
   });
-
 });

@@ -14,10 +14,10 @@ describe('Transform', function() {
   /********************************************************/
 
   describe('#hasAnnotation', function () {
-
     it('should return true if the style has the annotation', function () {
       assert.equal(Transform.hasAnnotation('color', {annotations: {color: true}}), true);
     });
+
     it('should return false if the style does not have the annotation', function () {
       assert.equal(Transform.hasAnnotation('test', {annotations: {color: true}}), false);
     });
@@ -26,7 +26,6 @@ describe('Transform', function() {
   /********************************************************/
 
   describe('#getStyleType', function () {
-
     it('should return the type of the style', function () {
      assert.equal(Transform.getStyleType({annotations: {'color' : true}}), 'color');
      assert.equal(Transform.getStyleType({annotations: {'mixin' : true}}), 'mixin');
@@ -57,7 +56,5 @@ describe('Transform', function() {
       assert.equal(styleType, 'nuclide');
       assert.equal(Helpers.logCalled, 2); // Multi-line text
     });
-
   });
-
 });

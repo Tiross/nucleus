@@ -16,11 +16,18 @@ var Nuclide = function(raw) {
   // Call parent constructor
   Entity.call(this, raw);
 
-  this.type = "Nuclide";
-  this.fillable = ['nuclide', 'section', 'description', 'deprecated'];
+  this.type = 'Nuclide';
+  this.fillable = [
+    'nuclide',
+    'section',
+    'description',
+    'deprecated',
+  ];
 
   // Validate the raw input data for common mistakes
-  if (!this.validate()) return {};
+  if (!this.validate()) {
+    return {};
+  }
 
   // Single-line annotation block means @nuclide is the description.
   if (!raw.annotations.description) {
@@ -38,7 +45,6 @@ var Nuclide = function(raw) {
     location: 'nuclides.html',
     hash: this.hash(),
   };
-
 };
 
 Nuclide.prototype = Object.create(Entity.prototype);
