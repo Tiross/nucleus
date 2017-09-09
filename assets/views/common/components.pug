@@ -71,15 +71,15 @@ mixin component(component)
 
     if (component.flags && component.flags.fullWidth)
       div.SG-row.SG-row-full
-        div.SG-gr-12.SG-no-gutter.SG-component__preview(class=meta.namespace)
+        div.SG-gr-12.SG-no-gutter.SG-component__preview(class=meta.namespace class=component.namespace)
           | !{component.markup}
     else if (component.flags && component.flags.inline)
       div.SG-row
-        div.SG-gr-12.SG-component__preview.SG-component__preview--inline(class=meta.namespace)
+        div.SG-gr-12.SG-component__preview.SG-component__preview--inline(class=meta.namespace class=component.namespace)
           | !{component.markup}
     else
       div.SG-row
-        div.SG-gr-12.SG-component__preview(class=meta.namespace)
+        div.SG-gr-12.SG-component__preview(class=meta.namespace class=component.namespace)
           | !{component.markup}
 
     -if (component.modifiers)

@@ -24,6 +24,7 @@ const Atom = function (raw) {
     'atom',
     'markup',
     'modifiers' ,
+    'namespace',
     'script',
   ]);
 };
