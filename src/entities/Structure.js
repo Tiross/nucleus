@@ -34,31 +34,16 @@ var Structure = function(raw) {
     return {};
   }
 
-  return {
-    name: this.getName(),
-    type: 'structure',
-    descriptor: raw.descriptor,
-    section: 'Structures > ' + this.getSection(),
-    description: raw.annotations.description,
+  return this.prepareData({
+    flags: this.getFlags(),
     modifiers: this.getModifiers(),
     markup: raw.annotations.markup,
+    name: this.getName(),
     script: raw.annotations.script || false,
-    deprecated: raw.annotations.deprecated,
-    flags: this.getFlags(),
-    location: 'structures.html',
-    hash: this.hash(),
-  };
+  });
 };
 
 Structure.prototype = Object.create(Entity.prototype);
-
-Structure.prototype.getName = function() {
-  if(this.raw.annotations.structure === true) {
-    this.raw.annotations.structure = "Unnamed";
-  }
-
-  return this.raw.annotations.structure;
-};
 
 // TODO: Remove code duplication
 Structure.prototype.getFlags = function() {

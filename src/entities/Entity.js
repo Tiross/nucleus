@@ -153,6 +153,16 @@ Entity.prototype.getModifiers = function () {
   return null;
 };
 
+Entity.prototype.getName = function() {
+  const prop = this.type.toLowerCase();
+
+  if (this.raw.annotations[prop] === true) {
+    this.raw.annotations[prop] = 'Unnamed';
+  }
+
+  return this.raw.annotations[prop];
+};
+
 Entity.prototype.hash = function() {
   return hash.digest(this.raw.annotations);
 };

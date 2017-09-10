@@ -50,12 +50,4 @@ var Molecule = function(raw) {
 
 Molecule.prototype = Object.create(Entity.prototype);
 
-Molecule.prototype.getName = function() {
-  if(this.raw.annotations.molecule === true) {
-    this.raw.annotations.molecule = "Unnamed";
-  }
-
-  return this.raw.annotations.molecule;
-};
-
 module.exports = Molecule;
