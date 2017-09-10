@@ -11,6 +11,7 @@
 
 include ../entities/nuclides.pug
 include ../entities/colors.pug
+include ../entities/fonts.pug
 include ../entities/icons.pug
 include ../entities/mixins.pug
 
@@ -27,6 +28,10 @@ mixin components(components)
         +colors-header()
 
       +color(component)
+
+    //- Font
+    if component.type === 'font'
+      +font(component)
 
     //- Mixin
     if component.type === 'mixin'
