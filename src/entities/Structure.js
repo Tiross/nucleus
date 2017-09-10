@@ -18,16 +18,13 @@ var Structure = function(raw) {
 
   // Set structure-specific entity properties
   this.type = 'Structure';
-  this.fillable = [
-    'structure',
-    'section',
-    'description',
-    'modifiers',
-    'markup',
+  this.setFillable([
     'flag',
-    'deprecated',
+    'markup',
+    'modifiers',
     'script',
-  ];
+    'structure',
+  ]);
 
   // Validate the raw input data for common mistakes
   if (!this.validate()) {

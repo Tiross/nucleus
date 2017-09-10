@@ -18,14 +18,11 @@ var Mixin = function(raw) {
 
   // Set mixin-specific entity properties
   this.type = 'Mixin';
-  this.fillable = [
+  this.setFillable([
+    'example',
     'mixin',
     'param',
-    'section',
-    'description',
-    'example',
-    'deprecated',
-  ];
+  ]);
 
   // Validate the raw input data for common mistakes
   if (!this.validate()) {

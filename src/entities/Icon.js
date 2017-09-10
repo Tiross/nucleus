@@ -18,13 +18,10 @@ var Icon = function(raw) {
 
   // Set icon-specific entity properties
   this.type = 'Icon';
-  this.fillable = [
+  this.setFillable([
     'icon',
-    'section',
     'markup',
-    'description',
-    'deprecated',
-  ];
+  ]);
 
   // Validate the raw input data for common mistakes
   if (!this.validate()) {

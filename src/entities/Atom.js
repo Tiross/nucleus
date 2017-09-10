@@ -19,15 +19,12 @@ var Atom = function (raw) {
 
   // Set atom-specific entity properties
   this.type = 'Atom';
-  this.fillable = [
+  this.setFillable([
     'atom',
-    'section',
-    'description',
-    'modifiers' ,
     'markup',
-    'deprecated',
+    'modifiers' ,
     'script',
-  ];
+  ]);
 
   // Validate the raw input data for common mistakes
   if (!this.validate()) {

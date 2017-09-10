@@ -17,12 +17,9 @@ var Nuclide = function(raw) {
   Entity.call(this, raw);
 
   this.type = 'Nuclide';
-  this.fillable = [
+  this.setFillable([
     'nuclide',
-    'section',
-    'description',
-    'deprecated',
-  ];
+  ]);
 
   // Validate the raw input data for common mistakes
   if (!this.validate()) {

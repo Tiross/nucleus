@@ -17,7 +17,11 @@ var hash = require('json-hash');
 var Entity = function(raw) {
   this.raw = raw;
   this.type = 'Generic';
-  this.fillable = [];
+  this.fillable = [
+    'deprecated',
+    'description',
+    'section',
+  ];
 
   this.raw.descriptor = this.getDescriptor();
 
@@ -67,6 +71,12 @@ Entity.prototype.validate = function() {
   this.setDefaultValues();
 
   return true;
+};
+
+Entity.prototype.setFillable = function (annotations) {
+  this.fillable = this.fillable.concat(annotations);
+
+  return this;
 };
 
 /**
