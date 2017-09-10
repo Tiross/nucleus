@@ -3,6 +3,7 @@
  * Copyright (C) 2016 Michael Seibt
  *
  * With contributions from: -
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -21,26 +22,14 @@ var Nuclide = function(raw) {
     'nuclide',
   ]);
 
-  // Validate the raw input data for common mistakes
-  if (!this.validate()) {
-    return {};
-  }
-
   // Single-line annotation block means @nuclide is the description.
   if (!raw.annotations.description) {
     raw.annotations.description = raw.annotations.nuclide;
   }
 
-  return {
+  this.fields = {
     name: raw.descriptor,
     value: raw.element.value,
-    type: 'nuclide',
-    descriptor: raw.descriptor,
-    section: 'Nuclides > ' + this.getSection(),
-    description: raw.annotations.description,
-    deprecated: raw.annotations.deprecated,
-    location: 'nuclides.html',
-    hash: this.hash(),
   };
 };
 

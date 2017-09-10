@@ -3,6 +3,7 @@
  * Copyright (C) 2016 Michael Seibt
  *
  * With contributions from: -
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -26,18 +27,9 @@ var Structure = function(raw) {
     'structure',
   ]);
 
-  // Validate the raw input data for common mistakes
-  if (!this.validate()) {
-    return {};
-  }
-
-  return this.prepareData({
+  this.fields = {
     flags: this.getFlags(),
-    modifiers: this.getModifiers(),
-    markup: raw.annotations.markup,
-    name: this.getName(),
-    script: raw.annotations.script || false,
-  });
+  };
 };
 
 Structure.prototype = Object.create(Entity.prototype);

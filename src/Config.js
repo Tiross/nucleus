@@ -81,7 +81,7 @@ Config.parse = function () {
 
   // Collect all files that match the glob patterns
   var files = [];
-  for(var g in config.files) {
+  for (var g in config.files) {
     files = files.concat(this.getFilesFromGlob(config.files[g]));
   }
 

@@ -4,6 +4,7 @@
  *
  * With contributions from: -
  *  - Ryan Potter (www.ryanpotter.co.nz)
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -22,10 +23,9 @@ var Entity = function(raw) {
     'description',
     'section',
   ];
+  this.fields = [];
 
   this.raw.descriptor = this.getDescriptor();
-
-  this.setDefaultValues();
 };
 
 /**
@@ -73,6 +73,38 @@ Entity.prototype.validate = function() {
   return true;
 };
 
+Entity.prototype.getFields = function () {
+  const sections = [
+    this.type + 's',
+    this.getSection(),
+  ];
+
+  // Validate the raw input data for common mistakes
+  if (!this.validate()) {
+    return {};
+  }
+
+  if (typeof(this.fields.section) !== 'undefined') {
+    sections.unshift(this.fields.section);
+  }
+
+  return Object.assign({}, {
+    description: this.raw.annotations.description,
+    descriptor: this.raw.descriptor,
+    deprecated: this.raw.annotations.deprecated,
+    file: this.raw.file || null,
+    location: this.type.toLowerCase() + 's.html',
+    hash: this.hash(),
+    markup: this.raw.annotations.markup,
+    modifiers: this.getModifiers(),
+    name: this.getName(),
+    script: this.raw.annotations.script || false,
+    type: this.type.toLowerCase(),
+  }, this.fields, {
+    section: sections.join(' > '),
+  });
+};
+
 Entity.prototype.setFillable = function (annotations) {
   this.fillable = this.fillable.concat(annotations);
 
@@ -85,6 +117,11 @@ Entity.prototype.setFillable = function (annotations) {
  * @return null
  */
 Entity.prototype.setDefaultValues = function() {
+  if (typeof(this.raw.annotations) === 'undefined') {
+    this.raw.annotations = {
+    };
+  }
+
   if (this.fillable.indexOf('description') !== -1) {
     this.raw.annotations.description = this.raw.annotations.description || '';
   }

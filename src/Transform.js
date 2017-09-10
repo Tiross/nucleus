@@ -122,21 +122,30 @@ Transform.hasAnnotation = function(key, style) {
  * @return {[type]}       [description]
  */
 Transform.createEntity = function(style) {
+  let entity;
+
   switch (this.getStyleType(style)) {
     case 'color':
-      return new Color(style);
+      entity = new Color(style);
+      break;
     case 'mixin':
-      return new Mixin(style);
+      entity = new Mixin(style);
+      break;
     case 'atom':
-      return new Atom(style);
+      entity = new Atom(style);
+      break;
     case 'icon':
-      return new Icon(style);
+      entity = new Icon(style);
+      break;
     case 'molecule':
-      return new Molecule(style);
+      entity = new Molecule(style);
+      break;
     case 'structure':
-      return new Structure(style);
+      entity = new Structure(style);
+      break;
     case 'nuclide':
-      return new Nuclide(style);
+      entity = new Nuclide(style);
+      break;
     default:
       // TODO: Is this possible? Maybe resolve the
       // anti-pattern then.
@@ -144,7 +153,8 @@ Transform.createEntity = function(style) {
 
       return false;
   }
-  return false;
+
+  return entity.getFields();
 };
 
 module.exports = Transform;

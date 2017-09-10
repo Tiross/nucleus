@@ -4,6 +4,7 @@
  *
  * With contributions from:
  *  - Chris Tarczon (@tarczonator)
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -24,11 +25,6 @@ var Color = function(raw) {
     'color',
   ]);
 
-  // Validate the raw input data for common mistakes
-  if (!this.validate()) {
-    return {};
-  }
-
   // Single-line annotation block means @color is the description.
   if (!raw.annotations.description) {
     raw.annotations.description = raw.annotations.color;
@@ -36,15 +32,9 @@ var Color = function(raw) {
 
   var colorValue = ColorConverter(raw.element.value.replace(/ *!default/, ''));
 
-  return {
-    name: raw.descriptor,
-    descriptor: raw.descriptor,
-    type: 'color',
-    section: 'Nuclides > Colors > ' + this.getSection(),
-    description: raw.annotations.description,
-    deprecated: raw.annotations.deprecated,
+  this.fields = {
     location: 'nuclides.html',
-    hash: this.hash(),
+    section: 'Nuclides',
     values: {
       hex: colorValue.hexString(),
       rgba: colorValue.rgbaString(),

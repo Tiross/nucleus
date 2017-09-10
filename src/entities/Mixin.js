@@ -3,6 +3,7 @@
  * Copyright (C) 2016 Michael Seibt
  *
  * With contributions from: -
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -24,24 +25,11 @@ var Mixin = function(raw) {
     'param',
   ]);
 
-  // Validate the raw input data for common mistakes
-  if (!this.validate()) {
-    return {};
-  }
-
-  return {
-    name: raw.descriptor.match(/[^\s\(]+/)[0],
-    descriptor: raw.descriptor,
-    type: 'mixin',
-    file: raw.file,
+  this.fields = {
     example: this.getExample(),
-    section: 'Nuclides > Mixins > ' + this.getSection(),
-    description: raw.annotations.description,
-    deprecated: raw.annotations.deprecated,
-    signature: raw.descriptor.match(/[^\s\(]+(.*)/)[1],
-    parameters: this.getParameters(),
     location: 'nuclides.html',
-    hash: this.hash(),
+    section: 'Nuclides',
+    signature: raw.descriptor.match(/[^\s\(]+(.*)/)[1],
   };
 };
 

@@ -4,6 +4,7 @@
  *
  * With contributions from: -
  *  - Ryan Potter (www.ryanpotter.co.nz)
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -24,25 +25,6 @@ var Molecule = function(raw) {
     'molecule',
     'script',
   ]);
-
-  // Validate the raw input data for common mistakes
-  if (!this.validate()) {
-    return {};
-  }
-
-  return {
-    name: this.getName(),
-    type: 'molecule',
-    descriptor: raw.descriptor,
-    section: 'Molecules > ' + this.getSection(),
-    description: raw.annotations.description,
-    modifiers: this.getModifiers(),
-    markup: raw.annotations.markup,
-    script: raw.annotations.script || false,
-    deprecated: raw.annotations.deprecated,
-    hash: this.hash(),
-    location: 'molecules.html',
-  };
 };
 
 Molecule.prototype = Object.create(Entity.prototype);
