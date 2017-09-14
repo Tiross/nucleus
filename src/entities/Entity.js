@@ -12,10 +12,10 @@
 
 'use strict';
 
-var Verbose = require('../Verbose');
-var hash = require('json-hash');
+const Verbose = require('../Verbose');
+const hash = require('json-hash');
 
-var Entity = function(raw) {
+const Entity = function(raw) {
   this.raw = raw;
   this.type = 'Generic';
   this.fillable = [
@@ -42,7 +42,7 @@ Entity.prototype.validate = function() {
   }
 
   // Check if all the annotations are allowed for this type
-  for (var key in this.raw.annotations) {
+  for (let key in this.raw.annotations) {
     if (this.fillable.indexOf(key) === -1) {
       Verbose.warn('invalid_annotaton_for_type', [key, this.type, this.fillable, this.raw]);
       return false;

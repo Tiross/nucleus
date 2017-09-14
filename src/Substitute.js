@@ -11,10 +11,10 @@
 
 'use strict';
 
-var _ = require('lodash');
-var Verbose = require('./Verbose');
+const _ = require('lodash');
+const Verbose = require('./Verbose');
 
-var Substitute = {
+const Substitute = {
   map: {},
   methods: {},
   staticLipsum: false,
@@ -29,10 +29,10 @@ Substitute.injectConfig = function (config) {
 };
 
 Substitute.process = function (styles) {
-  var style;
-  var s;
-  var markup;
-  var selector;
+  let style;
+  let s;
+  let markup;
+  let selector;
 
   // First, collect a map of all selector styles with markup annotation
   for (s in styles) {

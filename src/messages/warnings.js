@@ -10,7 +10,7 @@
 
 'use strict';
 
-var chalk = require('chalk');
+const chalk = require('chalk');
 
 module.exports = {
   // Whenever there are annotations that are not allowed for certain

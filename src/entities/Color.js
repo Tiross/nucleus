@@ -12,10 +12,10 @@
 
 'use strict';
 
-var Entity = require('./Entity');
-var ColorConverter = require('color');
+const Entity = require('./Entity');
+const ColorConverter = require('color');
 
-var Color = function(raw) {
+const Color = function(raw) {
   // Call parent constructor
   Entity.call(this, raw);
 
@@ -30,7 +30,7 @@ var Color = function(raw) {
     raw.annotations.description = raw.annotations.color;
   }
 
-  var colorValue = ColorConverter(raw.element.value.replace(/ *!default/, ''));
+  const colorValue = ColorConverter(raw.element.value.replace(/ *!default/, ''));
 
   this.fields = {
     location: 'nuclides.html',

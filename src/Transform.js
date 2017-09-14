@@ -11,18 +11,18 @@
 
 'use strict';
 
-var Verbose = require('./Verbose');
-var Nuclide = require('./entities/Nuclide');
-var Color = require('./entities/Color');
-var Mixin = require('./entities/Mixin');
-var Atom = require('./entities/Atom');
-var Icon = require('./entities/Icon');
-var Molecule = require('./entities/Molecule');
-var Structure = require('./entities/Structure');
+const Verbose = require('./Verbose');
+const Nuclide = require('./entities/Nuclide');
+const Color = require('./entities/Color');
+const Mixin = require('./entities/Mixin');
+const Atom = require('./entities/Atom');
+const Icon = require('./entities/Icon');
+const Molecule = require('./entities/Molecule');
+const Structure = require('./entities/Structure');
 
-var Dot = require('dot-object');
+const Dot = require('dot-object');
 
-var Transform = {};
+const Transform = {};
 
 /**
  * Calls the transformation for every style and sorts it into
@@ -34,13 +34,13 @@ var Transform = {};
  *         Transformed view data.
  */
 Transform.forView = function(styles) {
-  var viewData = {};
-  var dot = new Dot(' > ');
+  const viewData = {};
+  const dot = new Dot(' > ');
 
-  for (var s in styles) {
+  for (let s in styles) {
     Verbose.spin('Analyzing styles');
-    var style = styles[s];
-    var entity = this.createEntity(style);
+    let style = styles[s];
+    let entity = this.createEntity(style);
 
     // If entity is empty, we cold not specify a type or
     // validation failed during entity instantiation.
@@ -51,7 +51,7 @@ Transform.forView = function(styles) {
     // Pick the section or create it, if not defined yet.
     // TODO: _e is a bad idea!!
     // TODO: Extract!
-    var section = dot.pick(entity.section, viewData) || {
+    let section = dot.pick(entity.section, viewData) || {
       '_e': []
     };
     section._e.push(entity);
@@ -72,7 +72,7 @@ Transform.forView = function(styles) {
 Transform.getStyleType = function(style) {
   // Loop through the available type annotations and check if the style
   // has one of these. If there's more than one, show a warning.
-  var typeAnnotations = [
+  const typeAnnotations = [
     'color',
     'mixin',
     'nuclide',
@@ -81,9 +81,9 @@ Transform.getStyleType = function(style) {
     'molecule',
     'structure'
   ];
+  let foundType = null;
 
-  var foundType = null;
-  for (var t in typeAnnotations) {
+  for (let t in typeAnnotations) {
     if (this.hasAnnotation(typeAnnotations[t], style)) {
 
       // Do we have multiple style type annotations?

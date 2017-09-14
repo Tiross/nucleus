@@ -12,11 +12,11 @@
 
 'use strict';
 
-var chalk = require('chalk');
-var wrap = require('wordwrap')(80);
-var prettyjson = require('prettyjson');
+const chalk = require('chalk');
+const wrap = require('wordwrap')(80);
+const prettyjson = require('prettyjson');
 
-var Verbose = {
+const Verbose = {
   LEVELS: {
     SILENT: 0,
     ERROR: 1,

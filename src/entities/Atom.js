@@ -12,9 +12,9 @@
 
 'use strict';
 
-var Entity = require('./Entity');
+const Entity = require('./Entity');
 
-var Atom = function (raw) {
+const Atom = function (raw) {
   // Call parent constructor
   Entity.call(this, raw);
 

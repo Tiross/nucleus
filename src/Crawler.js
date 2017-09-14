@@ -11,11 +11,11 @@
 
 'use strict';
 
-var Verbose = require('./Verbose');
-var postcss = require('postcss');
-var syntax = require('postcss-scss');
+const Verbose = require('./Verbose');
+const postcss = require('postcss');
+const syntax = require('postcss-scss');
 
-var Crawler = {};
+const Crawler = {};
 
 /**
  * Reads the files content and returns the parsed styleguide information.
@@ -25,17 +25,16 @@ var Crawler = {};
  * @return {object}
  *         Styleguide information
  */
-Crawler.processFile = function ( file ) {
-  var fileContent = require('fs').readFileSync(file);
+Crawler.processFile = function (file) {
+  let fileContent = require('fs').readFileSync(file);
 
   // Normalize file content to Unix EOLs
-  fileContent = fileContent
-    .toString()
-    .replace(/(?:\r\n|\r|\n)/g, '\n');
+  fileContent = fileContent.toString().replace(/(?:\r\n|\r|\n)/g, '\n');
 
-  var root = postcss().process(fileContent, {
+  const root = postcss().process(fileContent, {
     syntax: syntax
   }).root;
+
   return this.processNodes(root.nodes, file);
 };
 
@@ -47,16 +46,16 @@ Crawler.processFile = function ( file ) {
  *         Styleguide information
  */
 Crawler.processNodes = function (nodes, file) {
-  var guides = [];
+  const guides = [];
 
   // Process one node after another
   while (nodes.length !== 0) {
-    var node = this.nextNode(nodes);
+    const node = this.nextNode(nodes);
 
     // If it's a comment, we take a closer look
     if (this.isDocBlock(node.text)) {
-      var annotations = this.parseDocBlock(node.text);
-      var element = this.nextNode(nodes);
+      const annotations = this.parseDocBlock(node.text);
+      const element = this.nextNode(nodes);
 
       guides.push({
         annotations: annotations,
@@ -70,16 +69,16 @@ Crawler.processNodes = function (nodes, file) {
 };
 
 Crawler.parseDocBlock = function (docBlock) {
-  var annotations = {};
-  var lines = this.removeCommentChars(docBlock).split('\n');
+  const lines = this.removeCommentChars(docBlock).split('\n');
+  let annotations = {};
 
   // Extract and remove the description
   annotations.description = this.getDescription(lines);
 
   // Iterate through all the lines and parse the annotations
-  var annotation;
-  var line = lines.shift();
-  var lastAnnotationKey = null;
+  let annotation;
+  let line = lines.shift();
+  let lastAnnotationKey = null;
 
   while (line !== undefined) {
     annotation = this.getAnnotation(line);
@@ -167,8 +166,8 @@ Crawler.isAnnotationLine = function (line) {
  *         Returns the description, if there was any, otherwise false.
  */
 Crawler.getDescription = function (docBlockLines) {
-  var descriptionLines = [];
-  var line = docBlockLines.shift();
+  const descriptionLines = [];
+  let line = docBlockLines.shift();
 
   while (line) {
     if (this.isAnnotationLine(line)) {
@@ -215,8 +214,8 @@ Crawler.getAnnotation = function (line) {
 
   // Otherwise, it's probably a key-value pair
   line.match(/^\@([\w]+)[\s]?([^\n]*)/gm);
-  var key = RegExp.$1;
-  var val = RegExp.$2;
+  const key = RegExp.$1;
+  const val = RegExp.$2;
 
   return {
     key: key,
@@ -233,6 +232,10 @@ Crawler.getAnnotation = function (line) {
  * @param {[type]} lastAnnotationKey  [description]
  */
 Crawler.addAnnotationByType = function (annotation, annotations, lastAnnotationKey) {
+  let lastAnnotationValue = annotations[lastAnnotationKey];
+  let lastValueIndex;
+  let key;
+
   // If it's a multiline annotation, add it to the existing text
   if (annotation.type === 'content') {
     // There should be an annotation that this content belongs to
@@ -242,8 +245,6 @@ Crawler.addAnnotationByType = function (annotation, annotations, lastAnnotationK
       return annotations;
     }
 
-    var lastAnnotationValue = annotations[lastAnnotationKey];
-
     // Make sure we have content that we can extend
     if ((lastAnnotationValue === true) || !lastAnnotationValue) {
       lastAnnotationValue = '';
@@ -251,7 +252,7 @@ Crawler.addAnnotationByType = function (annotation, annotations, lastAnnotationK
 
     // If the last annotation key is an array, add it to the last element
     if (typeof lastAnnotationValue === 'object') {
-      var lastValueIndex = lastAnnotationValue.length - 1;
+      lastValueIndex = lastAnnotationValue.length - 1;
 
       lastAnnotationValue[lastValueIndex] = [
         lastAnnotationValue[lastValueIndex],
@@ -269,7 +270,7 @@ Crawler.addAnnotationByType = function (annotation, annotations, lastAnnotationK
     return annotations;
   }
 
-  var key = annotation.key;
+  key = annotation.key;
 
   if (typeof annotations[key] === 'object') {
     annotations[key].push(annotation.value);

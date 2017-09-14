@@ -15,13 +15,13 @@
 
 'use strict';
 
-var fs = require('fs');
-var merge = require('merge');
-var argv = require('yargs').alias('c', 'config').alias('v', 'verbose').alias('r', 'norandom').argv;
+const fs = require('fs');
+const merge = require('merge');
+const argv = require('yargs').alias('c', 'config').alias('v', 'verbose').alias('r', 'norandom').argv;
 
-var Verbose = require('./Verbose');
+const Verbose = require('./Verbose');
 
-var Config = {};
+const Config = {};
 
 /**
  * Gathers the configuration.
@@ -33,10 +33,10 @@ var Config = {};
  *         The configuration JSON with all known information.
  */
 Config.parse = function () {
-  var defaultConfig = require('../default.nucleus.json');
+  const defaultConfig = require('../default.nucleus.json');
   defaultConfig.template = __dirname + '/../assets/views';
 
-  var config = defaultConfig;
+  let config = defaultConfig;
 
   // Are we allowed to talk at all?
   if (argv.silent) {
@@ -44,7 +44,7 @@ Config.parse = function () {
   }
 
   // Has a config file been specified?
-  var configFile = 'config.nucleus.json';
+  let configFile = 'config.nucleus.json';
 
   if (argv.config) {
     configFile = argv.config;
@@ -55,7 +55,7 @@ Config.parse = function () {
     }
   }
 
-  var userConfig;
+  let userConfig;
 
   try {
     userConfig = require(process.cwd() + '/' + configFile);
@@ -80,8 +80,8 @@ Config.parse = function () {
   }
 
   // Collect all files that match the glob patterns
-  var files = [];
-  for (var g in config.files) {
+  let files = [];
+  for (let g in config.files) {
     files = files.concat(this.getFilesFromGlob(config.files[g]));
   }
 
@@ -121,7 +121,7 @@ Config.getFilesFromGlob = function ( glob ) {
 };
 
 Config.getFromArguments = function () {
-  var cliConfig = {};
+  const cliConfig = {};
 
   if (argv._.length !== 0) {
     cliConfig.files = argv._;

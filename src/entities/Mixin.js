@@ -11,9 +11,9 @@
 
 'use strict';
 
-var Entity = require('./Entity');
+const Entity = require('./Entity');
 
-var Mixin = function(raw) {
+const Mixin = function(raw) {
   // Call parent constructor
   Entity.call(this, raw);
 
@@ -42,9 +42,12 @@ Mixin.prototype = Object.create(Entity.prototype);
  * @return {object}
  */
 Mixin.prototype.getParameters = function() {
-  var parameters = [];
-  var paramString = this.raw.descriptor.match(/\((.*)\)/);
-  var docParameters = this.raw.annotations.param;
+  const parameters = [];
+  const paramString = this.raw.descriptor.match(/\((.*)\)/);
+  let docParameters = this.raw.annotations.param;
+  let param;
+  let paramCodeRE;
+  let paramCode;
 
   // If there're no parameters in the descriptor definition,
   // we don't need to take a closer look
@@ -57,10 +60,10 @@ Mixin.prototype.getParameters = function() {
     docParameters = [docParameters];
   }
 
-  for (var p in docParameters) {
-    var param = this.getParameter(docParameters[p]);
-    var paramCodeRE = new RegExp('(\\' + param.name + '.*?(?=\\,\\s\\$|$))');
-    var paramCode = paramString[1].match(paramCodeRE)[0];
+  for (let p in docParameters) {
+    param = this.getParameter(docParameters[p]);
+    paramCodeRE = new RegExp('(\\' + param.name + '.*?(?=\\,\\s\\$|$))');
+    paramCode = paramString[1].match(paramCodeRE)[0];
     param.optional = paramCode.match(/:/) ? true : false;
     parameters.push(param);
   }
@@ -79,7 +82,7 @@ Mixin.prototype.getParameter = function (parameterString) {
   // not break the regexp, since . does not match line breaks.
   parameterString = parameterString.replace(/\n/g, ' ');
 
-  var param = parameterString.match(/^([^\s]+)(.*)$/);
+  const param = parameterString.match(/^([^\s]+)(.*)$/);
 
   return {
     name: param[1].trim(),

@@ -11,9 +11,9 @@
 
 'use strict';
 
-var Entity = require('./Entity');
+const Entity = require('./Entity');
 
-var Structure = function(raw) {
+const Structure = function(raw) {
   // Call parent constructor
   Entity.call(this, raw);
 
@@ -36,8 +36,8 @@ Structure.prototype = Object.create(Entity.prototype);
 
 // TODO: Remove code duplication
 Structure.prototype.getFlags = function() {
-  var raw_flags = this.raw.annotations.flag || [];
-  var flags = {};
+  const raw_flags = this.raw.annotations.flag || [];
+  const flags = {};
 
   if (raw_flags.indexOf('full-width') !== -1) {
     flags.fullWidth = true;
