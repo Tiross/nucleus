@@ -12,12 +12,12 @@
 
 'use strict';
 
-const Entity = require('./Entity');
+const Nuclide = require('./Nuclide');
 const ColorConverter = require('color');
 
 const Color = function(raw) {
   // Call parent constructor
-  Entity.call(this, raw);
+  Nuclide.call(this, raw);
 
   // Set color-specific entity properties
   this.type = 'Color';
@@ -25,24 +25,20 @@ const Color = function(raw) {
     'color',
   ]);
 
-  // Single-line annotation block means @color is the description.
-  if (!raw.annotations.description) {
-    raw.annotations.description = raw.annotations.color;
-  }
+  this.fields.location = 'nuclides.html';
+  this.fields.section = 'Nuclides';
 
-  const colorValue = ColorConverter(raw.element.value.replace(/ *!default/, ''));
+  if (typeof(raw.element) !== 'undefined') {
+    const colorValue = ColorConverter(raw.element.value.replace(/ *!default/, ''));
 
-  this.fields = {
-    location: 'nuclides.html',
-    section: 'Nuclides',
-    values: {
+    this.fields.values = {
       hex: colorValue.hexString(),
       rgba: colorValue.rgbaString(),
       darker: colorValue.darken(0.1).hexString(),
-    },
-  };
+    };
+  }
 };
 
-Color.prototype = Object.create(Entity.prototype);
+Color.prototype = Object.create(Nuclide.prototype);
 
 module.exports = Color;

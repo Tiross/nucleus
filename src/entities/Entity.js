@@ -24,6 +24,7 @@ const Entity = function(raw) {
     'section',
   ];
   this.fields = [];
+  this.singleLine = false;
 
   this.raw.descriptor = this.getDescriptor();
 };
@@ -73,6 +74,21 @@ Entity.prototype.validate = function() {
   return true;
 };
 
+Entity.prototype.getDescription = function () {
+  const type = this.type.toLowerCase();
+
+  // Single-line annotation block means @color is the description.
+  if (
+      this.singleLine
+    && !this.raw.annotations.description
+    && typeof(this.raw.annotations[type]) !== 'undefined'
+  ) {
+    return this.raw.annotations[type];
+  }
+
+  return this.raw.annotations.description;
+};
+
 Entity.prototype.getFields = function () {
   const sections = [
     this.type + 's',
@@ -89,14 +105,14 @@ Entity.prototype.getFields = function () {
   }
 
   return Object.assign({}, {
-    description: this.raw.annotations.description,
+    description: this.getDescription(),
     descriptor: this.raw.descriptor,
     deprecated: this.raw.annotations.deprecated,
     file: this.raw.file || null,
     location: this.type.toLowerCase() + 's.html',
     hash: this.hash(),
-    markup: this.raw.annotations.markup,
-    modifiers: this.getModifiers(),
+    markup: this.raw.annotations.markup || null,
+    modifiers: this.getModifiers() || [],
     name: this.getName(),
     script: this.raw.annotations.script || false,
     type: this.type.toLowerCase(),
@@ -137,6 +153,10 @@ Entity.prototype.setDefaultValues = function() {
  * @return {string}
  */
 Entity.prototype.getSection = function() {
+  if (this.hasNotAnnotation('section')) {
+    return 'Other';
+  }
+
   return this.raw.annotations.section
     .trim()
     .replace(/(^\>[ ]*|[ ]*\>$)/g, '')
@@ -197,10 +217,10 @@ Entity.prototype.getModifiers = function () {
     return formattedModifiers;
   }
 
-  return null;
+  return [];
 };
 
-Entity.prototype.getName = function() {
+Entity.prototype.getName = function () {
   const prop = this.type.toLowerCase();
 
   if (this.raw.annotations[prop] === true) {
@@ -210,8 +230,28 @@ Entity.prototype.getName = function() {
   return this.raw.annotations[prop];
 };
 
-Entity.prototype.hash = function() {
+Entity.prototype.hash = function () {
   return hash.digest(this.raw.annotations);
+};
+
+Entity.prototype.hasAnnotation = function (name) {
+  if (typeof(this.raw) === 'undefined') {
+    return false;
+  }
+
+  if (typeof(this.raw.annotations) === 'undefined') {
+    return false;
+  }
+
+  if (typeof(this.raw.annotations[name]) === 'undefined') {
+    return false;
+  }
+
+  return this.raw.annotations[name] !== null;
+};
+
+Entity.prototype.hasNotAnnotation = function (name) {
+  return !this.hasAnnotation(name);
 };
 
 module.exports = Entity;

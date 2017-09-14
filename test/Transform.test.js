@@ -27,12 +27,12 @@ describe('Transform', function() {
 
   describe('#getStyleType', function () {
     it('should return the type of the style', function () {
-     assert.equal(Transform.getStyleType({annotations: {'color' : true}}), 'color');
-     assert.equal(Transform.getStyleType({annotations: {'mixin' : true}}), 'mixin');
-     assert.equal(Transform.getStyleType({annotations: {'structure' : true}}), 'structure');
-     assert.equal(Transform.getStyleType({annotations: {'atom' : true}}), 'atom');
-     assert.equal(Transform.getStyleType({annotations: {'nuclide' : true}}), 'nuclide');
-     assert.equal(Transform.getStyleType({annotations: {'molecule' : true}}), 'molecule');
+      assert.equal(Transform.getStyleType({annotations: {'color' : true}}), 'color');
+      assert.equal(Transform.getStyleType({annotations: {'mixin' : true}}), 'mixin');
+      assert.equal(Transform.getStyleType({annotations: {'structure' : true}}), 'structure');
+      assert.equal(Transform.getStyleType({annotations: {'atom' : true}}), 'atom');
+      assert.equal(Transform.getStyleType({annotations: {'nuclide' : true}}), 'nuclide');
+      assert.equal(Transform.getStyleType({annotations: {'molecule' : true}}), 'molecule');
     });
 
     it('should return null if the style has an invalid or no type', function () {

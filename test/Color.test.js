@@ -9,12 +9,11 @@ var Helpers = require('./helpers');
 var Verbose = require('../src/Verbose.js');
 
 describe('Color', function() {
-
   it('should return nothing if the raw input is not valid', function() {
     Helpers.hook(Verbose, 'log');
 
     var c = new Color({});
-    assert.deepEqual(c, {});
+    assert.deepEqual(c.getFields(), {});
 
     assert.ok(Helpers.logCalled >= 1);
   });
@@ -33,15 +32,20 @@ describe('Color', function() {
       }
     });
 
-    assert.deepEqual(c, {
+    assert.deepEqual(c.getFields(), {
       name: '$testcolor',
       type: 'color',
       section: 'Nuclides > Colors > Other',
       description: 'Testcolor',
-      descriptor: "$testcolor",
-      hash: "65edaeaf18d2ba3b22fd90b4526e155453ce0220",
-      location: "nuclides.html",
+      descriptor: '$testcolor',
+      hash: '65edaeaf18d2ba3b22fd90b4526e155453ce0220',
+      file: null,
+      markup: null,
+      modifiers: [],
+      script: false,
+      location: 'nuclides.html',
       deprecated: false,
+      value: '#00FF00',
       values: {
         hex: '#00FF00',
         rgba: 'rgba(0, 255, 0, 1)',
@@ -64,7 +68,7 @@ describe('Color', function() {
       }
     });
 
-    assert.equal(c.values.hex, '#00FF00');
+    assert.equal(c.getFields().values.hex, '#00FF00');
   });
 
   /********************************************************/
@@ -80,15 +84,20 @@ describe('Color', function() {
         value: '#00FF00'
       }
     });
-    assert.deepEqual(c, {
+    assert.deepEqual(c.getFields(), {
       name: '$testcolor',
       type: 'color',
       section: 'Nuclides > Colors > Other',
       description: 'Testcolor',
-      descriptor: "$testcolor",
-      hash: "30ff519d54da7830a43c11fc74dd6ab00d8bab88",
-      location: "nuclides.html",
+      descriptor: '$testcolor',
+      hash: '4d6d4c012b41544bcdc390b6f5a9ebe6e3a8ad15',
+      file: null,
+      markup: null,
+      modifiers: [],
+      script: false,
+      location: 'nuclides.html',
       deprecated: true,
+      value: '#00FF00',
       values: {
         hex: '#00FF00',
         rgba: 'rgba(0, 255, 0, 1)',

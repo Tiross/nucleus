@@ -21,16 +21,15 @@ const Nuclide = function(raw) {
   this.setFillable([
     'nuclide',
   ]);
+  this.singleLine = true;
 
-  // Single-line annotation block means @nuclide is the description.
-  if (!raw.annotations.description) {
-    raw.annotations.description = raw.annotations.nuclide;
+  this.fields.name = raw.descriptor;
+  this.fields.location = 'nuclides.html';
+  this.fields.section = 'Nuclides';
+
+  if (typeof(raw.element) !== 'undefined') {
+    this.fields.value = raw.element.value;
   }
-
-  this.fields = {
-    name: raw.descriptor,
-    value: raw.element.value,
-  };
 };
 
 Nuclide.prototype = Object.create(Entity.prototype);

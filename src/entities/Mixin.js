@@ -11,11 +11,11 @@
 
 'use strict';
 
-const Entity = require('./Entity');
+const Nuclide = require('./Nuclide');
 
 const Mixin = function(raw) {
   // Call parent constructor
-  Entity.call(this, raw);
+  Nuclide.call(this, raw);
 
   // Set mixin-specific entity properties
   this.type = 'Mixin';
@@ -27,13 +27,11 @@ const Mixin = function(raw) {
 
   this.fields = {
     example: this.getExample(),
-    location: 'nuclides.html',
-    section: 'Nuclides',
     signature: raw.descriptor.match(/[^\s\(]+(.*)/)[1],
   };
 };
 
-Mixin.prototype = Object.create(Entity.prototype);
+Mixin.prototype = Object.create(Nuclide.prototype);
 
 /**
  * Collects information about the parameters of the mixin from annotations and
@@ -91,6 +89,10 @@ Mixin.prototype.getParameter = function (parameterString) {
 };
 
 Mixin.prototype.getExample = function () {
+  if (this.hasNotAnnotation('example')) {
+    return '';
+  }
+
   return this.raw.annotations.example;
 };
 
