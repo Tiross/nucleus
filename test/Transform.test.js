@@ -57,4 +57,24 @@ describe('Transform', function() {
       assert.equal(Helpers.logCalled, 2); // Multi-line text
     });
   });
+
+  /********************************************************/
+
+  describe('#sortAnnotations', function () {
+
+    it('should sort annotations in alphabetic order', function () {
+      const tested = {
+        c: {id: 1},
+        a: {id: 2},
+        b: {id: 3},
+      };
+      const expected = {
+        a: {id: 2},
+        b: {id: 3},
+        c: {id: 1},
+      };
+
+      assert.deepEqual(Transform.sort(tested), expected);
+    });
+  });
 });

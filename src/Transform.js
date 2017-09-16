@@ -37,6 +37,7 @@ const Transform = {};
 Transform.forView = function(styles) {
   const viewData = {};
   const dot = new Dot(' > ');
+  const that = this;
 
   for (let s in styles) {
     Verbose.spin('Analyzing styles');
@@ -60,6 +61,17 @@ Transform.forView = function(styles) {
       data: section
     }, viewData);
   }
+
+  // Sorting elements
+  [
+    'Atoms',
+    'Molecules',
+    'Structures',
+  ].forEach(function (name) {
+    viewData[name] = that.sort(viewData[name]);
+  });
+
+  viewData.Nuclides.Mixins = this.sort(viewData.Nuclides.Mixins);
 
   return viewData;
 };
@@ -160,6 +172,17 @@ Transform.createEntity = function(style) {
   }
 
   return entity.getFields();
+};
+
+Transform.sort = function (obj) {
+  var keys = Object.keys(obj).sort();
+  var data = {};
+
+  keys.forEach(function (key) {
+    data[key] = obj[key];
+  });
+
+  return data;
 };
 
 module.exports = Transform;
