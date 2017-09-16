@@ -4,6 +4,7 @@
  *
  * With contributions from: -
  *  - Ryan Potter (www.ryanpotter.co.nz)
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -37,6 +38,7 @@ const Transform = {};
 Transform.forView = function(styles) {
   const viewData = {};
   const dot = new Dot(' > ');
+  const that = this;
 
   for (let s in styles) {
     Verbose.spin('Analyzing styles');
@@ -60,6 +62,17 @@ Transform.forView = function(styles) {
       data: section
     }, viewData);
   }
+
+  // Sorting elements
+  [
+    'Atoms',
+    'Molecules',
+    'Structures',
+  ].forEach(function (name) {
+    viewData[name] = that.sort(viewData[name]);
+  });
+
+  viewData.Nuclides.Mixins = this.sort(viewData.Nuclides.Mixins);
 
   return viewData;
 };
@@ -160,6 +173,17 @@ Transform.createEntity = function(style) {
   }
 
   return entity.getFields();
+};
+
+Transform.sort = function (obj) {
+  var keys = Object.keys(obj).sort();
+  var data = {};
+
+  keys.forEach(function (key) {
+    data[key] = obj[key];
+  });
+
+  return data;
 };
 
 module.exports = Transform;

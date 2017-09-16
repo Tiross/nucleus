@@ -14,6 +14,7 @@ Features
 --------
 
 * Added namespace on elements
+* Sort elements on differents pages
 
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃ VERSION 1.1.1                                                   04.05.2017 ┃
