@@ -72,7 +72,12 @@ Transform.forView = function(styles) {
     viewData[name] = that.sort(viewData[name]);
   });
 
-  viewData.Nuclides.Mixins = this.sort(viewData.Nuclides.Mixins);
+  [
+    'Font',
+    'Mixins',
+  ].forEach(function (name) {
+    viewData.Nuclides[name] = that.sort(viewData.Nuclides[name]);
+  });
 
   return viewData;
 };
