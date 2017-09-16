@@ -23,6 +23,7 @@ const Molecule = function(raw) {
     'markup',
     'modifiers',
     'molecule',
+    'namespace',
     'script',
   ]);
 };

@@ -60,4 +60,22 @@ describe('Mixin', function() {
       description: 'The only parameter'
     }]);
   });
+
+  /********************************************************/
+
+  it('should not handle namespaces', function() {
+    const name = (Math.random() * 1e32).toString(36);
+    const entity = new Mixin({
+      element: {
+        params: 'test ($param1)'
+      },
+      annotations: {
+        description: 'A test description',
+        param: 'param1 The only parameter',
+        namespace: name,
+      },
+    });
+
+    assert.strictEqual(entity.getFields().namespace, undefined);
+  });
 });

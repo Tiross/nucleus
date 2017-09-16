@@ -114,6 +114,7 @@ Entity.prototype.getFields = function () {
     markup: this.raw.annotations.markup || null,
     modifiers: this.getModifiers() || [],
     name: this.getName(),
+    namespace: this.raw.annotations.namespace,
     script: this.raw.annotations.script || false,
     type: this.type.toLowerCase(),
   }, this.fields, {

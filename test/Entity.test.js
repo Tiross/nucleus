@@ -119,4 +119,19 @@ describe('Entity', function() {
       assert.ok(Helpers.logCalled >= 1);
     });
   });
+
+  /********************************************************/
+
+  it('should not handle namespaces', function() {
+    const name = (Math.random() * 1e32).toString(36);
+    const entity = new Entity({
+      type: 'nuclide',
+      annotations: {
+        section: '> Section > Ok',
+        namespace: name,
+      },
+    });
+
+    assert.strictEqual(entity.getFields().namespace, undefined);
+  });
 });
