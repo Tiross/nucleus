@@ -69,14 +69,18 @@ Transform.forView = function(styles) {
     'Molecules',
     'Structures',
   ].forEach(function (name) {
-    viewData[name] = that.sort(viewData[name]);
+    if (typeof(viewData[name]) !== 'undefined') {
+      viewData[name] = that.sort(viewData[name]);
+    }
   });
 
   [
     'Font',
     'Mixins',
   ].forEach(function (name) {
-    viewData.Nuclides[name] = that.sort(viewData.Nuclides[name]);
+    if (typeof(viewData.Nuclides[name]) !== 'undefined') {
+      viewData.Nuclides[name] = that.sort(viewData.Nuclides[name]);
+    }
   });
 
   return viewData;
