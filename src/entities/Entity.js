@@ -230,6 +230,10 @@ Entity.prototype.getModifiers = function () {
 Entity.prototype.getName = function () {
   const prop = this.type.toLowerCase();
 
+  if (this.singleLine) {
+    return this.raw.descriptor;
+  }
+
   if (this.raw.annotations[prop] === true) {
     this.raw.annotations[prop] = 'Unnamed';
   }

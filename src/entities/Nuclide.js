@@ -23,7 +23,6 @@ const Nuclide = function(raw) {
   ]);
   this.singleLine = true;
 
-  this.fields.name = raw.descriptor;
   this.fields.location = 'nuclides.html';
   this.fields.section = 'Nuclides';
 
