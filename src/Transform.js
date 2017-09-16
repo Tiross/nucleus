@@ -14,6 +14,7 @@
 const Verbose = require('./Verbose');
 const Nuclide = require('./entities/Nuclide');
 const Color = require('./entities/Color');
+const Font = require('./entities/Font');
 const Mixin = require('./entities/Mixin');
 const Atom = require('./entities/Atom');
 const Icon = require('./entities/Icon');
@@ -74,6 +75,7 @@ Transform.getStyleType = function(style) {
   // has one of these. If there's more than one, show a warning.
   const typeAnnotations = [
     'color',
+    'font',
     'mixin',
     'nuclide',
     'atom',
@@ -127,6 +129,9 @@ Transform.createEntity = function(style) {
   switch (this.getStyleType(style)) {
     case 'color':
       entity = new Color(style);
+      break;
+    case 'font':
+      entity = new Font(style);
       break;
     case 'mixin':
       entity = new Mixin(style);
