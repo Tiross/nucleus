@@ -25,10 +25,10 @@ const Mixin = function(raw) {
     'param',
   ]);
 
-  this.fields = {
-    example: this.getExample(),
-    signature: raw.descriptor.match(/[^\s\(]+(.*)/)[1],
-  };
+  this.fields.name = raw.descriptor.match(/[^\s\(]+/)[0];
+  this.fields.example = this.getExample();
+  this.fields.parameters = this.getParameters();
+  this.fields.signature = raw.descriptor.match(/[^\s\(]+(.*)/)[1];
 };
 
 Mixin.prototype = Object.create(Nuclide.prototype);
@@ -42,7 +42,7 @@ Mixin.prototype = Object.create(Nuclide.prototype);
 Mixin.prototype.getParameters = function() {
   const parameters = [];
   const paramString = this.raw.descriptor.match(/\((.*)\)/);
-  let docParameters = this.raw.annotations.param;
+  let docParameters;
   let param;
   let paramCodeRE;
   let paramCode;
@@ -52,6 +52,8 @@ Mixin.prototype.getParameters = function() {
   if (!paramString) {
     return [];
   }
+
+  docParameters = this.raw.annotations.param;
 
   // If there's only one parameter, make it an array
   if (typeof docParameters === 'string') {

@@ -90,10 +90,7 @@ Entity.prototype.getDescription = function () {
 };
 
 Entity.prototype.getFields = function () {
-  const sections = [
-    this.type + 's',
-    this.getSection(),
-  ];
+  let sections = [];
   let fields;
 
   // Validate the raw input data for common mistakes
@@ -101,9 +98,15 @@ Entity.prototype.getFields = function () {
     return {};
   }
 
-  if (typeof(this.fields.section) !== 'undefined') {
-    sections.unshift(this.fields.section);
-  }
+  [
+    this.fields.section,
+    this.type + 's',
+    this.getSection(),
+  ].forEach(function (section) {
+    if (typeof(section) !== 'undefined' && sections.indexOf(section) === -1) {
+      sections.push(section);
+    }
+  });
 
   fields = Object.assign({}, {
     description: this.getDescription(),
