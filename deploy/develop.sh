@@ -2,4 +2,4 @@
 
 git add build
 git commit -m 'Automatic build update'
-git push
+git push origin HEAD:develop
