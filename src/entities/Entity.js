@@ -94,6 +94,7 @@ Entity.prototype.getFields = function () {
     this.type + 's',
     this.getSection(),
   ];
+  let fields;
 
   // Validate the raw input data for common mistakes
   if (!this.validate()) {
@@ -104,7 +105,7 @@ Entity.prototype.getFields = function () {
     sections.unshift(this.fields.section);
   }
 
-  return Object.assign({}, {
+  fields = Object.assign({}, {
     description: this.getDescription(),
     descriptor: this.raw.descriptor,
     deprecated: this.raw.annotations.deprecated,
@@ -119,6 +120,12 @@ Entity.prototype.getFields = function () {
   }, this.fields, {
     section: sections.join(' > '),
   });
+
+  if (fields.name === fields.description) {
+    fields.description = '';
+  }
+
+  return fields;
 };
 
 Entity.prototype.setFillable = function (annotations) {
