@@ -60,9 +60,70 @@ describe('Transform', function() {
 
   /********************************************************/
 
-  describe('#sortAnnotations', function () {
+  describe('#sort', function () {
+    it('should sort array by name of object inside', function () {
+      const tested = [
+        {name: 'c'},
+        {name: 'a'},
+        {name: 'b'},
+      ];
+      const expected = [
+        {name: 'a'},
+        {name: 'b'},
+        {name: 'c'},
+      ];
 
-    it('should sort annotations in alphabetic order', function () {
+      assert.deepEqual(Transform.sort(tested), expected);
+    });
+
+    it('should sort recursively', function () {
+      const tested = {
+        nuclide: {
+          second: [
+            {name: 'c'},
+            {name: 'a'},
+            {name: 'b'},
+          ],
+          first: [
+            {name: 'a'},
+            {name: 'c'},
+            {name: 'b'},
+          ],
+        },
+        atom: [
+          {name: 'b'},
+          {name: 'c'},
+          {name: 'a'},
+        ],
+      };
+      const expected = {
+        atom: [
+          {name: 'a'},
+          {name: 'b'},
+          {name: 'c'},
+        ],
+        nuclide: {
+          first: [
+            {name: 'a'},
+            {name: 'b'},
+            {name: 'c'},
+          ],
+          second: [
+            {name: 'a'},
+            {name: 'b'},
+            {name: 'c'},
+          ],
+        },
+      };
+
+      assert.deepEqual(Transform.sort(tested), expected);
+    });
+  });
+
+  /********************************************************/
+
+  describe('#sortObject', function () {
+    it('should sort an object in alphabetic order', function () {
       const tested = {
         c: {id: 1},
         a: {id: 2},
