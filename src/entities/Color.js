@@ -4,6 +4,7 @@
  *
  * With contributions from:
  *  - Chris Tarczon (@tarczonator)
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -11,45 +12,33 @@
 
 'use strict';
 
-var Entity = require('./Entity');
-var ColorConverter = require('color');
+const Nuclide = require('./Nuclide');
+const ColorConverter = require('color');
 
-var Color = function(raw) {
+const Color = function(raw) {
   // Call parent constructor
-  Entity.call(this, raw);
+  Nuclide.call(this, raw);
 
   // Set color-specific entity properties
-  this.type = "Color";
-  this.fillable = ['color', 'section', 'description', 'deprecated'];
+  this.type = 'Color';
+  this.setFillable([
+    'color',
+  ]);
 
-  // Validate the raw input data for common mistakes
-  if (!this.validate()) return {};
+  this.fields.location = 'nuclides.html';
+  this.fields.section = 'Nuclides';
 
-  // Single-line annotation block means @color is the description.
-  if (!raw.annotations.description) {
-    raw.annotations.description = raw.annotations.color;
-  }
+  if (typeof(raw.element) !== 'undefined') {
+    const colorValue = ColorConverter(raw.element.value.replace(/ *!default/, ''));
 
-  var colorValue = ColorConverter(raw.element.value.replace(/ *!default/, ''));
-
-  return {
-    name: raw.descriptor,
-    descriptor: raw.descriptor,
-    type: 'color',
-    section: 'Nuclides > Colors > ' + this.getSection(),
-    description: raw.annotations.description,
-    deprecated: raw.annotations.deprecated,
-    location: 'nuclides.html',
-    hash: this.hash(),
-    values: {
+    this.fields.values = {
       hex: colorValue.hexString(),
       rgba: colorValue.rgbaString(),
-      darker: colorValue.darken(0.1).hexString()
-    }
-  };
-
+      darker: colorValue.darken(0.1).hexString(),
+    };
+  }
 };
 
-Color.prototype = Object.create(Entity.prototype);
+Color.prototype = Object.create(Nuclide.prototype);
 
 module.exports = Color;

@@ -17,7 +17,6 @@ include ../entities/mixins.pug
 
 
 mixin components(components)
-
   -var lastEntity = null
   each component in components
 
@@ -74,15 +73,14 @@ mixin component(component)
       div.SG-row.SG-row-full
         div.SG-gr-12.SG-no-gutter.SG-component__preview(class=meta.namespace)
           | !{component.markup}
+    else if (component.flags && component.flags.inline)
+      div.SG-row
+        div.SG-gr-12.SG-component__preview.SG-component__preview--inline(class=meta.namespace)
+          | !{component.markup}
     else
-      if (component.flags && component.flags.inline)
-        div.SG-row.SG-row
-          div.SG-gr-12.SG-component__preview.SG-component__preview--inline(class=meta.namespace)
-            | !{component.markup}
-      else
-        div.SG-row
-          div.SG-gr-12.SG-component__preview(class=meta.namespace)
-            | !{component.markup}
+      div.SG-row
+        div.SG-gr-12.SG-component__preview(class=meta.namespace)
+          | !{component.markup}
 
     -if (component.modifiers)
       div.SG-row
@@ -101,7 +99,6 @@ mixin component(component)
                 div.SG-table__cell= val.description || ''
 
     -if (component.markup)
-
       div.SG-row
         div.SG-gr-12.SG-nogutter
           div.SG-code.SG-code--hidden.SG-component__markup.language-html(data-d-code-preview)

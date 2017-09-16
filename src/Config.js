@@ -15,17 +15,13 @@
 
 'use strict';
 
-var fs = require('fs');
-var merge = require('merge');
-var argv = require('yargs')
-            .alias('c', 'config')
-            .alias('v', 'verbose')
-            .alias('r', 'norandom')
-            .argv;
+const fs = require('fs');
+const merge = require('merge');
+const argv = require('yargs').alias('c', 'config').alias('v', 'verbose').alias('r', 'norandom').argv;
 
-var Verbose = require('./Verbose');
+const Verbose = require('./Verbose');
 
-var Config = {};
+const Config = {};
 
 /**
  * Gathers the configuration.
@@ -37,28 +33,30 @@ var Config = {};
  *         The configuration JSON with all known information.
  */
 Config.parse = function () {
-  var defaultConfig = require('../default.nucleus.json');
+  const defaultConfig = require('../default.nucleus.json');
   defaultConfig.template = __dirname + '/../assets/views';
 
-  var config = defaultConfig;
+  let config = defaultConfig;
 
   // Are we allowed to talk at all?
-  if(argv.silent) {
+  if (argv.silent) {
     Verbose.setLevel(Verbose.LEVELS.SILENT);
   }
 
   // Has a config file been specified?
-  var configFile = 'config.nucleus.json';
-  if(argv.config) {
-     configFile = argv.config;
+  let configFile = 'config.nucleus.json';
+
+  if (argv.config) {
+    configFile = argv.config;
 
     // We only accept one option!
-    if(typeof configFile === 'object') {
-      Verbose.error("multiple_config_files");
+    if (typeof configFile === 'object') {
+      Verbose.error('multiple_config_files');
     }
   }
 
-  var userConfig;
+  let userConfig;
+
   try {
     userConfig = require(process.cwd() + '/' + configFile);
   } catch(e) {
@@ -71,29 +69,29 @@ Config.parse = function () {
 
   // If only one CSS file string is set to be included, wrap it in an
   // array to qualify looping
-  if(typeof config.css === 'string') {
+  if (typeof config.css === 'string') {
     config.css = [config.css];
   }
 
   // If only one glob pattern is configured, wrap it in an array
   // to qualify the loop.
-  if(typeof config.files === 'string') {
+  if (typeof config.files === 'string') {
     config.files = [config.files];
   }
 
   // Collect all files that match the glob patterns
-  var files = [];
-  for(var g in config.files) {
+  let files = [];
+  for (let g in config.files) {
     files = files.concat(this.getFilesFromGlob(config.files[g]));
   }
 
   // No files, no styleguide !
-  if(files.length === 0) {
+  if (files.length === 0) {
     Verbose.error('no_input_files');
   }
 
   // No target, no styleguide !
-  if(config.target === null) {
+  if (config.target === null) {
     Verbose.error('no_target');
   }
 
@@ -106,6 +104,7 @@ Config.parse = function () {
   }
 
   config.files = files;
+
   return config;
 };
 
@@ -122,26 +121,48 @@ Config.getFilesFromGlob = function ( glob ) {
 };
 
 Config.getFromArguments = function () {
-  var cliConfig = {};
-  if(argv._.length !== 0) {
+  const cliConfig = {};
+
+  if (argv._.length !== 0) {
     cliConfig.files = argv._;
   }
 
-  if(argv.verbose)              cliConfig.verbose = argv.verbose;
-  if(argv.target)               cliConfig.target = argv.target;
-  if(argv.title)                cliConfig.title = argv.title;
-  if(argv.css)                  cliConfig.css = argv.css;
-  if(argv.template)             cliConfig.template = argv.template;
-  if(argv.placeholderservice)   cliConfig.placeholderService = argv.placeholderservice;
-  if(argv.norandom)             cliConfig.staticLipsum = !!argv.norandom;
+  if (argv.verbose) {
+    cliConfig.verbose = argv.verbose;
+  }
+
+  if (argv.target) {
+    cliConfig.target = argv.target;
+  }
+
+  if (argv.title) {
+    cliConfig.title = argv.title;
+  }
+
+  if (argv.css) {
+    cliConfig.css = argv.css;
+  }
+
+  if (argv.template) {
+    cliConfig.template = argv.template;
+  }
+
+  if (argv.placeholderservice) {
+    cliConfig.placeholderService = argv.placeholderservice;
+  }
+
+  if (argv.norandom) {
+    cliConfig.staticLipsum = !!argv.norandom;
+  }
 
   return cliConfig;
 };
 
 Config.shouldRunInit = function () {
-  if(argv._ && argv._.length) {
-    return argv._[0] == 'init';
+  if (argv._ && argv._.length) {
+    return argv._[0] === 'init';
   }
+
   return false;
 };
 

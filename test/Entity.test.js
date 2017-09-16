@@ -18,43 +18,38 @@ describe('Entity', function() {
       annotations: {}
     });
 
-    e.fillable = ['description', 'deprecated'];
-
     assert.equal(e.validate(), true);
-    assert.equal(e.raw.annotations.description, '');
-    assert.equal(e.raw.annotations.deprecated, false);
+    assert.equal(e.getFields().description, '');
+    assert.equal(e.getFields().deprecated, false);
   });
 
   /********************************************************/
 
   describe('#getSection', function() {
+    const sections = [
+      'Section > Subsection',
+      ' Section > Subsection ',
+      '> Section > Subsection >',
+      ' > Section > Subsection> ',
+    ];
 
-    it('should return the trimmed section value', function() {
-      var e = new Entity({
-        type: 'nuclide',
-        annotations: {}
+    sections.forEach(function (section) {
+      it('should return the trimmed section value from "' + section + '"', function () {
+        var e = new Entity({
+          type: 'nuclide',
+          annotations: {
+            section: section,
+          },
+        });
+
+        assert.strictEqual(e.getSection(), 'Section > Subsection');
       });
-
-      // Input is already fine
-      e.raw.annotations.section = 'Section > Subsection';
-      assert.strictEqual(e.getSection(), 'Section > Subsection');
-
-      e.raw.annotations.section = ' Section > Subsection ';
-      assert.strictEqual(e.getSection(), 'Section > Subsection');
-
-      e.raw.annotations.section = '> Section > Subsection >';
-      assert.strictEqual(e.getSection(), 'Section > Subsection');
-
-      e.raw.annotations.section = ' > Section > Subsection> ';
-      assert.strictEqual(e.getSection(), 'Section > Subsection');
     });
-
   });
 
   /********************************************************/
 
   describe('#validate', function() {
-
     it('should complain if the entity has no annotations', function() {
       var e = new Entity({});
 
@@ -85,14 +80,15 @@ describe('Entity', function() {
     });
 
     it('should complain if the sections value is malformed', function() {
-
       var e = new Entity({
         type: 'nuclide',
         annotations: {
-          'section': '> Section > Ok'
+          section: '> Section > Ok'
         }
       });
-      e.fillable = ['section'];
+      var fields = e.getFields();
+
+      fields.fillable = ['section'];
 
       // Beginning of the string
       Helpers.hook(Verbose, 'log');
@@ -109,14 +105,12 @@ describe('Entity', function() {
     });
 
     it('should complain if the sections value is not a string', function() {
-
       var e = new Entity({
         type: 'nuclide',
         annotations: {
-          'section': true
-        }
+          section: true,
+        },
       });
-      e.fillable = ['section'];
 
       // Beginning of the string
       Helpers.hook(Verbose, 'log');
@@ -124,6 +118,5 @@ describe('Entity', function() {
       assert.equal(e.validate(), false);
       assert.ok(Helpers.logCalled >= 1);
     });
-
   });
 });

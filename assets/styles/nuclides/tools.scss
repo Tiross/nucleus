@@ -17,7 +17,7 @@
  */
 @mixin clearAfter() {
   &::after {
-    content: "";
+    content: '';
     display: table;
     clear: both;
   }
@@ -33,7 +33,7 @@
  */
 @mixin clearBefore() {
   &::after {
-    content: "";
+    content: '';
     display: table;
     clear: both;
   }
@@ -50,8 +50,9 @@
  *  @include clearHard();
  */
 @mixin clearHard() {
-  &::after, &::before {
-    content: "";
+  &::after,
+  &::before {
+    content: '';
     display: block;
     height: 1px;
     clear: both;

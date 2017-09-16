@@ -11,11 +11,11 @@
 
 'use strict';
 
-var Verbose = require('./Verbose');
-var postcss = require('postcss');
-var syntax = require('postcss-scss');
+const Verbose = require('./Verbose');
+const postcss = require('postcss');
+const syntax = require('postcss-scss');
 
-var Crawler = {};
+const Crawler = {};
 
 /**
  * Reads the files content and returns the parsed styleguide information.
@@ -25,17 +25,16 @@ var Crawler = {};
  * @return {object}
  *         Styleguide information
  */
-Crawler.processFile = function ( file ) {
-  var fileContent = require('fs').readFileSync(file);
+Crawler.processFile = function (file) {
+  let fileContent = require('fs').readFileSync(file);
 
   // Normalize file content to Unix EOLs
-  fileContent = fileContent
-    .toString()
-    .replace(/(?:\r\n|\r|\n)/g, '\n');
+  fileContent = fileContent.toString().replace(/(?:\r\n|\r|\n)/g, '\n');
 
-  var root = postcss().process(fileContent, {
+  const root = postcss().process(fileContent, {
     syntax: syntax
   }).root;
+
   return this.processNodes(root.nodes, file);
 };
 
@@ -46,21 +45,22 @@ Crawler.processFile = function ( file ) {
  * @return {object}
  *         Styleguide information
  */
-Crawler.processNodes = function ( nodes, file ) {
-  var guides = [];
+Crawler.processNodes = function (nodes, file) {
+  const guides = [];
 
   // Process one node after another
-  while(nodes.length !== 0) {
-    var node = this.nextNode(nodes);
+  while (nodes.length !== 0) {
+    const node = this.nextNode(nodes);
 
     // If it's a comment, we take a closer look
-    if(this.isDocBlock(node.text)) {
-      var annotations = this.parseDocBlock(node.text);
-      var element = this.nextNode(nodes);
+    if (this.isDocBlock(node.text)) {
+      const annotations = this.parseDocBlock(node.text);
+      const element = this.nextNode(nodes);
+
       guides.push({
         annotations: annotations,
         element: element,
-        file: file
+        file: file,
       });
     }
   }
@@ -68,24 +68,25 @@ Crawler.processNodes = function ( nodes, file ) {
   return guides;
 };
 
-Crawler.parseDocBlock = function ( docBlock ) {
-  var annotations = {};
-  var lines = this.removeCommentChars(docBlock).split('\n');
+Crawler.parseDocBlock = function (docBlock) {
+  const lines = this.removeCommentChars(docBlock).split('\n');
+  let annotations = {};
 
   // Extract and remove the description
   annotations.description = this.getDescription(lines);
 
   // Iterate through all the lines and parse the annotations
-  var annotation;
-  var line = lines.shift();
-  var lastAnnotationKey = null;
+  let annotation;
+  let line = lines.shift();
+  let lastAnnotationKey = null;
 
-  while(line !== undefined) {
+  while (line !== undefined) {
     annotation = this.getAnnotation(line);
-    if(annotation){
+
+    if (annotation) {
       annotations = this.addAnnotationByType(annotation, annotations, lastAnnotationKey);
 
-      if(annotation.type !== 'content') {
+      if (annotation.type !== 'content') {
         lastAnnotationKey = annotation.key;
       }
     }
@@ -105,9 +106,11 @@ Crawler.parseDocBlock = function ( docBlock ) {
  * @return {mixed}
  *         The first element of the set.
  */
-Crawler.nextNode = function ( nodes ) {
-  if(nodes.length === 0)
-    Verbose.critical("next_node_failed");
+Crawler.nextNode = function (nodes) {
+  if (nodes.length === 0) {
+    Verbose.critical('next_node_failed');
+  }
+
   return nodes.shift();
 };
 
@@ -119,8 +122,11 @@ Crawler.nextNode = function ( nodes ) {
  * @return {Boolean}
  *         Returns true if the comment seems like a DocBlock.
  */
-Crawler.isDocBlock = function ( comment ) {
-  if(!comment) return false;
+Crawler.isDocBlock = function (comment) {
+  if (!comment) {
+    return false;
+  }
+
   return comment.match(/(^|[ ])\*\s\@/gm) !== null;
 };
 
@@ -133,10 +139,11 @@ Crawler.isDocBlock = function ( comment ) {
  * @return {string}
  *         The cleaned content of the comment block
  */
-Crawler.removeCommentChars = function ( docBlock ) {
+Crawler.removeCommentChars = function (docBlock) {
   return docBlock
     .replace(/^(\s+|\*)([ ]|\n|(\*[ ]?))/gm, '') // Leading chars
-    .replace(/[ ]+$/gm, ''); // Trailing spaces
+    .replace(/[ ]+$/gm, '') // Trailing spaces
+  ;
 };
 
 /**
@@ -159,10 +166,14 @@ Crawler.isAnnotationLine = function (line) {
  *         Returns the description, if there was any, otherwise false.
  */
 Crawler.getDescription = function (docBlockLines) {
-  var descriptionLines = [];
-  var line = docBlockLines.shift();
-  while(line) {
-    if(this.isAnnotationLine(line)) break;
+  const descriptionLines = [];
+  let line = docBlockLines.shift();
+
+  while (line) {
+    if (this.isAnnotationLine(line)) {
+      break;
+    }
+
     descriptionLines.push(line);
     line = docBlockLines.shift();
   }
@@ -170,7 +181,10 @@ Crawler.getDescription = function (docBlockLines) {
   // Put the last line back (sorry)
   docBlockLines.unshift(line);
 
-  if(descriptionLines.length === 0) return false;
+  if (descriptionLines.length === 0) {
+    return false;
+  }
+
   return descriptionLines.join(' ').trim();
 };
 
@@ -186,20 +200,22 @@ Crawler.getAnnotation = function (line) {
 
   // if it starts with a leading space, it's a multi-line
   // annotation's content.
-  if(line.match(/^[\s]/))
+  if (line.match(/^[\s]/)) {
     return {
       value: line.replace(/^[\s]/, ''),
-      type: 'content'
+      type: 'content',
     };
+  }
 
   // Could not be an annotation at all
-  if(!this.isAnnotationLine(line))
+  if (!this.isAnnotationLine(line)) {
     return false;
+  }
 
   // Otherwise, it's probably a key-value pair
   line.match(/^\@([\w]+)[\s]?([^\n]*)/gm);
-  var key = RegExp.$1;
-  var val = RegExp.$2;
+  const key = RegExp.$1;
+  const val = RegExp.$2;
 
   return {
     key: key,
@@ -216,39 +232,57 @@ Crawler.getAnnotation = function (line) {
  * @param {[type]} lastAnnotationKey  [description]
  */
 Crawler.addAnnotationByType = function (annotation, annotations, lastAnnotationKey) {
+  let lastAnnotationValue = annotations[lastAnnotationKey];
+  let lastValueIndex;
+  let key;
+
   // If it's a multiline annotation, add it to the existing text
-  if(annotation.type === 'content') {
+  if (annotation.type === 'content') {
     // There should be an annotation that this content belongs to
-    if(lastAnnotationKey === null) {
+    if (lastAnnotationKey === null) {
       Verbose.error('Multi-line content found, but no annotation key preceeded.', null, false);
+
       return annotations;
     }
 
-    var lastAnnotationValue = annotations[lastAnnotationKey];
-
     // Make sure we have content that we can extend
-    if((lastAnnotationValue === true) || !lastAnnotationValue) {
+    if ((lastAnnotationValue === true) || !lastAnnotationValue) {
       lastAnnotationValue = '';
     }
 
     // If the last annotation key is an array, add it to the last element
-    if(typeof lastAnnotationValue === 'object') {
-      var lastValueIndex = lastAnnotationValue.length - 1;
-      lastAnnotationValue[lastValueIndex] =
-        [lastAnnotationValue[lastValueIndex], annotation.value].join('\n').trim();
+    if (typeof lastAnnotationValue === 'object') {
+      lastValueIndex = lastAnnotationValue.length - 1;
+
+      lastAnnotationValue[lastValueIndex] = [
+        lastAnnotationValue[lastValueIndex],
+        annotation.value
+      ].join('\n').trim();
+
       return annotations;
     }
 
-    annotations[lastAnnotationKey] =
-      [lastAnnotationValue, annotation.value].join('\n').trim();
+    annotations[lastAnnotationKey] = [
+      lastAnnotationValue,
+      annotation.value
+    ].join('\n').trim();
 
     return annotations;
   }
 
-  var key = annotation.key;
-  if(typeof annotations[key] === 'object') annotations[key].push(annotation.value);
-  if(typeof annotations[key] === 'string') annotations[key] = [annotations[key], annotation.value];
-  if(annotations[key] === undefined) annotations[key] = annotation.value;
+  key = annotation.key;
+
+  if (typeof annotations[key] === 'object') {
+    annotations[key].push(annotation.value);
+  }
+
+  if (typeof annotations[key] === 'string') {
+    annotations[key] = [annotations[key], annotation.value];
+  }
+
+  if (annotations[key] === undefined) {
+    annotations[key] = annotation.value;
+  }
 
   return annotations;
 };

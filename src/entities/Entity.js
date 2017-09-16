@@ -4,6 +4,7 @@
  *
  * With contributions from: -
  *  - Ryan Potter (www.ryanpotter.co.nz)
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -11,17 +12,21 @@
 
 'use strict';
 
-var Verbose = require('../Verbose');
-var hash = require('json-hash');
+const Verbose = require('../Verbose');
+const hash = require('json-hash');
 
-var Entity = function(raw) {
+const Entity = function(raw) {
   this.raw = raw;
   this.type = 'Generic';
-  this.fillable = [];
+  this.fillable = [
+    'deprecated',
+    'description',
+    'section',
+  ];
+  this.fields = [];
+  this.singleLine = false;
 
   this.raw.descriptor = this.getDescriptor();
-
-  this.setDefaultValues();
 };
 
 /**
@@ -38,7 +43,7 @@ Entity.prototype.validate = function() {
   }
 
   // Check if all the annotations are allowed for this type
-  for (var key in this.raw.annotations) {
+  for (let key in this.raw.annotations) {
     if (this.fillable.indexOf(key) === -1) {
       Verbose.warn('invalid_annotaton_for_type', [key, this.type, this.fillable, this.raw]);
       return false;
@@ -48,7 +53,7 @@ Entity.prototype.validate = function() {
   // Check for edge-cases that would break the processing
   // Set section if not defined
   if (this.raw.annotations.section === undefined) {
-    this.raw.annotations.section = "Other";
+    this.raw.annotations.section = 'Other';
   }
 
   // Section should be nothing else than a string
@@ -69,16 +74,75 @@ Entity.prototype.validate = function() {
   return true;
 };
 
+Entity.prototype.getDescription = function () {
+  const type = this.type.toLowerCase();
+
+  // Single-line annotation block means @color is the description.
+  if (
+      this.singleLine
+    && !this.raw.annotations.description
+    && typeof(this.raw.annotations[type]) !== 'undefined'
+  ) {
+    return this.raw.annotations[type];
+  }
+
+  return this.raw.annotations.description;
+};
+
+Entity.prototype.getFields = function () {
+  const sections = [
+    this.type + 's',
+    this.getSection(),
+  ];
+
+  // Validate the raw input data for common mistakes
+  if (!this.validate()) {
+    return {};
+  }
+
+  if (typeof(this.fields.section) !== 'undefined') {
+    sections.unshift(this.fields.section);
+  }
+
+  return Object.assign({}, {
+    description: this.getDescription(),
+    descriptor: this.raw.descriptor,
+    deprecated: this.raw.annotations.deprecated,
+    file: this.raw.file || null,
+    location: this.type.toLowerCase() + 's.html',
+    hash: this.hash(),
+    markup: this.raw.annotations.markup || null,
+    modifiers: this.getModifiers() || [],
+    name: this.getName(),
+    script: this.raw.annotations.script || false,
+    type: this.type.toLowerCase(),
+  }, this.fields, {
+    section: sections.join(' > '),
+  });
+};
+
+Entity.prototype.setFillable = function (annotations) {
+  this.fillable = this.fillable.concat(annotations);
+
+  return this;
+};
+
 /**
  * Sets some default values for allowed annotations.
  *
  * @return null
  */
 Entity.prototype.setDefaultValues = function() {
-  if(this.fillable.indexOf('description') !== -1) {
+  if (typeof(this.raw.annotations) === 'undefined') {
+    this.raw.annotations = {
+    };
+  }
+
+  if (this.fillable.indexOf('description') !== -1) {
     this.raw.annotations.description = this.raw.annotations.description || '';
   }
-  if(this.fillable.indexOf('deprecated') !== -1) {
+
+  if (this.fillable.indexOf('deprecated') !== -1) {
     this.raw.annotations.deprecated = this.raw.annotations.deprecated || false;
   }
 };
@@ -89,9 +153,14 @@ Entity.prototype.setDefaultValues = function() {
  * @return {string}
  */
 Entity.prototype.getSection = function() {
+  if (this.hasNotAnnotation('section')) {
+    return 'Other';
+  }
+
   return this.raw.annotations.section
     .trim()
-    .replace(/(^\>[ ]*|[ ]*\>$)/g, '');
+    .replace(/(^\>[ ]*|[ ]*\>$)/g, '')
+  ;
 };
 
 /**
@@ -144,13 +213,45 @@ Entity.prototype.getModifiers = function () {
       // Add to the output array.
       formattedModifiers.push(modifier);
     });
+
     return formattedModifiers;
   }
-  return null;
+
+  return [];
 };
 
-Entity.prototype.hash = function() {
+Entity.prototype.getName = function () {
+  const prop = this.type.toLowerCase();
+
+  if (this.raw.annotations[prop] === true) {
+    this.raw.annotations[prop] = 'Unnamed';
+  }
+
+  return this.raw.annotations[prop];
+};
+
+Entity.prototype.hash = function () {
   return hash.digest(this.raw.annotations);
+};
+
+Entity.prototype.hasAnnotation = function (name) {
+  if (typeof(this.raw) === 'undefined') {
+    return false;
+  }
+
+  if (typeof(this.raw.annotations) === 'undefined') {
+    return false;
+  }
+
+  if (typeof(this.raw.annotations[name]) === 'undefined') {
+    return false;
+  }
+
+  return this.raw.annotations[name] !== null;
+};
+
+Entity.prototype.hasNotAnnotation = function (name) {
+  return !this.hasAnnotation(name);
 };
 
 module.exports = Entity;

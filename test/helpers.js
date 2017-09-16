@@ -2,13 +2,15 @@
 
 var Helpers = {
   'logCalled': 0,
-  'exitCalled': 0
+  'exitCalled': 0,
+  'message': '',
 };
 
-Helpers.log = function( content ) {
+Helpers.log = function (content) {
   Helpers.logCalled++;
-  // console.log(content);
+  Helpers.message = content;
 };
+
 Helpers.exit = function() {
   Helpers.exitCalled++;
 };

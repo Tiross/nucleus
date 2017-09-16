@@ -9,12 +9,11 @@ var Helpers = require('./helpers');
 var Verbose = require('../src/Verbose.js');
 
 describe('Atom', function() {
-
   it('should return nothing if the raw input is not valid', function() {
     Helpers.hook(Verbose, 'log');
 
     var a = new Atom({});
-    assert.deepEqual(a, {});
+    assert.deepEqual(a.getFields(), {});
 
     assert.ok(Helpers.logCalled >= 1);
   });
@@ -34,18 +33,19 @@ describe('Atom', function() {
       }
     });
 
-    assert.deepEqual(a, {
-        name: 'Test-Component',
-        type: 'atom',
-        hash: '47edcec9fa48df43335b12fc0e3e1cc9a4709bf1',
-        descriptor: '.test',
-        location: 'atoms.html',
-        section: 'Atoms > Other',
-        description: 'A test description',
-        modifiers: null,
-        markup: '...',
-        script: '....',
-        deprecated: false
+    assert.deepEqual(a.getFields(), {
+      name: 'Test-Component',
+      type: 'atom',
+      hash: '47edcec9fa48df43335b12fc0e3e1cc9a4709bf1',
+      descriptor: '.test',
+      file: null,
+      location: 'atoms.html',
+      section: 'Atoms > Other',
+      description: 'A test description',
+      modifiers: [],
+      markup: '...',
+      script: '....',
+      deprecated: false
     });
   });
 
@@ -65,19 +65,6 @@ describe('Atom', function() {
       }
     });
 
-    assert.deepEqual(a, {
-        name: 'Test-Component',
-        type: 'atom',
-        hash: '1af43675b26c728f36bb88af3dcabdc7c0dc9a35',
-        descriptor: '.test',
-        location: 'atoms.html',
-        section: 'Atoms > Other',
-        description: 'A test description',
-        modifiers: null,
-        markup: '...',
-        script: '...',
-        deprecated: true
-    });
+    assert.strictEqual(a.getFields().deprecated, true);
   });
-
 });

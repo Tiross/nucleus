@@ -3,6 +3,7 @@
  * Copyright (C) 2016 Michael Seibt
  *
  * With contributions from: -
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -10,37 +11,27 @@
 
 'use strict';
 
-var Entity = require('./Entity');
+const Nuclide = require('./Nuclide');
 
-var Mixin = function(raw) {
+const Mixin = function(raw) {
   // Call parent constructor
-  Entity.call(this, raw);
+  Nuclide.call(this, raw);
 
   // Set mixin-specific entity properties
-  this.type = "Mixin";
-  this.fillable = ['mixin', 'param', 'section', 'description', 'example', 'deprecated'];
+  this.type = 'Mixin';
+  this.setFillable([
+    'example',
+    'mixin',
+    'param',
+  ]);
 
-  // Validate the raw input data for common mistakes
-  if (!this.validate()) return {};
-
-  return {
-    name: raw.descriptor.match(/[^\s\(]+/)[0],
-    descriptor: raw.descriptor,
-    type: 'mixin',
-    file: raw.file,
+  this.fields = {
     example: this.getExample(),
-    section: 'Nuclides > Mixins > ' + this.getSection(),
-    description: raw.annotations.description,
-    deprecated: raw.annotations.deprecated,
     signature: raw.descriptor.match(/[^\s\(]+(.*)/)[1],
-    parameters: this.getParameters(),
-    location: 'nuclides.html',
-    hash: this.hash()
   };
-
 };
 
-Mixin.prototype = Object.create(Entity.prototype);
+Mixin.prototype = Object.create(Nuclide.prototype);
 
 /**
  * Collects information about the parameters of the mixin from annotations and
@@ -49,25 +40,28 @@ Mixin.prototype = Object.create(Entity.prototype);
  * @return {object}
  */
 Mixin.prototype.getParameters = function() {
-  var parameters = [];
-  var paramString = this.raw.descriptor.match(/\((.*)\)/);
-  var docParameters = this.raw.annotations.param;
+  const parameters = [];
+  const paramString = this.raw.descriptor.match(/\((.*)\)/);
+  let docParameters = this.raw.annotations.param;
+  let param;
+  let paramCodeRE;
+  let paramCode;
 
   // If there're no parameters in the descriptor definition,
   // we don't need to take a closer look
-  if(!paramString) {
+  if (!paramString) {
     return [];
   }
 
   // If there's only one parameter, make it an array
-  if(typeof docParameters === 'string') {
+  if (typeof docParameters === 'string') {
     docParameters = [docParameters];
   }
 
-  for(var p in docParameters) {
-    var param = this.getParameter(docParameters[p]);
-    var paramCodeRE = new RegExp("(\\"+param.name+".*?(?=\\,\\s\\$|$))");
-    var paramCode = paramString[1].match(paramCodeRE)[0];
+  for (let p in docParameters) {
+    param = this.getParameter(docParameters[p]);
+    paramCodeRE = new RegExp('(\\' + param.name + '.*?(?=\\,\\s\\$|$))');
+    paramCode = paramString[1].match(paramCodeRE)[0];
     param.optional = paramCode.match(/:/) ? true : false;
     parameters.push(param);
   }
@@ -81,19 +75,24 @@ Mixin.prototype.getParameters = function() {
  * @param  {param} parameterString
  * @return {object}
  */
-Mixin.prototype.getParameter = function( parameterString ) {
+Mixin.prototype.getParameter = function (parameterString) {
   // Remove line breaks from the current annotation string, in order to
   // not break the regexp, since . does not match line breaks.
-  parameterString = parameterString.replace(/\n/g, " ");
+  parameterString = parameterString.replace(/\n/g, ' ');
 
-  var param = parameterString.match(/^([^\s]+)(.*)$/);
+  const param = parameterString.match(/^([^\s]+)(.*)$/);
+
   return {
     name: param[1].trim(),
     description: param[2].trim()
   };
 };
 
-Mixin.prototype.getExample = function() {
+Mixin.prototype.getExample = function () {
+  if (this.hasNotAnnotation('example')) {
+    return '';
+  }
+
   return this.raw.annotations.example;
 };
 

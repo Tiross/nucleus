@@ -12,11 +12,11 @@
 
 'use strict';
 
-var chalk = require('chalk');
-var wrap = require('wordwrap')(80);
-var prettyjson = require('prettyjson');
+const chalk = require('chalk');
+const wrap = require('wordwrap')(80);
+const prettyjson = require('prettyjson');
 
-var Verbose = {
+const Verbose = {
   LEVELS: {
     SILENT: 0,
     ERROR: 1,
@@ -26,8 +26,8 @@ var Verbose = {
   level: 2,
   spinner: require('ora')({
     spinner: {
-      "interval": 100,
-      "frames": [
+      interval: 100,
+      frames: [
         " 🕐 ", " 🕑 ", " 🕒 ", " 🕓 ", " 🕔 ", " 🕕 ", " 🕖 ", " 🕗 ", " 🕘 ", " 🕙 ", " 🕚 "
       ]
     },
@@ -38,7 +38,10 @@ var Verbose = {
 };
 
 Verbose.log = function (text) {
-  if(this.level < this.LEVELS.DEFAULT) return;
+  if (this.level < this.LEVELS.DEFAULT) {
+    return;
+  }
+
   console.log(text);
 };
 
@@ -46,17 +49,20 @@ Verbose.exit = function (status) {
   process.exit(status);
 };
 
-Verbose.status = function ( text ) {
-  if(this.level < this.LEVELS.DEFAULT) return;
+Verbose.status = function (text) {
+  if (this.level < this.LEVELS.DEFAULT) {
+    return;
+  }
+
   this.log(chalk.blue(this.wordwrap(text)));
 };
 
-Verbose.debug = function ( data ) {
-  if(this.level >= this.LEVELS.DEBUG) {
+Verbose.debug = function (data) {
+  if (this.level >= this.LEVELS.DEBUG) {
     this.log('\n');
 
     // Pretty-print JSONs
-    if(typeof data === 'object') {
+    if (typeof data === 'object') {
       data = prettyjson.render(data, {
         keysColor: 'cyan'
       });
@@ -67,33 +73,50 @@ Verbose.debug = function ( data ) {
 
 Verbose.warn = function (warning, data) {
   // Check verbosity level
-  if(this.level < this.LEVELS.DEFAULT) return;
+  if (this.level < this.LEVELS.DEFAULT) {
+    return;
+  }
 
-  var w = this.WARNINGS[warning];
-  if(!w) w = function () { return {
-    'title' : warning, 'text' : undefined
-  };};
+  let w = this.WARNINGS[warning];
+
+  if (!w) {
+    w = function () {
+      return {
+        'title': warning,
+        'text': undefined,
+      };
+    };
+  }
+
   w = w.apply(null, data);
 
-  this.log("\n\n " + chalk.yellow.bold("Take care!") + " " + chalk.bold(w.title));
+  this.log('\n\n ' + chalk.yellow.bold('Take care!') + ' ' + chalk.bold(w.title));
 
-  if(w.text) {
+  if (w.text) {
     this.log(chalk.dim(this.wordwrap(w.text)) + '\n');
   }
 };
 
 Verbose.info = function (info, data) {
-  if(this.level >= this.LEVELS.DEFAULT) {
+  let i;
 
-    var i = this.INFOS[info];
-    if(!i) i = function () { return {
-      'title' : info, 'text' : undefined
-    };};
+  if (this.level >= this.LEVELS.DEFAULT) {
+    i = this.INFOS[info];
+
+    if (!i) {
+      i = function () {
+        return {
+          'title': info,
+          'text': undefined,
+        };
+      };
+    }
+
     i = i(data);
 
-    this.log("\n " + chalk.cyan.bold("Info:") + " " + chalk.bold(i.title) + "\n");
+    this.log('\n ' + chalk.cyan.bold('Info:') + ' ' + chalk.bold(i.title) + '\n');
 
-    if(i.text) {
+    if (i.text) {
       this.log(chalk.dim(this.wordwrap(i.text)) + '\n');
     }
   }
@@ -103,27 +126,38 @@ Verbose.critical = function (error, data) {
   Verbose.error(error, data, true);
 };
 
-Verbose.error = function ( error, data, critical ) {
+Verbose.error = function (error, data, critical) {
+  let e = this.ERRORS[error];
 
-  var e = this.ERRORS[error];
-  if(!e) e = function () { return {
-    'title' : error, 'text' : undefined
-  };};
+  if (!e) {
+    e = function () {
+      return {
+        'title': error,
+        'text': undefined
+      };
+    };
+  }
+
   e = e.apply(null, data);
 
-  if(this.level >= this.LEVELS.ERROR) {
-    this.log("\n " + chalk.red.bold("Whoops!") + " " + chalk.bold(e.title) + "\n");
+  if (this.level >= this.LEVELS.ERROR) {
+    this.log('\n ' + chalk.red.bold('Whoops!') + ' ' + chalk.bold(e.title) + '\n');
 
-    if(e.text) {
+    if (e.text) {
       this.log(chalk.dim(this.wordwrap(e.text)) + '\n');
     }
   }
 
-  if(critical) this.exit(1);
+  if (critical) {
+    this.exit(1);
+  }
 };
 
-Verbose.spin = function ( text ) {
-  if(this.level < this.LEVELS.DEFAULT) return;
+Verbose.spin = function (text) {
+  if (this.level < this.LEVELS.DEFAULT) {
+    return;
+  }
+
   this.spinner.text = text;
   this.spinner.start();
 };
@@ -143,11 +177,13 @@ Verbose.start = function () {
  *         The hrtime object that was started at the beginning of the script.
  */
 Verbose.finished = function () {
-  if(this.level >= this.LEVELS.DEFAULT) {
-    var seconds = process.hrtime(this.startTime)[0];
-    this.log('\n ' + chalk.green('Finished!') + ' ' +
-      chalk.dim('Took me ' +  seconds + ' second' + (seconds !== 1 ? 's' : '') + '.\n'));
+  if (this.level >= this.LEVELS.DEFAULT) {
+    const seconds = process.hrtime(this.startTime)[0];
+
+    this.log('\n ' + chalk.green('Finished!') + ' ')
+    this.log(chalk.dim('Took me ' +  seconds + ' second' + (seconds !== 1 ? 's' : '') + '.\n'));
   }
+
   this.exit(0);
 };
 
@@ -169,11 +205,8 @@ Verbose.setLevel = function (verboseLevel) {
  * @return {string}
  *         Gracefully word-wrapped text.
  */
-Verbose.wordwrap = function ( text ) {
+Verbose.wordwrap = function (text) {
   return ' ' + wrap(text).split('\n').join('\n ').trim();
 };
-
-
-
 
 module.exports = Verbose;

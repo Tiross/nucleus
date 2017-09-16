@@ -9,12 +9,11 @@ var Verbose = require('../src/Verbose.js');
 var Mixin = require('../src/entities/Mixin.js');
 
 describe('Mixin', function() {
-
   it('should return nothing if the raw input is not valid', function() {
     Helpers.hook(Verbose, 'log');
 
     var m = new Mixin({});
-    assert.deepEqual(m, {});
+    assert.deepEqual(m.getFields(), {});
 
     assert.ok(Helpers.logCalled >= 1);
   });
@@ -35,7 +34,7 @@ describe('Mixin', function() {
       }
     });
 
-    assert.deepEqual(m.parameters, [{
+    assert.deepEqual(m.getParameters(), [{
       name: 'param1',
       optional: false,
       description: 'The first parameter'
@@ -55,11 +54,10 @@ describe('Mixin', function() {
       }
     });
 
-    assert.deepEqual(m.parameters, [{
+    assert.deepEqual(m.getParameters(), [{
       name: 'param1',
       optional: false,
       description: 'The only parameter'
     }]);
   });
-
 });

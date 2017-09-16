@@ -3,6 +3,7 @@
  * Copyright (C) 2016 Michael Seibt
  *
  * With contributions from: -
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -10,35 +11,25 @@
 
 'use strict';
 
-var Entity = require('./Entity');
+const Entity = require('./Entity');
 
-var Nuclide = function(raw) {
+const Nuclide = function(raw) {
   // Call parent constructor
   Entity.call(this, raw);
 
-  this.type = "Nuclide";
-  this.fillable = ['nuclide', 'section', 'description', 'deprecated'];
+  this.type = 'Nuclide';
+  this.setFillable([
+    'nuclide',
+  ]);
+  this.singleLine = true;
 
-  // Validate the raw input data for common mistakes
-  if (!this.validate()) return {};
+  this.fields.name = raw.descriptor;
+  this.fields.location = 'nuclides.html';
+  this.fields.section = 'Nuclides';
 
-  // Single-line annotation block means @nuclide is the description.
-  if (!raw.annotations.description) {
-    raw.annotations.description = raw.annotations.nuclide;
+  if (typeof(raw.element) !== 'undefined') {
+    this.fields.value = raw.element.value;
   }
-
-  return {
-    name: raw.descriptor,
-    value: raw.element.value,
-    type: 'nuclide',
-    descriptor: raw.descriptor,
-    section: 'Nuclides > ' + this.getSection(),
-    description: raw.annotations.description,
-    deprecated: raw.annotations.deprecated,
-    location: 'nuclides.html',
-    hash: this.hash(),
-  };
-
 };
 
 Nuclide.prototype = Object.create(Entity.prototype);

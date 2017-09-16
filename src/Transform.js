@@ -11,18 +11,18 @@
 
 'use strict';
 
-var Verbose = require('./Verbose');
-var Nuclide = require('./entities/Nuclide');
-var Color = require('./entities/Color');
-var Mixin = require('./entities/Mixin');
-var Atom = require('./entities/Atom');
-var Icon = require('./entities/Icon');
-var Molecule = require('./entities/Molecule');
-var Structure = require('./entities/Structure');
+const Verbose = require('./Verbose');
+const Nuclide = require('./entities/Nuclide');
+const Color = require('./entities/Color');
+const Mixin = require('./entities/Mixin');
+const Atom = require('./entities/Atom');
+const Icon = require('./entities/Icon');
+const Molecule = require('./entities/Molecule');
+const Structure = require('./entities/Structure');
 
-var Dot = require('dot-object');
+const Dot = require('dot-object');
 
-var Transform = {};
+const Transform = {};
 
 /**
  * Calls the transformation for every style and sorts it into
@@ -34,13 +34,13 @@ var Transform = {};
  *         Transformed view data.
  */
 Transform.forView = function(styles) {
-  var viewData = {};
-  var dot = new Dot(' > ');
+  const viewData = {};
+  const dot = new Dot(' > ');
 
-  for (var s in styles) {
+  for (let s in styles) {
     Verbose.spin('Analyzing styles');
-    var style = styles[s];
-    var entity = this.createEntity(style);
+    let style = styles[s];
+    let entity = this.createEntity(style);
 
     // If entity is empty, we cold not specify a type or
     // validation failed during entity instantiation.
@@ -51,7 +51,7 @@ Transform.forView = function(styles) {
     // Pick the section or create it, if not defined yet.
     // TODO: _e is a bad idea!!
     // TODO: Extract!
-    var section = dot.pick(entity.section, viewData) || {
+    let section = dot.pick(entity.section, viewData) || {
       '_e': []
     };
     section._e.push(entity);
@@ -72,13 +72,18 @@ Transform.forView = function(styles) {
 Transform.getStyleType = function(style) {
   // Loop through the available type annotations and check if the style
   // has one of these. If there's more than one, show a warning.
-  var typeAnnotations = [
-    'color', 'mixin', 'nuclide',
-    'atom', 'icon', 'molecule', 'structure'
+  const typeAnnotations = [
+    'color',
+    'mixin',
+    'nuclide',
+    'atom',
+    'icon',
+    'molecule',
+    'structure'
   ];
+  let foundType = null;
 
-  var foundType = null;
-  for (var t in typeAnnotations) {
+  for (let t in typeAnnotations) {
     if (this.hasAnnotation(typeAnnotations[t], style)) {
 
       // Do we have multiple style type annotations?
@@ -117,27 +122,39 @@ Transform.hasAnnotation = function(key, style) {
  * @return {[type]}       [description]
  */
 Transform.createEntity = function(style) {
+  let entity;
+
   switch (this.getStyleType(style)) {
     case 'color':
-      return new Color(style);
+      entity = new Color(style);
+      break;
     case 'mixin':
-      return new Mixin(style);
+      entity = new Mixin(style);
+      break;
     case 'atom':
-      return new Atom(style);
+      entity = new Atom(style);
+      break;
     case 'icon':
-      return new Icon(style);
+      entity = new Icon(style);
+      break;
     case 'molecule':
-      return new Molecule(style);
+      entity = new Molecule(style);
+      break;
     case 'structure':
-      return new Structure(style);
+      entity = new Structure(style);
+      break;
     case 'nuclide':
-      return new Nuclide(style);
+      entity = new Nuclide(style);
+      break;
     default:
       // TODO: Is this possible? Maybe resolve the
       // anti-pattern then.
-      console.log("Skipping unknown entity type.");
+      console.log('Skipping unknown entity type.');
+
+      return false;
   }
-  return false;
+
+  return entity.getFields();
 };
 
 module.exports = Transform;

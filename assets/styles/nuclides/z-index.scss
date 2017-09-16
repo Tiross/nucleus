@@ -38,12 +38,16 @@ $z-map: (
   @if map-has-key($z, $type) {
 
     // Check if 'name' is available
-    @if map-has-key(map-get($z,$type), $name) {
-      z-index: map-get(map-get($z,$type), $name);
-    } @else {
+    @if map-has-key(map-get($z, $type), $name) {
+      z-index: map-get(map-get($z, $type), $name);
+    }
+
+    @else {
       @warn 'There is not elements "#{$name}" in the z map available.';
     }
-  } @else {
-     @warn 'The desired Type "#{$type}" is not available. Please add it to the Map or use a other one'
+  }
+
+  @else {
+    @warn 'The desired Type "#{$type}" is not available. Please add it to the Map or use a other one';
   }
 }
