@@ -36,10 +36,10 @@ describe('Entity', function () {
     sections.forEach(function (section) {
       it('should return the trimmed section value from "' + section + '"', function () {
         const entity = new Entity({
-          type: 'nuclide',
           annotations: {
             section: section,
           },
+          type: 'nuclide',
         });
 
         assert.strictEqual(entity.getSection(), 'Section > Subsection');
@@ -62,10 +62,10 @@ describe('Entity', function () {
       Helpers.hook(Verbose, 'log');
 
       const entity = new Entity({
-        type: 'nuclide',
         annotations: {
           allowed: true,
         },
+        type: 'nuclide',
       });
 
       // All good
@@ -81,10 +81,10 @@ describe('Entity', function () {
 
     it('should complain if the sections value is malformed', function () {
       const entity = new Entity({
-        type: 'nuclide',
         annotations: {
           section: '> Section > Ok',
         },
+        type: 'nuclide',
       });
       let fields = entity.getFields();
 
@@ -106,10 +106,10 @@ describe('Entity', function () {
 
     it('should complain if the sections value is not a string', function () {
       const entity = new Entity({
-        type: 'nuclide',
         annotations: {
           section: true,
         },
+        type: 'nuclide',
       });
 
       // Beginning of the string
@@ -125,10 +125,10 @@ describe('Entity', function () {
   it('should not handle namespaces', function () {
     const name = (Math.random() * 1e32).toString(36);
     const entity = new Entity({
-      type: 'nuclide',
       annotations: {
         namespace: name,
       },
+      type: 'nuclide',
     });
 
     assert.strictEqual(entity.getFields().namespace, undefined);

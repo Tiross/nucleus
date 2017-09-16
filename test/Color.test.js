@@ -23,8 +23,8 @@ describe('Color', function () {
   it('should transform raw input data to a color entity', function () {
     const entity = new Color({
       annotations: {
-        description: 'Testcolor',
         color: true,
+        description: 'Testcolor',
       },
       element: {
         prop: '$testcolor',
@@ -33,20 +33,20 @@ describe('Color', function () {
     });
 
     assert.deepEqual(entity.getFields(), {
-      name: '$testcolor',
-      type: 'color',
-      section: 'Nuclides > Colors > Other',
+      deprecated: false,
       description: 'Testcolor',
       descriptor: '$testcolor',
-      hash: '65edaeaf18d2ba3b22fd90b4526e155453ce0220',
       file: null,
+      hash: '65edaeaf18d2ba3b22fd90b4526e155453ce0220',
+      location: 'nuclides.html',
       markup: null,
       modifiers: [],
+      name: '$testcolor',
       namespace: null,
       script: false,
+      section: 'Nuclides > Colors > Other',
       sort: 65280,
-      location: 'nuclides.html',
-      deprecated: false,
+      type: 'color',
       value: '#00FF00',
       values: {
         hex: '#00FF00',
@@ -62,8 +62,8 @@ describe('Color', function () {
   it('should transform raw input data with !default to a color entity', function () {
     const entity = new Color({
       annotations: {
-        description: 'Default Testcolor',
         color: true,
+        description: 'Default Testcolor',
       },
       element: {
         prop: '$testcolor',
@@ -89,20 +89,20 @@ describe('Color', function () {
     });
 
     assert.deepEqual(entity.getFields(), {
-      name: '$testcolor',
-      type: 'color',
-      section: 'Nuclides > Colors > Other',
+      deprecated: true,
       description: 'Testcolor',
       descriptor: '$testcolor',
-      hash: '4d6d4c012b41544bcdc390b6f5a9ebe6e3a8ad15',
       file: null,
+      hash: '4d6d4c012b41544bcdc390b6f5a9ebe6e3a8ad15',
+      location: 'nuclides.html',
       markup: null,
       modifiers: [],
+      name: '$testcolor',
       namespace: null,
       script: false,
+      section: 'Nuclides > Colors > Other',
+      type: 'color',
       sort: 65280,
-      location: 'nuclides.html',
-      deprecated: true,
       value: '#00FF00',
       values: {
         hex: '#00FF00',

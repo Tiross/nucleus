@@ -32,26 +32,26 @@ describe('Font', function () {
     });
 
     assert.deepEqual(entity.getFields(), {
-      name: 'Comic sans serif',
-      type: 'font',
-      section: 'Nuclides > Fonts > Other',
+      deprecated: false,
       description: '',
       descriptor: '$font-family',
-      hash: '2aa0ea7987f857e71f8ae2271ec299f96562d4b7',
       file: null,
+      hash: '2aa0ea7987f857e71f8ae2271ec299f96562d4b7',
+      location: 'nuclides.html',
       markup: null,
       modifiers: [],
+      name: 'Comic sans serif',
       namespace: null,
-      script: false,
-      location: 'nuclides.html',
-      deprecated: false,
-      value: 'Comic sans serif',
       parameters: [
         {
           name: 'Regular',
           weight: 400,
         },
       ],
+      script: false,
+      section: 'Nuclides > Fonts > Other',
+      type: 'font',
+      value: 'Comic sans serif',
     });
   });
 

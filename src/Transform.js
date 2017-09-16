@@ -12,15 +12,15 @@
 
 'use strict';
 
-const Verbose = require('./Verbose');
-const Nuclide = require('./entities/Nuclide');
+const Atom = require('./entities/Atom');
 const Color = require('./entities/Color');
 const Font = require('./entities/Font');
-const Mixin = require('./entities/Mixin');
-const Atom = require('./entities/Atom');
 const Icon = require('./entities/Icon');
+const Mixin = require('./entities/Mixin');
 const Molecule = require('./entities/Molecule');
+const Nuclide = require('./entities/Nuclide');
 const Structure = require('./entities/Structure');
+const Verbose = require('./Verbose');
 
 const Dot = require('dot-object');
 const isNumeric = require('isnumeric');
@@ -77,14 +77,14 @@ Transform.getStyleType = function (style) {
   // Loop through the available type annotations and check if the style
   // has one of these. If there's more than one, show a warning.
   const typeAnnotations = [
+    'atom',
     'color',
     'font',
-    'mixin',
-    'nuclide',
-    'atom',
     'icon',
+    'mixin',
     'molecule',
-    'structure'
+    'nuclide',
+    'structure',
   ];
   let foundType = null;
 
@@ -130,29 +130,29 @@ Transform.createEntity = function (style) {
   let entity;
 
   switch (this.getStyleType(style)) {
+    case 'atom':
+      entity = new Atom(style);
+      break;
     case 'color':
       entity = new Color(style);
       break;
     case 'font':
       entity = new Font(style);
       break;
+    case 'icon':
+      entity = new Icon(style);
+      break;
     case 'mixin':
       entity = new Mixin(style);
       break;
-    case 'atom':
-      entity = new Atom(style);
-      break;
-    case 'icon':
-      entity = new Icon(style);
+    case 'nuclide':
+      entity = new Nuclide(style);
       break;
     case 'molecule':
       entity = new Molecule(style);
       break;
     case 'structure':
       entity = new Structure(style);
-      break;
-    case 'nuclide':
-      entity = new Nuclide(style);
       break;
     default:
       // TODO: Is this possible? Maybe resolve the

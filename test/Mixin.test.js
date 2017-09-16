@@ -22,15 +22,15 @@ describe('Mixin', function () {
 
   it('should parse the parameters from the descriptor', function () {
     let entity = new Mixin({
-      element: {
-        params: 'test ($param1, $param2: true)',
-      },
       annotations: {
         description: 'A test description',
         param: [
           'param1 The first parameter',
           'param2 The second description',
         ],
+      },
+      element: {
+        params: 'test ($param1, $param2: true)',
       },
     });
 
@@ -48,19 +48,19 @@ describe('Mixin', function () {
     ]);
 
     entity = new Mixin({
-      element: {
-        params: 'test ($param1)',
-      },
       annotations: {
         description: 'A test description',
         param: 'param1 The only parameter'
       },
+      element: {
+        params: 'test ($param1)',
+      },
     });
 
     assert.deepEqual(entity.getParameters(), [{
+      description: 'The only parameter',
       name: 'param1',
       optional: false,
-      description: 'The only parameter',
     }]);
   });
 
@@ -69,13 +69,13 @@ describe('Mixin', function () {
   it('should not handle namespaces', function () {
     const name = (Math.random() * 1e32).toString(36);
     const entity = new Mixin({
-      element: {
-        params: 'test ($param1)',
-      },
       annotations: {
         description: 'A test description',
-        param: 'param1 The only parameter',
         namespace: name,
+        param: 'param1 The only parameter',
+      },
+      element: {
+        params: 'test ($param1)',
       },
     });
 

@@ -22,31 +22,31 @@ describe('Atom', function () {
 
   it('should parse the basic information', function () {
     const entity = new Atom({
-      element: {
-        selector: '.test',
-      },
       annotations: {
-        description: 'A test description',
         atom: 'Test-Component',
+        description: 'A test description',
         markup: '...',
         script: '....',
+      },
+      element: {
+        selector: '.test',
       },
     });
 
     assert.deepEqual(entity.getFields(), {
-      name: 'Test-Component',
-      type: 'atom',
-      hash: '47edcec9fa48df43335b12fc0e3e1cc9a4709bf1',
+      deprecated: false,
+      description: 'A test description',
       descriptor: '.test',
       file: null,
-      location: 'atoms.html',
-      section: 'Atoms > Other',
-      description: 'A test description',
-      modifiers: [],
+      hash: '47edcec9fa48df43335b12fc0e3e1cc9a4709bf1',
       markup: '...',
+      modifiers: [],
       namespace: null,
+      location: 'atoms.html',
+      name: 'Test-Component',
       script: '....',
-      deprecated: false,
+      section: 'Atoms > Other',
+      type: 'atom',
     });
   });
 
@@ -54,15 +54,15 @@ describe('Atom', function () {
 
   it('should mark the atom as deprecated', function () {
     const entity = new Atom({
-      element: {
-        selector: '.test',
-      },
       annotations: {
-        description: 'A test description',
         atom: 'Test-Component',
+        deprecated: true,
+        description: 'A test description',
         markup: '...',
         script: '...',
-        deprecated: true,
+      },
+      element: {
+        selector: '.test',
       },
     });
 
@@ -74,15 +74,15 @@ describe('Atom', function () {
   it('should handle namespaces', function () {
     const name = (Math.random() * 1e32).toString(36);
     const entity = new Atom({
+      annotations: {
+        atom: 'Test-Component',
+        description: 'A test description',
+        markup: '...',
+        namespace: name,
+        script: '...',
+      },
       element: {
         selector: '.test',
-      },
-      annotations: {
-        description: 'A test description',
-        atom: 'Test-Component',
-        markup: '...',
-        script: '...',
-        namespace: name,
       },
     });
 
