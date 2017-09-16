@@ -74,7 +74,7 @@ describe('Transform', function() {
         c: {id: 1},
       };
 
-      assert.deepEqual(Transform.sort(tested), expected);
+      assert.deepEqual(Transform.sortObject(tested), expected);
     });
   });
 });

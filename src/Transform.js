@@ -63,27 +63,7 @@ Transform.forView = function(styles) {
     }, viewData);
   }
 
-  // Sorting elements
-  [
-    'Atoms',
-    'Molecules',
-    'Structures',
-  ].forEach(function (name) {
-    if (typeof(viewData[name]) !== 'undefined') {
-      viewData[name] = that.sort(viewData[name]);
-    }
-  });
-
-  [
-    'Font',
-    'Mixins',
-  ].forEach(function (name) {
-    if (typeof(viewData.Nuclides[name]) !== 'undefined') {
-      viewData.Nuclides[name] = that.sort(viewData.Nuclides[name]);
-    }
-  });
-
-  return viewData;
+  return this.sort(viewData);
 };
 
 /**
@@ -185,6 +165,26 @@ Transform.createEntity = function(style) {
 };
 
 Transform.sort = function (obj) {
+  const that = this;
+  const keys = Object.keys(obj);
+
+  if (Array.isArray(obj)) {
+    obj.sort(function (a, b) {
+      const A = a.name.toUpperCase();
+      const B = b.name.toUpperCase();
+
+      return A.toString().localeCompare(B);
+    });
+  } else if (typeof(obj) === 'object') {
+    keys.forEach(function (key) {
+      obj[key] = that.sort(obj[key]);
+    });
+  }
+
+  return obj;
+};
+
+Transform.sortObject = function (obj) {
   var keys = Object.keys(obj).sort();
   var data = {};
 
