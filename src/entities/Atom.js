@@ -23,7 +23,7 @@ const Atom = function (raw) {
   this.setFillable([
     'atom',
     'markup',
-    'modifiers' ,
+    'modifiers',
     'namespace',
     'script',
   ]);

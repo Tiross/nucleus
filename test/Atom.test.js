@@ -44,6 +44,7 @@ describe('Atom', function() {
       description: 'A test description',
       modifiers: [],
       markup: '...',
+      namespace: null,
       script: '....',
       deprecated: false
     });
