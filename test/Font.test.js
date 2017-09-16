@@ -41,6 +41,7 @@ describe('Font', function() {
       file: null,
       markup: null,
       modifiers: [],
+      namespace: null,
       script: false,
       location: 'nuclides.html',
       deprecated: false,
