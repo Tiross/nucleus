@@ -44,6 +44,7 @@ describe('Atom', function() {
       description: 'A test description',
       modifiers: [],
       markup: '...',
+      namespace: null,
       script: '....',
       deprecated: false
     });
@@ -66,5 +67,25 @@ describe('Atom', function() {
     });
 
     assert.strictEqual(a.getFields().deprecated, true);
+  });
+
+  /********************************************************/
+
+  it('should handle namespaces', function() {
+    const name = (Math.random() * 1e32).toString(36);
+    const entity = new Atom({
+      element: {
+        selector: '.test',
+      },
+      annotations: {
+        description: 'A test description',
+        atom: 'Test-Component',
+        markup: '...',
+        script: '...',
+        namespace: name,
+      },
+    });
+
+    assert.strictEqual(entity.getFields().namespace, name);
   });
 });

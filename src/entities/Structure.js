@@ -23,6 +23,7 @@ const Structure = function(raw) {
     'flag',
     'markup',
     'modifiers',
+    'namespace',
     'script',
     'structure',
   ]);

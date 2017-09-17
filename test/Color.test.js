@@ -42,7 +42,9 @@ describe('Color', function() {
       file: null,
       markup: null,
       modifiers: [],
+      namespace: null,
       script: false,
+      sort: 65280,
       location: 'nuclides.html',
       deprecated: false,
       value: '#00FF00',
@@ -84,6 +86,7 @@ describe('Color', function() {
         value: '#00FF00'
       }
     });
+
     assert.deepEqual(c.getFields(), {
       name: '$testcolor',
       type: 'color',
@@ -94,7 +97,9 @@ describe('Color', function() {
       file: null,
       markup: null,
       modifiers: [],
+      namespace: null,
       script: false,
+      sort: 65280,
       location: 'nuclides.html',
       deprecated: true,
       value: '#00FF00',
@@ -104,5 +109,23 @@ describe('Color', function() {
         darker: '#00E600'
       }
     });
+  });
+
+  /********************************************************/
+
+  it('should not handle namespaces', function() {
+    const name = (Math.random() * 1e32).toString(36);
+    const entity = new Color({
+      annotations: {
+        color: 'Testcolor',
+        namespace: name,
+      },
+      element: {
+        prop: '$testcolor',
+        value: '#00FF00',
+      },
+    });
+
+    assert.strictEqual(entity.getFields().namespace, undefined);
   });
 });

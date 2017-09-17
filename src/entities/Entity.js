@@ -90,21 +90,25 @@ Entity.prototype.getDescription = function () {
 };
 
 Entity.prototype.getFields = function () {
-  const sections = [
-    this.type + 's',
-    this.getSection(),
-  ];
+  let sections = [];
+  let fields;
 
   // Validate the raw input data for common mistakes
   if (!this.validate()) {
     return {};
   }
 
-  if (typeof(this.fields.section) !== 'undefined') {
-    sections.unshift(this.fields.section);
-  }
+  [
+    this.fields.section,
+    this.type + 's',
+    this.getSection(),
+  ].forEach(function (section) {
+    if (typeof(section) !== 'undefined' && sections.indexOf(section) === -1) {
+      sections.push(section);
+    }
+  });
 
-  return Object.assign({}, {
+  fields = Object.assign({}, {
     description: this.getDescription(),
     descriptor: this.raw.descriptor,
     deprecated: this.raw.annotations.deprecated,
@@ -114,11 +118,18 @@ Entity.prototype.getFields = function () {
     markup: this.raw.annotations.markup || null,
     modifiers: this.getModifiers() || [],
     name: this.getName(),
+    namespace: this.raw.annotations.namespace,
     script: this.raw.annotations.script || false,
     type: this.type.toLowerCase(),
   }, this.fields, {
     section: sections.join(' > '),
   });
+
+  if (fields.name === fields.description) {
+    fields.description = '';
+  }
+
+  return fields;
 };
 
 Entity.prototype.setFillable = function (annotations) {
@@ -222,6 +233,10 @@ Entity.prototype.getModifiers = function () {
 
 Entity.prototype.getName = function () {
   const prop = this.type.toLowerCase();
+
+  if (this.singleLine) {
+    return this.raw.descriptor;
+  }
 
   if (this.raw.annotations[prop] === true) {
     this.raw.annotations[prop] = 'Unnamed';

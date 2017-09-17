@@ -1,0 +1,28 @@
+//-
+  With contributions from:
+    - Tiross
+
+extends layouts/doc-page
+
+block title
+  | Namespace
+
+block content
+  h1.SG-h1 Namespace
+  p.SG-p.
+    You can add a particular namespace on every @atom, @molecule and @structure.
+  p.SG-p.
+    It may be usefull to add a background color on only one entity.
+
+  code.code.language-nucleus(data-d-code-preview).
+    /**
+     * @structure Alert
+     * @namespace dark-background
+     * @markup
+     *  &lt;div class="alert"&gt;
+     *    Alert message with transparent white background
+     *  &lt;/div&gt;
+     */
+    .alert {
+      ...
+    }

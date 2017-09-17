@@ -1,13 +1,22 @@
 language: node_js
 
 node_js:
-  - stable
+  - node
+  - lts/*
 
-before_script:
-  - npm install -g gulp
+script:
+  - npm run test
+
+before_deploy:
   - npm run build
   - npm run build_docs
   - node index.js --config demo.nucleus.json
 
-after_success:
-  - bash deploy.sh
+deploy:
+  - provider: pages
+    skip_cleanup: true
+    local_dir: docs/build
+    github_token: $GITHUB_TOKEN
+    on:
+      branch: master
+      tags: true

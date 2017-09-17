@@ -1,0 +1,44 @@
+//-
+ * fonts.pug -- Render a font nuclide component
+ *
+ * Copyright (C) 2017
+ *
+ * With contributions from: -
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license. See the LICENSE file for details.
+
+mixin fonts (fonts)
+  -for(var m in fonts)
+    +font(fonts[m].font)
+
+mixin font (font)
+  div.SG-component
+    div.SG-row
+      div.SG-gr-8
+        div.SG-font
+          a.SG-anchor(name=font.hash)
+          span.SG-component__title #{font.name}
+          if (font.deprecated)
+            span.SG-pill deprecated
+          span.SG-component__file #{font.file}
+
+    div.SG-row
+      div.SG-gr-12
+        div.SG-p #{font.description}
+
+    div.SG-row.SG-table
+      div.SG-gr-2
+        div.SG-table__head.SG-table__cell Weight
+      div.SG-gr-10
+        div.SG-table__head.SG-table__cell Exemple
+
+    each parameter in font.parameters
+      div.SG-row.SG-table
+        div.SG-gr-1
+          div.SG-table__cell #{parameter.name}
+        div.SG-gr-1
+          div.SG-table__cell #{parameter.weight}
+        div.SG-gr-10(style="font-family: '" + font.name + "'")
+          div.SG-table__cell.SG-component__font-preview(style="font-weight: " + parameter.weight)
+            | The quick brown fox jumps over the lazy dog

@@ -31,6 +31,7 @@ const Color = function(raw) {
   if (typeof(raw.element) !== 'undefined') {
     const colorValue = ColorConverter(raw.element.value.replace(/ *!default/, ''));
 
+    this.fields.sort = colorValue.rgbNumber();
     this.fields.values = {
       hex: colorValue.hexString(),
       rgba: colorValue.rgbaString(),

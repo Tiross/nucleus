@@ -4,6 +4,7 @@
  *
  * With contributions from: -
  *  - Ryan Potter (www.ryanpotter.co.nz)
+ *  - Tiross
  *
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
@@ -14,6 +15,7 @@
 const Verbose = require('./Verbose');
 const Nuclide = require('./entities/Nuclide');
 const Color = require('./entities/Color');
+const Font = require('./entities/Font');
 const Mixin = require('./entities/Mixin');
 const Atom = require('./entities/Atom');
 const Icon = require('./entities/Icon');
@@ -36,6 +38,7 @@ const Transform = {};
 Transform.forView = function(styles) {
   const viewData = {};
   const dot = new Dot(' > ');
+  const that = this;
 
   for (let s in styles) {
     Verbose.spin('Analyzing styles');
@@ -60,7 +63,7 @@ Transform.forView = function(styles) {
     }, viewData);
   }
 
-  return viewData;
+  return this.sort(viewData);
 };
 
 /**
@@ -74,6 +77,7 @@ Transform.getStyleType = function(style) {
   // has one of these. If there's more than one, show a warning.
   const typeAnnotations = [
     'color',
+    'font',
     'mixin',
     'nuclide',
     'atom',
@@ -128,6 +132,9 @@ Transform.createEntity = function(style) {
     case 'color':
       entity = new Color(style);
       break;
+    case 'font':
+      entity = new Font(style);
+      break;
     case 'mixin':
       entity = new Mixin(style);
       break;
@@ -155,6 +162,37 @@ Transform.createEntity = function(style) {
   }
 
   return entity.getFields();
+};
+
+Transform.sort = function (obj) {
+  const that = this;
+  const keys = Object.keys(obj);
+
+  if (Array.isArray(obj)) {
+    obj.sort(function (a, b) {
+      const A = ('sort' in a) ? a.sort : a.name.toUpperCase();
+      const B = ('sort' in b) ? a.sort : b.name.toUpperCase();
+
+      return A.toString().localeCompare(B);
+    });
+  } else if (typeof(obj) === 'object') {
+    keys.forEach(function (key) {
+      obj[key] = that.sort(obj[key]);
+    });
+  }
+
+  return obj;
+};
+
+Transform.sortObject = function (obj) {
+  var keys = Object.keys(obj).sort();
+  var data = {};
+
+  keys.forEach(function (key) {
+    data[key] = obj[key];
+  });
+
+  return data;
 };
 
 module.exports = Transform;

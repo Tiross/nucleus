@@ -19,7 +19,7 @@ block content
      */
     $config--image-folder: "../images";
   p.SG-p.
-    Special nuclides are @color and @mixin.
+    Special nuclides are @color, @font and @mixin.
 
   h2.SG-h2 Colors
   p.SG-p.
@@ -35,6 +35,27 @@ block content
 
     /** @color Solid black */
     $color: #000;
+
+  h2.SG-h2 Fonts
+  p.SG-p.
+    @font permits you to list every font available.
+    As @color annotation, you may write it as a one-line annotation.
+  p.SG-p.
+    You can use @hairline, @thin, @light, @regular, @medium, @semibold, @bold, @black and @heavy annotations
+    to add information on different weight available.
+  code.code.language-nucleus(data-d-code-preview).
+    /**
+     * @font Lato
+     * @hairline
+     * @light
+     * @regular
+     * @bold
+     * @heavy
+     */
+    @import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900');
+
+    /** @font Inconsolata */
+    @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 
   h2.SG-h2 Mixins
   p.SG-p.
