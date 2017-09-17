@@ -1,7 +1,7 @@
 {
   "name": "nucleus-generator",
   "license": "MIT",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "main": "index.js",
   "description": "Generate an atomic style guide from DocBlock annotations",
   "author": "Michael Seibt <michael@bedshaped.de>",
