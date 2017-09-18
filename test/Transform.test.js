@@ -234,6 +234,7 @@ describe('Transform', function() {
       };
 
       assert.deepEqual(Transform.sort(tested), expected);
+      assert.deepEqual(JSON.stringify(Transform.sort(tested)), JSON.stringify(expected));
     });
   });
 
