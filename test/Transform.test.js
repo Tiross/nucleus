@@ -118,6 +118,123 @@ describe('Transform', function() {
 
       assert.deepEqual(Transform.sort(tested), expected);
     });
+
+    it('should sort a real life case', function () {
+      const tested = {
+        Nuclides: {
+          Variables: {
+            'Font size': {},
+            Grid: {},
+            Viewport: {}
+          },
+          Colors: {
+            Other: {},
+            Grayscale: {},
+            'Elements colors': {}
+          },
+          Fonts: {
+            Other: {}
+          },
+          Mixins: {
+            Helpers: {},
+            Product: {},
+            Fonts: {}
+          },
+        },
+        Atoms: {
+          Helpers: {},
+          Navigation: {},
+          Product: {},
+          Typo: {
+            _e: [
+              {
+                name: 'Separator',
+              },
+              {
+                name: 'Heading',
+              },
+            ],
+          },
+          Brand: {},
+          Forms: {}
+        },
+        Molecules: {
+          Account: {},
+          Header: {
+            _e: {},
+            Menu: {}
+          },
+          Other: {},
+        },
+        Structures: {
+          Footer: {},
+          Header: {
+            _e: {},
+            Menu: {},
+            Logo: {}
+          },
+          Home: {},
+        },
+      };
+      const expected = {
+        Atoms: {
+          Brand: {},
+          Forms: {},
+          Helpers: {},
+          Navigation: {},
+          Product: {},
+          Typo: {
+            _e: [
+              {
+                name: 'Heading',
+              },
+              {
+                name: 'Separator',
+              },
+            ],
+          },
+        },
+        Molecules: {
+          Account: {},
+          Header: {
+            Menu: {},
+            _e: {},
+          },
+          Other: {},
+        },
+        Nuclides: {
+          Colors: {
+            'Elements colors': {},
+            Grayscale: {},
+            Other: {},
+          },
+          Fonts: {
+            Other: {},
+          },
+          Mixins: {
+            Fonts: {},
+            Helpers: {},
+            Product: {},
+          },
+          Variables: {
+            'Font size': {},
+            Grid: {},
+            Viewport: {},
+          },
+        },
+        Structures: {
+          Footer: {},
+          Header: {
+            Logo: {},
+            Menu: {},
+            _e: {},
+          },
+          Home: {},
+        },
+      };
+
+      assert.deepEqual(Transform.sort(tested), expected);
+    });
   });
 
   /********************************************************/
