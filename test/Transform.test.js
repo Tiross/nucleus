@@ -80,14 +80,14 @@ describe('Transform', function() {
       const tested = {
         nuclide: {
           second: [
-            {name: 'c'},
-            {name: 'a'},
-            {name: 'b'},
+            {name: 'cc', sort: 2},
+            {name: 'aa', sort: 3},
+            {name: 'bb', sort: 1},
           ],
           first: [
-            {name: 'a'},
-            {name: 'c'},
-            {name: 'b'},
+            {name: 'x'},
+            {name: 'z'},
+            {name: 'y'},
           ],
         },
         atom: [
@@ -104,14 +104,14 @@ describe('Transform', function() {
         ],
         nuclide: {
           first: [
-            {name: 'a'},
-            {name: 'b'},
-            {name: 'c'},
+            {name: 'x'},
+            {name: 'y'},
+            {name: 'z'},
           ],
           second: [
-            {name: 'a'},
-            {name: 'b'},
-            {name: 'c'},
+            {name: 'bb', sort: 1},
+            {name: 'cc', sort: 2},
+            {name: 'aa', sort: 3},
           ],
         },
       };
