@@ -171,7 +171,7 @@ Transform.sort = function (obj) {
   if (Array.isArray(obj)) {
     obj.sort(function (a, b) {
       const A = ('sort' in a) ? a.sort : a.name.toUpperCase();
-      const B = ('sort' in b) ? a.sort : b.name.toUpperCase();
+      const B = ('sort' in b) ? b.sort : b.name.toUpperCase();
 
       return A.toString().localeCompare(B);
     });
