@@ -179,6 +179,8 @@ Transform.sort = function (obj) {
     keys.forEach(function (key) {
       obj[key] = that.sort(obj[key]);
     });
+
+    obj = this.sortObject(obj);
   }
 
   return obj;
