@@ -22,6 +22,7 @@ const Entity = function(raw) {
     'deprecated',
     'description',
     'section',
+    'sort',
   ];
   this.fields = [];
   this.singleLine = false;
@@ -127,6 +128,10 @@ Entity.prototype.getFields = function () {
 
   if (fields.name === fields.description) {
     fields.description = '';
+  }
+
+  if (typeof(this.raw.annotations.sort) !== 'undefined') {
+      fields.sort = this.raw.annotations.sort;
   }
 
   return fields;

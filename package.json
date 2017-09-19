@@ -1,7 +1,7 @@
 {
   "name": "nucleus-generator",
   "license": "MIT",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "index.js",
   "description": "Generate an atomic style guide from DocBlock annotations",
   "author": "Michael Seibt <michael@bedshaped.de>",
@@ -40,6 +40,7 @@
     "color": "^0.11.3",
     "dot-object": "^1.5.0",
     "glob": "^7.0.5",
+    "isnumeric": "^0.3.2",
     "json-hash": "^1.2.0",
     "lodash": "^4.15.0",
     "lorem-ipsum": "^1.0.3",

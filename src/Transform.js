@@ -23,6 +23,7 @@ const Molecule = require('./entities/Molecule');
 const Structure = require('./entities/Structure');
 
 const Dot = require('dot-object');
+const isNumeric = require('isnumeric');
 
 const Transform = {};
 
@@ -171,7 +172,11 @@ Transform.sort = function (obj) {
   if (Array.isArray(obj)) {
     obj.sort(function (a, b) {
       const A = ('sort' in a) ? a.sort : a.name.toUpperCase();
-      const B = ('sort' in b) ? a.sort : b.name.toUpperCase();
+      const B = ('sort' in b) ? b.sort : b.name.toUpperCase();
+
+      if (isNumeric(A) && isNumeric(B)) {
+        return A - B;
+      }
 
       return A.toString().localeCompare(B);
     });
@@ -179,6 +184,8 @@ Transform.sort = function (obj) {
     keys.forEach(function (key) {
       obj[key] = that.sort(obj[key]);
     });
+
+    obj = this.sortObject(obj);
   }
 
   return obj;
