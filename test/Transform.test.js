@@ -81,7 +81,7 @@ describe('Transform', function() {
         nuclide: {
           second: [
             {name: 'cc', sort: 2},
-            {name: 'aa', sort: 3},
+            {name: 'aa', sort: 11},
             {name: 'bb', sort: 1},
           ],
           first: [
@@ -111,7 +111,7 @@ describe('Transform', function() {
           second: [
             {name: 'bb', sort: 1},
             {name: 'cc', sort: 2},
-            {name: 'aa', sort: 3},
+            {name: 'aa', sort: 11},
           ],
         },
       };
