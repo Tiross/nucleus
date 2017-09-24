@@ -1,5 +1,7 @@
 #! /bin/bash
 
+git config user.name 'Travis CI'
+
 git remote set-url origin https://${GITHUB_CREDENTIALS}@github.com/${TRAVIS_REPO_SLUG}.git
 git fetch origin
 
