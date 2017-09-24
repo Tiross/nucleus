@@ -4,6 +4,10 @@ node_js:
   - node
   - lts/*
 
+cache:
+  directories:
+    - node_modules
+
 script:
   - npm run test
 
