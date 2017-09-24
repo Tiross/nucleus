@@ -22,10 +22,12 @@ deploy:
     local_dir: docs/build
     github_token: $GITHUB_TOKEN
     on:
+      node_js: node
       branch: master
       tags: true
   - provider: script
     skip_cleanup: true
     script: deploy/develop.sh
     on:
+      node_js: node
       branch: develop
