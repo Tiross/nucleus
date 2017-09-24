@@ -51,7 +51,8 @@ describe('Color', function() {
       values: {
         hex: '#00FF00',
         rgba: 'rgba(0, 255, 0, 1)',
-        darker: '#00E600'
+        darker: '#00E600',
+        contrast: null,
       }
     });
   });
@@ -106,7 +107,8 @@ describe('Color', function() {
       values: {
         hex: '#00FF00',
         rgba: 'rgba(0, 255, 0, 1)',
-        darker: '#00E600'
+        darker: '#00E600',
+        contrast: null,
       }
     });
   });
@@ -127,5 +129,23 @@ describe('Color', function() {
     });
 
     assert.strictEqual(entity.getFields().namespace, undefined);
+  });
+
+  /********************************************************/
+
+  it('should handle constrast color', function() {
+    const contrast = '#123456';
+    const entity = new Color({
+      annotations: {
+        color: 'Testcolor',
+        contrast: contrast,
+      },
+      element: {
+        prop: '$testcolor',
+        value: '#00FF00',
+      },
+    });
+
+    assert.strictEqual(entity.getFields().values.contrast, contrast);
   });
 });
