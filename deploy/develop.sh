@@ -7,4 +7,4 @@ git fetch origin
 
 git add build
 git commit -m '[ci skip] Automatic build update'
-git push origin HEAD:develop
+git push origin HEAD:$TRAVIS_BRANCH
