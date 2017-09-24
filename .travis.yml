@@ -4,6 +4,10 @@ node_js:
   - node
   - lts/*
 
+cache:
+  directories:
+    - node_modules
+
 script:
   - npm run test
 
@@ -20,3 +24,8 @@ deploy:
     on:
       branch: master
       tags: true
+  - provider: script
+    skip_cleanup: true
+    script: deploy/develop.sh
+    on:
+      branch: develop
