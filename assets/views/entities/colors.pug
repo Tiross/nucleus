@@ -15,9 +15,9 @@ mixin colors-header()
       div.SG-table__head.SG-table__cell Color
     div.SG-gr-2
       div.SG-table__head.SG-table__cell Variable
-    div.SG-gr-2
+    div.SG-gr-1_5
       div.SG-table__head.SG-table__cell Hex
-    div.SG-gr-2.SG-no-gutter-right
+    div.SG-gr-2_5.SG-no-gutter-right
       div.SG-table__head.SG-table__cell RGBA
 
 mixin color(color)
@@ -43,9 +43,9 @@ mixin color(color)
     div.SG-gr-2
       div.SG-table__cell
         span.SG-a(data-d-copy, data-clipboard-text=color.name) #{color.name}
-    div.SG-gr-2
+    div.SG-gr-1_5
       div.SG-table__cell
         span.SG-a(data-d-copy, data-clipboard-text=color.values.hex) #{color.values.hex}
-    div.SG-gr-2.SG-no-gutter-right
+    div.SG-gr-2_5.SG-no-gutter-right
       div.SG-table__cell
         span.SG-a(data-d-copy, data-clipboard-text=color.values.rgba) #{color.values.rgba}
