@@ -51,7 +51,8 @@ describe('Color', function() {
       values: {
         hex: '#00FF00',
         rgba: 'rgba(0, 255, 0, 1)',
-        darker: '#00E600'
+        darker: '#00E600',
+        contrast: null,
       }
     });
   });
@@ -106,7 +107,8 @@ describe('Color', function() {
       values: {
         hex: '#00FF00',
         rgba: 'rgba(0, 255, 0, 1)',
-        darker: '#00E600'
+        darker: '#00E600',
+        contrast: null,
       }
     });
   });
