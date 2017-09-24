@@ -87,4 +87,16 @@ describe('Nuclide', function () {
 
     assert.strictEqual(entity.getFields().namespace, undefined);
   });
+
+  /********************************************************/
+
+  it('should handle table annotation', function() {
+    const entity = new Nuclide({
+      annotations: {
+        table: true,
+      },
+    });
+
+    assert.ok(entity.getFields().table);
+  });
 });

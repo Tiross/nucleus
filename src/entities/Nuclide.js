@@ -20,11 +20,14 @@ const Nuclide = function (raw) {
   this.type = 'Nuclide';
   this.setFillable([
     'nuclide',
+    'table',
   ]);
   this.singleLine = true;
 
   this.fields.location = 'nuclides.html';
   this.fields.section = 'Nuclides';
+
+  this.fields.table = this.hasAnnotation('table') ? raw.annotations.table : false;
 
   if (typeof(raw.element) !== 'undefined') {
     this.fields.value = raw.element.value;
