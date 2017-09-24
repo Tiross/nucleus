@@ -10,24 +10,29 @@
 
 mixin colors-header()
   div.SG-row.SG-table
-    div.SG-gr-2.SG-no-gutter-left
+    div.SG-gr-3.SG-no-gutter-left
     div.SG-gr-3
       div.SG-table__head.SG-table__cell Color
     div.SG-gr-2
       div.SG-table__head.SG-table__cell Variable
     div.SG-gr-2
       div.SG-table__head.SG-table__cell Hex
-    div.SG-gr-3.SG-no-gutter-right
+    div.SG-gr-2.SG-no-gutter-right
       div.SG-table__head.SG-table__cell RGBA
 
 mixin color(color)
   div.SG-row.SG-table.SG-row-align-middle
     a.SG-anchor(name=color.hash)
-    div.SG-gr-2.SG-no-gutter-left
+    div.SG-gr-3.SG-no-gutter-left
       div.SG-table__cell
-        div.SG-color-preview
-          div.SG-color-preview__circle(style="background-color: " + color.values.hex + "; border-color: " + color.values.darker)
+
+        div.SG-color-preview(class=(color.values.contrast ? 'SG-color-preview--multiple' : ''))
           div.SG-color-preview__typo(style="color: " + color.values.hex) Aa
+          if (color.values.contrast)
+            div.SG-color-preview__typo(style="color: " + color.values.hex + "; background-color: " + color.values.contrast) Aa
+            div.SG-color-preview__typo(style="color: " + color.values.contrast + "; background-color: " + color.values.hex) Aa
+          div.SG-color-preview__circle(style="background-color: " + color.values.hex + "; border-color: " + color.values.darker)
+
     div.SG-gr-3
       div.SG-table__cell
         span.SG-strong
@@ -41,6 +46,6 @@ mixin color(color)
     div.SG-gr-2
       div.SG-table__cell
         span.SG-a(data-d-copy, data-clipboard-text=color.values.hex) #{color.values.hex}
-    div.SG-gr-3.SG-no-gutter-right
+    div.SG-gr-2.SG-no-gutter-right
       div.SG-table__cell
         span.SG-a(data-d-copy, data-clipboard-text=color.values.rgba) #{color.values.rgba}
