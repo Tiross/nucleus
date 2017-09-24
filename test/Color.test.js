@@ -130,4 +130,22 @@ describe('Color', function() {
 
     assert.strictEqual(entity.getFields().namespace, undefined);
   });
+
+  /********************************************************/
+
+  it('should handle constrast color', function() {
+    const contrast = '#123456';
+    const entity = new Color({
+      annotations: {
+        color: 'Testcolor',
+        contrast: contrast,
+      },
+      element: {
+        prop: '$testcolor',
+        value: '#00FF00',
+      },
+    });
+
+    assert.strictEqual(entity.getFields().values.contrast, contrast);
+  });
 });
