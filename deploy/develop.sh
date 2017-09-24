@@ -1,5 +1,5 @@
 #! /bin/bash
 
 git add build
-git commit -m 'Automatic build update'
+git commit -m '[ci skip] Automatic build update'
 git push origin HEAD:develop
