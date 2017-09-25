@@ -17,6 +17,10 @@ describe('Crawler', function () {
       assert.equal(Crawler.isAnnotationLine('@test'), true);
     });
 
+    it('should recognize an annotation line with hyphens', function () {
+      assert.equal(Crawler.isAnnotationLine('@foo-bar-baz'), true);
+    });
+
     it('should not recognize an invalid annotation line', function () {
       assert.equal(Crawler.isAnnotationLine('test'), false);
     });
@@ -87,6 +91,13 @@ describe('Crawler', function () {
       assert.deepEqual(Crawler.getAnnotation('@test'), {
         key: 'test',
         value: true,
+      });
+    });
+
+    it('should parse an annotation with hyphens', function () {
+      assert.deepEqual(Crawler.getAnnotation('@foo-bar-baz abc'), {
+        key: 'foo-bar-baz',
+        value: 'abc',
       });
     });
 
