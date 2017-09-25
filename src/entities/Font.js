@@ -12,7 +12,7 @@
 
 const Nuclide = require('./Nuclide');
 
-const Font = function(raw) {
+const Font = function (raw) {
   const variations = {
     hairline: {
       name: 'Hairline',

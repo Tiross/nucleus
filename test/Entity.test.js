@@ -3,29 +3,29 @@
 
 'use strict';
 
-var assert = require('assert');
-var Helpers = require('./helpers');
-var Entity = require('../src/entities/Entity.js');
-var Verbose = require('../src/Verbose.js');
+const assert = require('assert');
+const Helpers = require('./helpers');
+const Entity = require('../src/entities/Entity.js');
+const Verbose = require('../src/Verbose.js');
 
-describe('Entity', function() {
+describe('Entity', function () {
 
   /********************************************************/
 
-  it('should set a default values as fallback', function() {
-    var e = new Entity({
+  it('should set a default values as fallback', function () {
+    const entity = new Entity({
+      annotations: {},
       type: 'nuclide',
-      annotations: {}
     });
 
-    assert.equal(e.validate(), true);
-    assert.equal(e.getFields().description, '');
-    assert.equal(e.getFields().deprecated, false);
+    assert.equal(entity.validate(), true);
+    assert.equal(entity.getFields().description, '');
+    assert.equal(entity.getFields().deprecated, false);
   });
 
   /********************************************************/
 
-  describe('#getSection', function() {
+  describe('#getSection', function () {
     const sections = [
       'Section > Subsection',
       ' Section > Subsection ',
@@ -35,77 +35,77 @@ describe('Entity', function() {
 
     sections.forEach(function (section) {
       it('should return the trimmed section value from "' + section + '"', function () {
-        var e = new Entity({
+        const entity = new Entity({
           type: 'nuclide',
           annotations: {
             section: section,
           },
         });
 
-        assert.strictEqual(e.getSection(), 'Section > Subsection');
+        assert.strictEqual(entity.getSection(), 'Section > Subsection');
       });
     });
   });
 
   /********************************************************/
 
-  describe('#validate', function() {
-    it('should complain if the entity has no annotations', function() {
-      var e = new Entity({});
+  describe('#validate', function () {
+    it('should complain if the entity has no annotations', function () {
+      const entity = new Entity({});
 
       Helpers.hook(Verbose, 'log');
-      assert.equal(e.validate(), false);
+      assert.equal(entity.validate(), false);
       assert.ok(Helpers.logCalled >= 1);
     });
 
-    it('should complain if the entity has invalid annotations', function() {
+    it('should complain if the entity has invalid annotations', function () {
       Helpers.hook(Verbose, 'log');
 
-      var e = new Entity({
+      const entity = new Entity({
         type: 'nuclide',
         annotations: {
-          'allowed': true,
-        }
+          allowed: true,
+        },
       });
 
       // All good
-      e.fillable = ['allowed'];
-      assert.equal(e.validate(), true);
+      entity.fillable = ['allowed'];
+      assert.equal(entity.validate(), true);
       assert.equal(Helpers.logCalled, 0);
 
       // Invalid annotation
-      e.fillable = [];
-      assert.equal(e.validate(), false);
+      entity.fillable = [];
+      assert.equal(entity.validate(), false);
       assert.ok(Helpers.logCalled >= 1);
     });
 
-    it('should complain if the sections value is malformed', function() {
-      var e = new Entity({
+    it('should complain if the sections value is malformed', function () {
+      const entity = new Entity({
         type: 'nuclide',
         annotations: {
-          section: '> Section > Ok'
-        }
+          section: '> Section > Ok',
+        },
       });
-      var fields = e.getFields();
+      let fields = entity.getFields();
 
       fields.fillable = ['section'];
 
       // Beginning of the string
       Helpers.hook(Verbose, 'log');
       assert.ok(Helpers.logCalled === 0);
-      assert.equal(e.validate(), true);
+      assert.equal(entity.validate(), true);
       assert.ok(Helpers.logCalled >= 1);
 
       // End of string
-      e.raw.annotations.section = 'Section > ok >';
+      entity.raw.annotations.section = 'Section > ok >';
       Helpers.hook(Verbose, 'log');
       assert.ok(Helpers.logCalled === 0);
-      assert.equal(e.validate(), true);
+      assert.equal(entity.validate(), true);
       assert.ok(Helpers.logCalled >= 1);
     });
 
-    it('should complain if the sections value is not a string', function() {
-      var e = new Entity({
+    it('should complain if the sections value is not a string', function () {
+      const entity = new Entity({
         type: 'nuclide',
         annotations: {
           section: true,
@@ -115,19 +115,18 @@ describe('Entity', function() {
       // Beginning of the string
       Helpers.hook(Verbose, 'log');
       assert.ok(Helpers.logCalled === 0);
-      assert.equal(e.validate(), false);
+      assert.equal(entity.validate(), false);
       assert.ok(Helpers.logCalled >= 1);
     });
   });
 
   /********************************************************/
 
-  it('should not handle namespaces', function() {
+  it('should not handle namespaces', function () {
     const name = (Math.random() * 1e32).toString(36);
     const entity = new Entity({
       type: 'nuclide',
       annotations: {
-        section: '> Section > Ok',
         namespace: name,
       },
     });

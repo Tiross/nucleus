@@ -16,7 +16,7 @@ const Nuclide = require('./Nuclide');
 const config = require('../Config').parse();
 const ColorConverter = require('color');
 
-const Color = function(raw) {
+const Color = function (raw) {
   // Call parent constructor
   Nuclide.call(this, raw);
 

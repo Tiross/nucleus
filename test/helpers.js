@@ -11,11 +11,11 @@ Helpers.log = function (content) {
   Helpers.message = content;
 };
 
-Helpers.exit = function() {
+Helpers.exit = function () {
   Helpers.exitCalled++;
 };
 
-Helpers.hook = function(verboseObject, method) {
+Helpers.hook = function (verboseObject, method) {
   Helpers[(method + 'Called')] = 0;
   verboseObject[method] = Helpers[method];
 };

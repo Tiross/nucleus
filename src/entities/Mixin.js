@@ -13,7 +13,7 @@
 
 const Nuclide = require('./Nuclide');
 
-const Mixin = function(raw) {
+const Mixin = function (raw) {
   // Call parent constructor
   Nuclide.call(this, raw);
 
@@ -39,7 +39,7 @@ Mixin.prototype = Object.create(Nuclide.prototype);
  *
  * @return {object}
  */
-Mixin.prototype.getParameters = function() {
+Mixin.prototype.getParameters = function () {
   const parameters = [];
   const paramString = this.raw.descriptor.match(/\((.*)\)/);
   let docParameters;

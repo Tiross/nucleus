@@ -3,36 +3,36 @@
 
 'use strict';
 
-var assert = require('assert');
-var Color = require('../src/entities/Color.js');
-var Helpers = require('./helpers');
-var Verbose = require('../src/Verbose.js');
+const assert = require('assert');
+const Color = require('../src/entities/Color.js');
+const Helpers = require('./helpers');
+const Verbose = require('../src/Verbose.js');
 
-describe('Color', function() {
-  it('should return nothing if the raw input is not valid', function() {
+describe('Color', function () {
+  it('should return nothing if the raw input is not valid', function () {
     Helpers.hook(Verbose, 'log');
 
-    var c = new Color({});
-    assert.deepEqual(c.getFields(), {});
+    const entity = new Color({});
+    assert.deepEqual(entity.getFields(), {});
 
     assert.ok(Helpers.logCalled >= 1);
   });
 
   /********************************************************/
 
-  it('should transform raw input data to a color entity', function() {
-    var c = new Color({
+  it('should transform raw input data to a color entity', function () {
+    const entity = new Color({
       annotations: {
         description: 'Testcolor',
-        color: true
+        color: true,
       },
       element: {
         prop: '$testcolor',
-        value: '#00FF00'
-      }
+        value: '#00FF00',
+      },
     });
 
-    assert.deepEqual(c.getFields(), {
+    assert.deepEqual(entity.getFields(), {
       name: '$testcolor',
       type: 'color',
       section: 'Nuclides > Colors > Other',
@@ -53,42 +53,42 @@ describe('Color', function() {
         rgba: 'rgba(0, 255, 0, 1)',
         darker: '#00E600',
         contrast: null,
-      }
+      },
     });
   });
 
   /********************************************************/
 
-  it('should transform raw input data with !default to a color entity', function() {
-    var c = new Color({
+  it('should transform raw input data with !default to a color entity', function () {
+    const entity = new Color({
       annotations: {
         description: 'Default Testcolor',
-        color: true
+        color: true,
       },
       element: {
         prop: '$testcolor',
-        value: '#00FF00 !default'
-      }
+        value: '#00FF00 !default',
+      },
     });
 
-    assert.equal(c.getFields().values.hex, '#00FF00');
+    assert.equal(entity.getFields().values.hex, '#00FF00');
   });
 
   /********************************************************/
 
-  it('should set a single-line color description as main description', function() {
-    var c = new Color({
+  it('should set a single-line color description as main description', function () {
+    const entity = new Color({
       annotations: {
         color: 'Testcolor',
-        deprecated: true
+        deprecated: true,
       },
       element: {
         prop: '$testcolor',
-        value: '#00FF00'
-      }
+        value: '#00FF00',
+      },
     });
 
-    assert.deepEqual(c.getFields(), {
+    assert.deepEqual(entity.getFields(), {
       name: '$testcolor',
       type: 'color',
       section: 'Nuclides > Colors > Other',
@@ -109,13 +109,13 @@ describe('Color', function() {
         rgba: 'rgba(0, 255, 0, 1)',
         darker: '#00E600',
         contrast: null,
-      }
+      },
     });
   });
 
   /********************************************************/
 
-  it('should not handle namespaces', function() {
+  it('should not handle namespaces', function () {
     const name = (Math.random() * 1e32).toString(36);
     const entity = new Color({
       annotations: {
@@ -133,7 +133,7 @@ describe('Color', function() {
 
   /********************************************************/
 
-  it('should handle constrast color', function() {
+  it('should handle constrast color', function () {
     const contrast = '#123456';
     const entity = new Color({
       annotations: {

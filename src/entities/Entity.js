@@ -15,7 +15,7 @@
 const Verbose = require('../Verbose');
 const hash = require('json-hash');
 
-const Entity = function(raw) {
+const Entity = function (raw) {
   this.raw = raw;
   this.type = 'Generic';
   this.fillable = [
@@ -36,7 +36,7 @@ const Entity = function(raw) {
  * @return {bool}
  *         Returns true if the style is solid enough for further processing.
  */
-Entity.prototype.validate = function() {
+Entity.prototype.validate = function () {
   // Check if we at least have annotations.
   if (!this.raw.annotations) {
     Verbose.error('entity_no_annotations', [this.raw]);
@@ -148,7 +148,7 @@ Entity.prototype.setFillable = function (annotations) {
  *
  * @return null
  */
-Entity.prototype.setDefaultValues = function() {
+Entity.prototype.setDefaultValues = function () {
   if (typeof(this.raw.annotations) === 'undefined') {
     this.raw.annotations = {
     };
@@ -168,7 +168,7 @@ Entity.prototype.setDefaultValues = function() {
  *
  * @return {string}
  */
-Entity.prototype.getSection = function() {
+Entity.prototype.getSection = function () {
   if (this.hasNotAnnotation('section')) {
     return 'Other';
   }
@@ -185,7 +185,7 @@ Entity.prototype.getSection = function() {
  *
  * @return {string}
  */
-Entity.prototype.getDescriptor = function() {
+Entity.prototype.getDescriptor = function () {
   return this.raw.element ?
     this.raw.element.prop ||
     this.raw.element.selector ||

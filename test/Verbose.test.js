@@ -3,11 +3,11 @@
 
 'use strict';
 
-var assert = require('assert');
-var Helpers = require('./helpers');
-var Verbose = require('../src/Verbose.js');
+const assert = require('assert');
+const Helpers = require('./helpers');
+const Verbose = require('../src/Verbose.js');
 
-describe('Verbose', function() {
+describe('Verbose', function () {
   describe('#setLevel', function () {
     it('should not print something on silent mode', function () {
       Helpers.hook(Verbose, 'log');

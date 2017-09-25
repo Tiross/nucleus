@@ -13,7 +13,7 @@
 
 const Entity = require('./Entity');
 
-const Molecule = function(raw) {
+const Molecule = function (raw) {
   // Call parent constructor
   Entity.call(this, raw);
 

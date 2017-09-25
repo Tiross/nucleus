@@ -8,7 +8,7 @@ const Font = require('../src/entities/Font.js');
 const Helpers = require('./helpers');
 const Verbose = require('../src/Verbose.js');
 
-describe('Font', function() {
+describe('Font', function () {
   it('should return nothing if the raw input is not valid', function () {
     Helpers.hook(Verbose, 'log');
 

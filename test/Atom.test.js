@@ -3,37 +3,37 @@
 
 'use strict';
 
-var assert = require('assert');
-var Atom = require('../src/entities/Atom.js');
-var Helpers = require('./helpers');
-var Verbose = require('../src/Verbose.js');
+const assert = require('assert');
+const Atom = require('../src/entities/Atom.js');
+const Helpers = require('./helpers');
+const Verbose = require('../src/Verbose.js');
 
-describe('Atom', function() {
-  it('should return nothing if the raw input is not valid', function() {
+describe('Atom', function () {
+  it('should return nothing if the raw input is not valid', function () {
     Helpers.hook(Verbose, 'log');
 
-    var a = new Atom({});
-    assert.deepEqual(a.getFields(), {});
+    const entity = new Atom({});
+    assert.deepEqual(entity.getFields(), {});
 
     assert.ok(Helpers.logCalled >= 1);
   });
 
   /********************************************************/
 
-  it('should parse the basic information', function() {
-    var a = new Atom({
+  it('should parse the basic information', function () {
+    const entity = new Atom({
       element: {
-        selector: ".test"
+        selector: '.test',
       },
       annotations: {
         description: 'A test description',
         atom: 'Test-Component',
         markup: '...',
-        script: '....'
-      }
+        script: '....',
+      },
     });
 
-    assert.deepEqual(a.getFields(), {
+    assert.deepEqual(entity.getFields(), {
       name: 'Test-Component',
       type: 'atom',
       hash: '47edcec9fa48df43335b12fc0e3e1cc9a4709bf1',
@@ -46,32 +46,32 @@ describe('Atom', function() {
       markup: '...',
       namespace: null,
       script: '....',
-      deprecated: false
+      deprecated: false,
     });
   });
 
   /********************************************************/
 
-  it('should mark the atom as deprecated', function() {
-    var a = new Atom({
+  it('should mark the atom as deprecated', function () {
+    const entity = new Atom({
       element: {
-        selector: ".test"
+        selector: '.test',
       },
       annotations: {
         description: 'A test description',
         atom: 'Test-Component',
         markup: '...',
         script: '...',
-        deprecated: true
-      }
+        deprecated: true,
+      },
     });
 
-    assert.strictEqual(a.getFields().deprecated, true);
+    assert.strictEqual(entity.getFields().deprecated, true);
   });
 
   /********************************************************/
 
-  it('should handle namespaces', function() {
+  it('should handle namespaces', function () {
     const name = (Math.random() * 1e32).toString(36);
     const entity = new Atom({
       element: {

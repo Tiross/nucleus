@@ -36,7 +36,7 @@ const Transform = {};
  * @return {object}
  *         Transformed view data.
  */
-Transform.forView = function(styles) {
+Transform.forView = function (styles) {
   const viewData = {};
   const dot = new Dot(' > ');
   const that = this;
@@ -73,7 +73,7 @@ Transform.forView = function(styles) {
  * @param  {object} style
  * @return {string}
  */
-Transform.getStyleType = function(style) {
+Transform.getStyleType = function (style) {
   // Loop through the available type annotations and check if the style
   // has one of these. If there's more than one, show a warning.
   const typeAnnotations = [
@@ -116,7 +116,7 @@ Transform.getStyleType = function(style) {
  * @return {Boolean}
  *         Returns true if the annotation exists.
  */
-Transform.hasAnnotation = function(key, style) {
+Transform.hasAnnotation = function (key, style) {
   return Object.keys(style.annotations).indexOf(key) !== -1;
 };
 
@@ -126,7 +126,7 @@ Transform.hasAnnotation = function(key, style) {
  * @param  {[type]} style [description]
  * @return {[type]}       [description]
  */
-Transform.createEntity = function(style) {
+Transform.createEntity = function (style) {
   let entity;
 
   switch (this.getStyleType(style)) {
