@@ -153,7 +153,7 @@ Crawler.removeCommentChars = function (docBlock) {
  * @return {Boolean}
  */
 Crawler.isAnnotationLine = function (line) {
-  return line.match(/^\@[\w]+/) !== null;
+  return line.match(/^\@[\w-]+/) !== null;
 };
 
 /**
@@ -213,7 +213,7 @@ Crawler.getAnnotation = function (line) {
   }
 
   // Otherwise, it's probably a key-value pair
-  line.match(/^\@([\w]+)[\s]?([^\n]*)/gm);
+  line.match(/^\@([\w-]+)[\s]?([^\n]*)/gm);
   const key = RegExp.$1;
   const val = RegExp.$2;
 
