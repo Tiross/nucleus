@@ -268,4 +268,51 @@ describe('Transform', function () {
       assert.deepEqual(Transform.sortObject(tested), expected);
     });
   });
+
+  /********************************************************/
+
+  describe('#createEntity', function () {
+    const classes = [
+      'Atom',
+      {
+        class: 'Color',
+        annotations: {
+          color: true,
+        },
+        element: {
+          prop: '$test',
+          value: '#123456',
+        }
+      },
+      'Font',
+      'Icon',
+      'Mixin',
+      'Molecule',
+      'Nuclide',
+      'Structure',
+    ];
+
+    classes.forEach(function (elem) {
+      let entity = elem;
+      let tested = {
+        annotations: {},
+        element: {
+          selector: '.entity',
+        },
+      };
+
+      if (typeof(elem) === 'object') {
+        entity = elem.class;
+        tested = elem;
+      } else {
+        tested.annotations[entity.toLowerCase()] = 'Test entity';
+      }
+
+      it('should return on ' + entity + ' object with prepared input', function () {
+        const transformed = Transform.createEntity(tested);
+
+        assert.equal(transformed.toString(), '[object ' + entity + ']');
+      });
+    });
+  });
 });

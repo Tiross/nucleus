@@ -43,23 +43,25 @@ Transform.forView = function (styles) {
 
   for (let s in styles) {
     Verbose.spin('Analyzing styles');
-    let style = styles[s];
-    let entity = this.createEntity(style);
+    const style = styles[s];
+    const entity = this.createEntity(style);
 
     // If entity is empty, we cold not specify a type or
     // validation failed during entity instantiation.
-    if (!entity || (Object.keys(entity).length === 0)) {
+    if (!entity) {
       continue;
     }
+
+    const fields = entity.getFields();
 
     // Pick the section or create it, if not defined yet.
     // TODO: _e is a bad idea!!
     // TODO: Extract!
-    let section = dot.pick(entity.section, viewData) || {
+    let section = dot.pick(fields.section, viewData) || {
       '_e': []
     };
-    section._e.push(entity);
-    dot.copy('data', entity.section, {
+    section._e.push(fields);
+    dot.copy('data', fields.section, {
       data: section
     }, viewData);
   }
@@ -162,7 +164,7 @@ Transform.createEntity = function (style) {
       return false;
   }
 
-  return entity.getFields();
+  return entity;
 };
 
 Transform.sort = function (obj) {

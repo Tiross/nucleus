@@ -27,6 +27,14 @@ const Entity = function (raw) {
   this.fields = [];
   this.singleLine = false;
 
+  const that = this;
+
+  Object.defineProperty(this, Symbol.toStringTag, {
+    get: function () {
+      return that.type;
+    }
+  });
+
   this.raw.descriptor = this.getDescriptor();
 };
 
