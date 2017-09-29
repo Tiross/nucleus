@@ -32,8 +32,7 @@ var logwarn     = require('gulp-logwarn');          // Warns on leftover debug c
 var jshint      = require('gulp-jshint');           // Hints JavaScript
 var copy        = require('gulp-copy');             // Copies files (ignores path prefixes)
 var postcss     = require("gulp-postcss");          // Parse style sheet files
-var reporter    = require("postcss-reporter");      // Reporter for PostCSS
-var stylelint   = require("stylelint");             // Lints styles according to a ruleset
+const stylelint = require('gulp-stylelint');
 var scss        = require("postcss-scss");          // SCSS syntax for PostCSS
 
 /*
@@ -211,14 +210,13 @@ gulp.task('lint:scripts', function () {
 
 gulp.task('lint:styles', function () {
   return gulp.src(SOURCES + '/**/*.scss')
-    .pipe(postcss([
-      stylelint({}),
-      reporter({
-        clearMessages: true,
-        throwError: true,
-      }),
-    ], {
-      syntax: scss
+    .pipe(stylelint({
+      reporters: [
+        {
+          formatter: 'string',
+          console: true,
+        },
+      ],
     }))
   ;
 });
