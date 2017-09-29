@@ -26,6 +26,7 @@
         ]
       }
     ],
+    "number-leading-zero": "never",
     "value-no-vendor-prefix": true
   }
 }
