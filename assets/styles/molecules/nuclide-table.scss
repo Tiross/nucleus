@@ -22,10 +22,10 @@
  *  </duv>
  */
 .SG-config {
-  border: 1px solid $color--light-gray;
   margin-bottom: 1em;
-  border-radius: 3px;
+  border: 1px solid $color--light-gray;
   border-left-width: 3px;
+  border-radius: 3px;
   font-size: 14px;
 
   .SG-config__row {
@@ -39,22 +39,22 @@
   .SG-config__label {
     @include lato(600);
 
-    padding: 10px 20px;
-    min-width: 150px;
     display: block;
     background-color: $color--whitesmoke;
+    padding: 10px 20px;
+    min-width: 150px;
   }
 
   .SG-config__value {
     @include monospace();
 
-    padding: 10px 20px;
     display: inline-block;
+    padding: 10px 20px;
 
     // Deprecated bagde fix
     .SG-pill {
-      padding: 2px 9px;
       top: -1px;
+      padding: 2px 9px;
     }
   }
 }

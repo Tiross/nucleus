@@ -37,22 +37,22 @@
   }
 
   .SG-nav__item {
-    text-decoration: none;
     display: inline-block;
-    padding: 22px 10px 24px;
     margin: 0 15px;
+    padding: 22px 10px 24px;
+    text-decoration: none;
     color: $color--gray;
     font-size: 16px;
 
     &:hover {
-      color: $color--dark-gray;
       border-bottom: 2px solid $color--light-gray;
+      color: $color--dark-gray;
     }
   }
 
   .SG-nav__item--active {
-    border-bottom: 3px solid $color--accent;
     margin-bottom: -1px;
+    border-bottom: 3px solid $color--accent;
     color: $color--dark-gray;
 
     &:hover {
@@ -85,8 +85,8 @@
   @include reset();
 
   list-style-type: none;
-  line-height: 67px;
   text-align: right;
+  line-height: 67px;
 
   li {
     display: inline-block;
@@ -135,9 +135,9 @@
   margin-bottom: 4em;
 
   ul {
+    margin: 0;
     padding-left: 0;
     line-height: 30px;
-    margin: 0;
   }
 
   & > ul > li {
@@ -146,11 +146,11 @@
   }
 
   & > ul > li > ul {
+    margin-bottom: 1em;
     padding-left: 1.5em;
-    font-size: 14px;
     list-style-type: disc;
     color: $color--dark-gray;
-    margin-bottom: 1em;
+    font-size: 14px;
   }
 
   & > ul > li > ul > li > ul {
@@ -158,10 +158,10 @@
   }
 
   .SG-toc__category {
-    color: $color--accent;
+    margin-bottom: .5em;
     border-bottom: 1px dashed $color--light-gray;
-    padding-bottom: 0.5em;
-    margin-bottom: 0.5em;
+    padding-bottom: .5em;
+    color: $color--accent;
     font-size: 16px;
 
     &:not(:first-child) {

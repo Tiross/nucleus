@@ -1,10 +1,9 @@
 .menu {
-
-  font-size: 16px;
-
   @include mq($from: tablet) {
     font-size: 14px;
   }
+
+  font-size: 16px;
 
   ul {
     margin: 0;
@@ -13,12 +12,17 @@
   }
 
   li {
-    margin-bottom: 0.5em;
+    margin-bottom: .5em;
+
     a {
       @include lato(400);
-      color: $color--gray;
+
       border-bottom-color: transparent;
+      color: $color--gray;
+
+      &:hover {
+        border-bottom-color: $color--accent;
+      }
     }
-    a:hover { border-bottom-color: $color--accent; }
   }
 }

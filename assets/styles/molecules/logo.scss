@@ -24,17 +24,17 @@
   color: $color--accent;
 
   .SG-logo__icon {
-    font-size: 48px;
     display: inline-block;
     vertical-align: middle;
+    font-size: 48px;
   }
 
   .SG-logo__name {
     @include lato(700);
 
-    font-size: 22px;
     display: inline-block;
-    vertical-align: baseline;
     margin-left: 1.5em;
+    vertical-align: baseline;
+    font-size: 22px;
   }
 }

@@ -29,22 +29,22 @@
   @include reset();
   @include clearAfter();
 
+  position: relative;
+  margin-bottom: 100px;
   border-bottom: 1px solid $color--whitesmoke;
   padding: 0 40px;
-  margin-bottom: 100px;
-  position: relative;
 
   &::before {
-    content: '';
-    background: linear-gradient(to bottom, #fbfbfb, white 50%);
-    height: 39px;
     display: block;
-    background-size: 131%;
-    border-radius: 0 0 100% 100%;
     position: absolute;
     bottom: -40px;
-    width: calc(100% - 80px);
+    border-radius: 0 0 100% 100%;
     box-shadow: 0 -23px 14px white inset;
+    background: linear-gradient(to bottom, #fbfbfb, white 50%);
+    background-size: 131%;
+    width: calc(100% - 80px);
+    height: 39px;
+    content: '';
   }
 
   .SG-logo {
@@ -58,8 +58,8 @@
 
   .SG-nav {
     position: absolute;
-    left: 0;
     right: 0;
+    left: 0;
     margin: 0 270px;
   }
 }
