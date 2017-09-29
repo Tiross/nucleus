@@ -58,7 +58,7 @@ var LOG_CODE   = [
 gulp.task('default', ['dev']);
 gulp.task('dev',     ['build', 'watch', 'lint']);
 gulp.task('build',   ['styles', 'scripts', 'copy:static']);
-gulp.task('lint',    ['lint:scripts'/*, 'lint:styles'*/]);
+gulp.task('lint',    ['lint:scripts', 'lint:styles']);
 gulp.task('watch',   ['watch:styles', 'watch:markup', 'watch:scripts', 'livereload']);
 
 /*
@@ -199,25 +199,28 @@ gulp.task('copy:static', ['clean:static'], function (){
 
 /** Lint and check for debug code */
 gulp.task('lint:scripts', function () {
-  if(PRODUCTION) return;
-
   return gulp
     .src([
       SOURCES + '/scripts/*.js',
       SOURCES + '/scripts/**/*.js'
     ])
     .pipe(logwarn(LOG_CODE))
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint.reporter('jshint-stylish'))
+  ;
 });
 
 gulp.task('lint:styles', function () {
   return gulp.src(SOURCES + '/**/*.scss')
     .pipe(postcss([
-      stylelint({ /* your options */ }),
-      reporter({ clearMessages: true }),
+      stylelint({}),
+      reporter({
+        clearMessages: true,
+        throwError: true,
+      }),
     ], {
       syntax: scss
-    }));
+    }))
+  ;
 });
 
 /*
