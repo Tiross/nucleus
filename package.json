@@ -92,6 +92,7 @@
     "prismjs": "^1.5.1",
     "sass-mq": "^3.2.9",
     "selectize": "^0.12.2",
+    "stylelint-config-concentric-order": "^2.1.2",
     "stylelint-config-standard": "^17.0.0",
     "stylelint-scss": "^2.1.0",
     "sweetalert": "^1.1.3",
