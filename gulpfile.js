@@ -216,7 +216,7 @@ gulp.task('lint:scripts', function () {
 });
 
 gulp.task('lint:styles', function () {
-  return gulp.src(SOURCES + '/**/*.scss')
+  return gulp.src([SOURCES + '/**/*.scss', 'docs/src/styles/**/*.scss'])
     .pipe(stylelint({
       reporters: [
         {
