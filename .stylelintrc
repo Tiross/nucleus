@@ -25,6 +25,7 @@
           'function'
         ]
       }
-    ]
+    ],
+    "value-no-vendor-prefix": true
   }
 }

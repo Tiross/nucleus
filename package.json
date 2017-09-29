@@ -57,8 +57,10 @@
     "yargs": "^4.8.1"
   },
   "devDependencies": {
+    "autoprefixer": "^7.1.4",
     "clipboard": "^1.5.12",
     "consolidate": "^0.14.1",
+    "cssnano": "^3.10.0",
     "del": "^2.2.2",
     "gridle": "^2.0.48",
     "gulp": "^3.9.1",
@@ -71,7 +73,7 @@
     "gulp-livereload": "^3.8.1",
     "gulp-logwarn": "0.0.9",
     "gulp-plumber": "^1.1.0",
-    "gulp-postcss": "^6.1.1",
+    "gulp-postcss": "^6.4.0",
     "gulp-pug": "^3.0.4",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",

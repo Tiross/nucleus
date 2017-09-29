@@ -20,7 +20,6 @@
 */
 
 var gulp        = require('gulp');
-var sass        = require('gulp-sass');             // Transpiles SASS to CSS
 var webpack     = require('webpack');               // Used for Javascript packing
 var livereload  = require('gulp-livereload');       // Reloads the browser window after changes
 var gutil       = require('gulp-util');             // Utility toolbox
@@ -31,9 +30,11 @@ var rename      = require("gulp-rename");           // Renames a set of files
 var logwarn     = require('gulp-logwarn');          // Warns on leftover debug code
 var jshint      = require('gulp-jshint');           // Hints JavaScript
 var copy        = require('gulp-copy');             // Copies files (ignores path prefixes)
-var postcss     = require("gulp-postcss");          // Parse style sheet files
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+const postcss = require('gulp-postcss');
+const sass = require('gulp-sass');
 const stylelint = require('gulp-stylelint');
-var scss        = require("postcss-scss");          // SCSS syntax for PostCSS
 
 /*
 |--------------------------------------------------------------------------
@@ -76,9 +77,15 @@ gulp.task('styles', ['clean:styles', 'icons'], function () {
         __dirname + '/node_modules'
       ],
       outputStyle: PRODUCTION ? 'compressed' : 'nested'
-    }).on('error', sass.logError))
+    })
+    .on('error', sass.logError))
+    .pipe(postcss([
+      autoprefixer(),
+      cssnano(),
+    ]))
     .pipe(gulp.dest(TARGET + '/styles'))
-    .pipe(livereload());
+    .pipe(livereload())
+  ;
 });
 
 /*
