@@ -14,6 +14,7 @@
   ],
   "scripts": {
     "test": "istanbul cover _mocha",
+    "lint": "gulp lint",
     "build": "gulp build --production",
     "build_docs": "gulp dist --gulpfile docs/gulpfile.js --production"
   },
