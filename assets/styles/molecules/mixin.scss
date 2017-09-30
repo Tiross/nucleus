@@ -24,19 +24,19 @@
 .SG-mixin {
   @include lato(300);
 
-  font-size: 22px;
   margin-bottom: 1.5em;
+  font-size: 22px;
 
   .SG-mixin__parameters {
+    margin-left: 1em;
     color: $color--gray;
     font-style: italic;
-    margin-left: 1em;
   }
 
   .SG-mixin__file {
-    color: $color--light-gray;
     display: block;
+    margin-top: .5em;
+    color: $color--light-gray;
     font-size: 14px;
-    margin-top: 0.5em;
   }
 }

@@ -20,7 +20,6 @@
 */
 
 var gulp        = require('gulp');
-var sass        = require('gulp-sass');             // Transpiles SASS to CSS
 var webpack     = require('webpack');               // Used for Javascript packing
 var livereload  = require('gulp-livereload');       // Reloads the browser window after changes
 var gutil       = require('gulp-util');             // Utility toolbox
@@ -31,10 +30,11 @@ var rename      = require("gulp-rename");           // Renames a set of files
 var logwarn     = require('gulp-logwarn');          // Warns on leftover debug code
 var jshint      = require('gulp-jshint');           // Hints JavaScript
 var copy        = require('gulp-copy');             // Copies files (ignores path prefixes)
-var postcss     = require("gulp-postcss");          // Parse style sheet files
-var reporter    = require("postcss-reporter");      // Reporter for PostCSS
-var stylelint   = require("stylelint");             // Lints styles according to a ruleset
-var scss        = require("postcss-scss");          // SCSS syntax for PostCSS
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+const postcss = require('gulp-postcss');
+const sass = require('gulp-sass');
+const stylelint = require('gulp-stylelint');
 
 /*
 |--------------------------------------------------------------------------
@@ -58,7 +58,7 @@ var LOG_CODE   = [
 gulp.task('default', ['dev']);
 gulp.task('dev',     ['build', 'watch', 'lint']);
 gulp.task('build',   ['styles', 'scripts', 'copy:static']);
-gulp.task('lint',    ['lint:scripts'/*, 'lint:styles'*/]);
+gulp.task('lint',    ['lint:scripts', 'lint:styles']);
 gulp.task('watch',   ['watch:styles', 'watch:markup', 'watch:scripts', 'livereload']);
 
 /*
@@ -77,9 +77,15 @@ gulp.task('styles', ['clean:styles', 'icons'], function () {
         __dirname + '/node_modules'
       ],
       outputStyle: PRODUCTION ? 'compressed' : 'nested'
-    }).on('error', sass.logError))
+    })
+    .on('error', sass.logError))
+    .pipe(postcss([
+      autoprefixer(),
+      cssnano(),
+    ]))
     .pipe(gulp.dest(TARGET + '/styles'))
-    .pipe(livereload());
+    .pipe(livereload())
+  ;
 });
 
 /*
@@ -199,25 +205,27 @@ gulp.task('copy:static', ['clean:static'], function (){
 
 /** Lint and check for debug code */
 gulp.task('lint:scripts', function () {
-  if(PRODUCTION) return;
-
   return gulp
     .src([
       SOURCES + '/scripts/*.js',
       SOURCES + '/scripts/**/*.js'
     ])
     .pipe(logwarn(LOG_CODE))
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint.reporter('jshint-stylish'))
+  ;
 });
 
 gulp.task('lint:styles', function () {
-  return gulp.src(SOURCES + '/**/*.scss')
-    .pipe(postcss([
-      stylelint({ /* your options */ }),
-      reporter({ clearMessages: true }),
-    ], {
-      syntax: scss
-    }));
+  return gulp.src([SOURCES + '/**/*.scss', 'docs/src/styles/**/*.scss'])
+    .pipe(stylelint({
+      reporters: [
+        {
+          formatter: 'string',
+          console: true,
+        },
+      ],
+    }))
+  ;
 });
 
 /*
