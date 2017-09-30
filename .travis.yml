@@ -31,4 +31,6 @@ deploy:
     script: deploy/develop.sh
     on:
       node_js: node
-      branch: develop
+      branch:
+        - develop
+        - release/*
