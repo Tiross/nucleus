@@ -19,15 +19,15 @@
 .SG-pill {
   @include lato(300);
 
-  background: $color--accent;
-  font-size: 10px;
   display: inline-block;
-  padding: 4px 9px;
-  margin-left: 1em;
-  color: white;
-  text-transform: uppercase;
-  border-radius: 5px;
-  vertical-align: baseline;
   position: relative;
   top: -3px;
+  margin-left: 1em;
+  border-radius: 5px;
+  background: $color--accent;
+  padding: 4px 9px;
+  vertical-align: baseline;
+  text-transform: uppercase;
+  color: white;
+  font-size: 10px;
 }

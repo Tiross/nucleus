@@ -42,14 +42,14 @@
   width: 100%;
 
   .SG-table__cell {
-    padding: 10px 0;
     margin: 10px 0;
+    padding: 10px 0;
     color: $color--gray;
   }
 
   .SG-table__head {
+    border-bottom: 1px solid $color--light-gray;
     text-align: left;
     color: $color--dark-gray;
-    border-bottom: 1px solid $color--light-gray;
   }
 }

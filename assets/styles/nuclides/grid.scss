@@ -11,20 +11,19 @@
 
 @mixin grid-cell($name, $width) {
   .SG-gr-#{$name} {
-    display: inline-block;
-    min-height: 1px;
-    float: left;
     box-sizing: border-box;
-    vertical-align: top;
+    display: inline-block;
+    float: left;
     padding-right: 10px;
     padding-left: 10px;
     width: #{100% / 12 * $width};
+    min-height: 1px;
+    vertical-align: top;
   }
 }
 
 @include grid-cell('1_5', 1.5);
 @include grid-cell('2_5', 2.5);
-
 @include gridle_setup((
   context: 12,
   gutter-width: 20px,
