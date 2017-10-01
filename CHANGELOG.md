@@ -23,6 +23,8 @@ Features
 
 * Show nuclide in table layout
 
+* Better CI conf
+
 Bugfixes
 --------
 
