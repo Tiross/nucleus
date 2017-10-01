@@ -15,7 +15,7 @@ stages:
   - name: Build assets
     if: branch = develop OR branch =~ ^release
   - name: GitHub pages
-    if: branch = master
+    if: branch = master AND type IN (push)
   - name: npm release
     if: tag =~ ^v
 
@@ -52,15 +52,12 @@ jobs:
           tags: true
 
     - stage: GitHub pages
-      script:
+      skip_cleanup: true
+      before_script:
         - npm run build
         - npm run build_docs
         - node index.js --config demo.nucleus.json
+      script: deploy/gh-pages.sh
       node_js: node
-      deploy:
-        provider: pages
-        local_dir: docs/build
-        skip_cleanup: true
-        github_token: $GITHUB_TOKEN
-        on:
-          branch: master
+      on:
+        branch: master
