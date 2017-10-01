@@ -7,7 +7,8 @@ git clone https://${GITHUB_CREDENTIALS}@github.com/${TRAVIS_REPO_SLUG}.git pages
 cd pages
 git checkout gh-pages
 
-cp -r ../docs/build/ .
+cp -r ../docs/build/* .
+cp -r ../styleguide/* demo/
 
 git add .
 git commit -m "Rebuild pages at $TRAVIS_COMMIT"
