@@ -1,0 +1,34 @@
+//-
+ * table.pug -- Render a nuclide component in table layout
+ *
+ * Copyright (C) 2017
+ *
+ * With contributions from: -
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license. See the LICENSE file for details.
+
+mixin table-header()
+  div.SG-row.SG-table
+    div.SG-gr-5.SG-no-gutter-left
+      div.SG-table__head.SG-table__cell Description
+
+    div.SG-gr-2
+      div.SG-table__head.SG-table__cell Name
+
+    div.SG-gr-5.SG-no-gutter-right
+      div.SG-table__head.SG-table__cell Value
+
+mixin table(nuclide)
+  div.SG-row.SG-table.SG-row-align-middle
+    a.SG-anchor(name=nuclide.hash)
+    div.SG-gr-5.SG-no-gutter-left
+      div.SG-table__cell
+        span.SG-strong #{nuclide.description}
+
+    div.SG-gr-2
+      div.SG-table__cell
+        span.SG-a(data-d-copy, data-clipboard-text=nuclide.name) #{nuclide.name}
+
+    div.SG-gr-5.SG-no-gutter-right
+      div.SG-table__cell #{nuclide.value}

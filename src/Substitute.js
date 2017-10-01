@@ -95,7 +95,7 @@ Substitute.methods.lipsum = function (quantity, type) {
   return require('lorem-ipsum')({
     count: quantity,
     units: type,
-    random: this.staticLipsum ? function() {
+    random: this.staticLipsum ? function () {
       if (rnd >= 1) {
         rnd = 0.01;
       }

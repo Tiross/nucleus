@@ -15,21 +15,24 @@
   text-align: center;
 
   &::before {
-    content: 'Made by pirates from';
     display: block;
     margin-bottom: 2em;
     color: $color--light-gray;
     font-size: 12px;
+    content: 'Made by pirates from';
   }
 
   .sponsors__sponsor {
     display: inline-block;
     border: none;
   }
+
   .sponsors__sponsor.sponsors--hp {
     @include retina-sprite($logo-hp-group);
+
     margin-right: 40px;
   }
+
   .sponsors__sponsor.sponsors--pt {
     @include retina-sprite($logo-pt-group);
   }

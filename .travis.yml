@@ -4,7 +4,12 @@ node_js:
   - node
   - lts/*
 
+cache:
+  directories:
+    - node_modules
+
 script:
+  - npm run lint
   - npm run test
 
 before_deploy:
@@ -18,5 +23,14 @@ deploy:
     local_dir: docs/build
     github_token: $GITHUB_TOKEN
     on:
+      node_js: node
       branch: master
       tags: true
+  - provider: script
+    skip_cleanup: true
+    script: deploy/develop.sh
+    on:
+      node_js: node
+      branch:
+        - develop
+        - release/*

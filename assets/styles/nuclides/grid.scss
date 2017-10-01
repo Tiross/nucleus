@@ -9,6 +9,21 @@
 
 @import 'node_modules/gridle/sass/gridle/gridle';
 
+@mixin grid-cell($name, $width) {
+  .SG-gr-#{$name} {
+    box-sizing: border-box;
+    display: inline-block;
+    float: left;
+    padding-right: 10px;
+    padding-left: 10px;
+    width: #{100% / 12 * $width};
+    min-height: 1px;
+    vertical-align: top;
+  }
+}
+
+@include grid-cell('1_5', 1.5);
+@include grid-cell('2_5', 2.5);
 @include gridle_setup((
   context: 12,
   gutter-width: 20px,

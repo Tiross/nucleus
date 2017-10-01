@@ -15,20 +15,20 @@
   .SG-icon-preview__name {
     @include reset();
 
-    color: $color--accent;
     display: inline-block;
+    color: $color--accent;
   }
 
   .SG-icon-preview__icon {
     display: inline-block;
-    line-height: 1;
     width: 12.5%;
+    line-height: 1;
 
     &::after {
       display: block;
-      font-size: 12px;
-      color: $color--light-gray;
       margin-top: 10px;
+      color: $color--light-gray;
+      font-size: 12px;
     }
 
     &:nth-child(1) {

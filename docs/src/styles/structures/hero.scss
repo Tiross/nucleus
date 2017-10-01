@@ -20,59 +20,71 @@
  */
 .hero {
   @include clearHard();
-  width: 100%;
+
   position: relative;
-  background: #B24592;
-  background: linear-gradient(-45deg, #F15F79 20%, #B24592 80%);
+  background: #b24592;
+  background: linear-gradient(-45deg, #f15f79 20%, #b24592 80%);
+  width: 100%;
 
   &::after {
-    content: '';
-    background: linear-gradient(to bottom, rgb(255, 204, 213), white 50%);
-    height: 39px;
-    border-top: 1px solid #ffffff;
     display: block;
-    background-size: 131%;
-    border-radius: 0 0 100% 100%;
     position: absolute;
     bottom: -39px;
-    width: 100%;
+    border-top: 1px solid #fff;
+    border-radius: 0 0 100% 100%;
     box-shadow: 0 -23px 14px white inset;
+    background: linear-gradient(to bottom, rgb(255, 204, 213), white 50%);
+    background-size: 131%;
+    width: 100%;
+    height: 39px;
+    content: '';
   }
 
   h1 {
     @include lato(300);
-    font-size: 46px;
-    color: white;
-    text-align: center;
-    text-shadow: 0px 1px #a0518e;
+
     margin-top: 1.5em;
+    text-align: center;
+    text-shadow: 0 1px #a0518e;
+    color: white;
+    font-size: 46px;
+
     small {
-      font-size: 0.5em;
       display: block;
       margin: 1em 0;
+      font-size: .5em;
     }
   }
 
   nav {
-    text-align: center;
     padding: 40px 0;
+    text-align: center;
     text-transform: uppercase;
+
     .SG-button:not(:last-child) {
       margin-right: 10px;
     }
   }
 
-  .SG-nav { display: none; }
+  .SG-nav {
+    display: none;
+  }
 
-  .SG-logo, .SG-nav-icons__item {
+  .SG-logo,
+  .SG-nav-icons__item {
     color: white;
-    &:hover { color: white !important; }
+
+    &:hover {
+      color: white !important;
+    }
   }
 
   .SG-header {
     margin-bottom: 0;
-    border-bottom: 1px solid rgba(white, 0.3);
-    &::before { display: none; }
-  }
+    border-bottom: 1px solid rgba(white, .3);
 
+    &::before {
+      display: none;
+    }
+  }
 }

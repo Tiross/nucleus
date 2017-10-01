@@ -9,6 +9,7 @@
   "namespace": "page",
   "verbose" : 3,
   "counterCSS" : null,
+  "colorContrast": null,
   "staticLipsum" : false,
   "placeholderService" : false
 }

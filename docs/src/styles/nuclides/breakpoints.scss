@@ -29,20 +29,21 @@
  * @section Config
  */
 $mq-breakpoints: (
-    tiny: 350px,
-    mobile:  425px,
-    tabletPortrait:  597px,
-    tablet: 768px,
-    desktop: 980px,
-    wide:    1300px,
-
-    // Tweekpoints below this point
+  tiny: 350px,
+  mobile: 425px,
+  tabletPortrait:  597px,
+  tablet: 768px,
+  desktop: 980px,
+  wide: 1300px,
+  // Tweekpoints below this point
 );
 
 // $mq-show-breakpoints: (tiny, mobile, tabletPortrait, tablet, desktop, wide);
 
-body::before {
-  opacity: 0.3;
+body {
+  &::before {
+    opacity: .3;
+  }
 }
 
 @import 'sass-mq/mq';

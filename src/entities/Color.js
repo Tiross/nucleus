@@ -13,9 +13,10 @@
 'use strict';
 
 const Nuclide = require('./Nuclide');
+const config = require('../Config').parse();
 const ColorConverter = require('color');
 
-const Color = function(raw) {
+const Color = function (raw) {
   // Call parent constructor
   Nuclide.call(this, raw);
 
@@ -23,6 +24,7 @@ const Color = function(raw) {
   this.type = 'Color';
   this.setFillable([
     'color',
+    'contrast',
   ]);
 
   this.fields.location = 'nuclides.html';
@@ -36,6 +38,7 @@ const Color = function(raw) {
       hex: colorValue.hexString(),
       rgba: colorValue.rgbaString(),
       darker: colorValue.darken(0.1).hexString(),
+      contrast: raw.annotations.contrast || config.colorContrast,
     };
   }
 };

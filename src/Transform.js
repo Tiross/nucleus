@@ -12,15 +12,15 @@
 
 'use strict';
 
-const Verbose = require('./Verbose');
-const Nuclide = require('./entities/Nuclide');
+const Atom = require('./entities/Atom');
 const Color = require('./entities/Color');
 const Font = require('./entities/Font');
-const Mixin = require('./entities/Mixin');
-const Atom = require('./entities/Atom');
 const Icon = require('./entities/Icon');
+const Mixin = require('./entities/Mixin');
 const Molecule = require('./entities/Molecule');
+const Nuclide = require('./entities/Nuclide');
 const Structure = require('./entities/Structure');
+const Verbose = require('./Verbose');
 
 const Dot = require('dot-object');
 const isNumeric = require('isnumeric');
@@ -36,30 +36,32 @@ const Transform = {};
  * @return {object}
  *         Transformed view data.
  */
-Transform.forView = function(styles) {
+Transform.forView = function (styles) {
   const viewData = {};
   const dot = new Dot(' > ');
   const that = this;
 
   for (let s in styles) {
     Verbose.spin('Analyzing styles');
-    let style = styles[s];
-    let entity = this.createEntity(style);
+    const style = styles[s];
+    const entity = this.createEntity(style);
 
     // If entity is empty, we cold not specify a type or
     // validation failed during entity instantiation.
-    if (!entity || (Object.keys(entity).length === 0)) {
+    if (!entity) {
       continue;
     }
+
+    const fields = entity.getFields();
 
     // Pick the section or create it, if not defined yet.
     // TODO: _e is a bad idea!!
     // TODO: Extract!
-    let section = dot.pick(entity.section, viewData) || {
+    let section = dot.pick(fields.section, viewData) || {
       '_e': []
     };
-    section._e.push(entity);
-    dot.copy('data', entity.section, {
+    section._e.push(fields);
+    dot.copy('data', fields.section, {
       data: section
     }, viewData);
   }
@@ -73,18 +75,18 @@ Transform.forView = function(styles) {
  * @param  {object} style
  * @return {string}
  */
-Transform.getStyleType = function(style) {
+Transform.getStyleType = function (style) {
   // Loop through the available type annotations and check if the style
   // has one of these. If there's more than one, show a warning.
   const typeAnnotations = [
+    'atom',
     'color',
     'font',
-    'mixin',
-    'nuclide',
-    'atom',
     'icon',
+    'mixin',
     'molecule',
-    'structure'
+    'nuclide',
+    'structure',
   ];
   let foundType = null;
 
@@ -116,7 +118,7 @@ Transform.getStyleType = function(style) {
  * @return {Boolean}
  *         Returns true if the annotation exists.
  */
-Transform.hasAnnotation = function(key, style) {
+Transform.hasAnnotation = function (key, style) {
   return Object.keys(style.annotations).indexOf(key) !== -1;
 };
 
@@ -126,33 +128,33 @@ Transform.hasAnnotation = function(key, style) {
  * @param  {[type]} style [description]
  * @return {[type]}       [description]
  */
-Transform.createEntity = function(style) {
+Transform.createEntity = function (style) {
   let entity;
 
   switch (this.getStyleType(style)) {
+    case 'atom':
+      entity = new Atom(style);
+      break;
     case 'color':
       entity = new Color(style);
       break;
     case 'font':
       entity = new Font(style);
       break;
+    case 'icon':
+      entity = new Icon(style);
+      break;
     case 'mixin':
       entity = new Mixin(style);
       break;
-    case 'atom':
-      entity = new Atom(style);
-      break;
-    case 'icon':
-      entity = new Icon(style);
+    case 'nuclide':
+      entity = new Nuclide(style);
       break;
     case 'molecule':
       entity = new Molecule(style);
       break;
     case 'structure':
       entity = new Structure(style);
-      break;
-    case 'nuclide':
-      entity = new Nuclide(style);
       break;
     default:
       // TODO: Is this possible? Maybe resolve the
@@ -162,7 +164,7 @@ Transform.createEntity = function(style) {
       return false;
   }
 
-  return entity.getFields();
+  return entity;
 };
 
 Transform.sort = function (obj) {
