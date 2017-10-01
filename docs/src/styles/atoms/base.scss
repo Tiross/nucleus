@@ -1,16 +1,22 @@
-html, body {
-  min-width: 100%;
-  min-height: 100%;
+html,
+body {
   margin: 0;
   padding: 0;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 body {
   @include lato();
   @include clearAfter();
+
   padding-bottom: 200px;
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
+* {
+  &,
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
 }

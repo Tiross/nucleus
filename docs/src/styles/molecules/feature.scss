@@ -14,44 +14,48 @@
  *  </a>
  */
 .feature {
-  padding: 40px 10px;
-  text-align: center;
-  height: 330px;
+  display: inline-block;
   position: relative;
   border-radius: 5px;
+  padding: 40px 10px;
+  height: 330px;
+  text-align: center;
   text-decoration: none;
-  display: inline-block;
 
   // Pink box with white text
   &:hover {
     background-color: $color--pink;
-    .ico::before, .feature__description {
+
+    .ico::before,
+    .feature__description {
       color: white;
     }
+
     .SG-button {
-      color: white;
       border-color: white;
+      color: white;
     }
   }
 
   .SG-button {
     position: absolute;
     bottom: 20px;
-    width: 86%;
     left: 7%;
+    width: 86%;
   }
 
   .ico {
     display: block;
-    font-size: 70px;
     color: $color--pink;
+    font-size: 70px;
   }
 
   .feature__description {
     @include lato(600);
+
+    display: block;
+    margin: 1.5em 0 2em;
     color: $color--dark-gray;
     font-size: 21px;
-    display: block;
-    margin: 1.5em 0 2em 0;
   }
 }

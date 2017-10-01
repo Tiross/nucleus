@@ -3,10 +3,10 @@
 
 'use strict';
 
-var assert = require('assert');
-var Helpers = require('./helpers');
-var Verbose = require('../src/Verbose.js');
-var Substitute = require('../src/Substitute');
+const assert = require('assert');
+const Helpers = require('./helpers');
+const Verbose = require('../src/Verbose.js');
+const Substitute = require('../src/Substitute');
 
 describe('Substitution', function () {
   it('complains about invalid shortcodes', function () {
@@ -24,8 +24,8 @@ describe('Substitution', function () {
   /********************************************************/
 
   it('resolves to image urls', function () {
-    var markup = 'Test @{image:300:300}';
-    var subs = Substitute.substitute(markup);
+    const markup = 'Test @{image:300:300}';
+    const subs = Substitute.substitute(markup);
 
     assert.ok(subs.indexOf('Test') === 0);
     assert.ok(subs.indexOf('https://unsplash.it/') !== -1);
@@ -34,8 +34,8 @@ describe('Substitution', function () {
   /********************************************************/
 
   it('resolves dummy text', function () {
-    var markup = 'Test @{lipsum:1:words}';
-    var subs = Substitute.substitute(markup);
+    let markup = 'Test @{lipsum:1:words}';
+    let subs = Substitute.substitute(markup);
 
     assert.ok(subs.indexOf('Test') === 0);
     assert.ok(subs.indexOf('{lipsum') === -1);

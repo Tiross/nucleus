@@ -9,6 +9,7 @@ cache:
     - node_modules
 
 script:
+  - npm run lint
   - npm run test
 
 before_deploy:
@@ -30,4 +31,6 @@ deploy:
     script: deploy/develop.sh
     on:
       node_js: node
-      branch: develop
+      branch:
+        - develop
+        - release/*

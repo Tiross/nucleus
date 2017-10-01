@@ -4,15 +4,15 @@
 'use strict';
 
 const assert = require('assert');
-const Atom = require('../src/entities/Atom.js');
+const Nuclide = require('../src/entities/Nuclide.js');
 const Helpers = require('./helpers');
 const Verbose = require('../src/Verbose.js');
 
-describe('Atom', function () {
+describe('Nuclide', function () {
   it('should return nothing if the raw input is not valid', function () {
     Helpers.hook(Verbose, 'log');
 
-    const entity = new Atom({});
+    const entity = new Nuclide({});
     assert.deepEqual(entity.getFields(), {});
 
     assert.ok(Helpers.logCalled >= 1);
@@ -21,48 +21,48 @@ describe('Atom', function () {
   /********************************************************/
 
   it('should parse the basic information', function () {
-    const entity = new Atom({
+    const entity = new Nuclide({
       annotations: {
-        atom: 'Test-Component',
         description: 'A test description',
-        markup: '...',
-        script: '....',
+        nuclide: 'Test-Component',
       },
       element: {
-        selector: '.test',
+        selector: '$foo',
+        value: 'bar',
       },
     });
 
     assert.deepEqual(entity.getFields(), {
       deprecated: false,
       description: 'A test description',
-      descriptor: '.test',
+      descriptor: '$foo',
       file: null,
-      hash: '47edcec9fa48df43335b12fc0e3e1cc9a4709bf1',
-      markup: '...',
+      hash: 'd3608583f67c4a02a72d975b9b1add4bc4bc42e2',
+      location: 'nuclides.html',
       modifiers: [],
-      namespace: null,
-      location: 'atoms.html',
-      name: 'Test-Component',
-      script: '....',
-      section: 'Atoms > Other',
-      type: 'atom',
+      markup: null,
+      name: '$foo',
+      namespace: undefined,
+      script: false,
+      section: 'Nuclides > Other',
+      table: false,
+      type: 'nuclide',
+      value: 'bar',
     });
   });
 
   /********************************************************/
 
-  it('should mark the atom as deprecated', function () {
-    const entity = new Atom({
+  it('should mark the nuclide as deprecated', function () {
+    const entity = new Nuclide({
       annotations: {
-        atom: 'Test-Component',
         deprecated: true,
         description: 'A test description',
-        markup: '...',
-        script: '...',
+        nuclide: 'Test-Component',
       },
       element: {
-        selector: '.test',
+        selector: '$foo',
+        value: 'bar',
       },
     });
 
@@ -71,21 +71,33 @@ describe('Atom', function () {
 
   /********************************************************/
 
-  it('should handle namespaces', function () {
+  it('should not handle namespaces', function () {
     const name = (Math.random() * 1e32).toString(36);
-    const entity = new Atom({
+    const entity = new Nuclide({
       annotations: {
-        atom: 'Test-Component',
+        deprecated: true,
         description: 'A test description',
-        markup: '...',
         namespace: name,
-        script: '...',
+        nuclide: 'Test-Component',
       },
       element: {
-        selector: '.test',
+        selector: '$foo',
+        value: 'bar',
       },
     });
 
-    assert.strictEqual(entity.getFields().namespace, name);
+    assert.strictEqual(entity.getFields().namespace, undefined);
+  });
+
+  /********************************************************/
+
+  it('should handle table annotation', function() {
+    const entity = new Nuclide({
+      annotations: {
+        table: true,
+      },
+    });
+
+    assert.ok(entity.getFields().table);
   });
 });
