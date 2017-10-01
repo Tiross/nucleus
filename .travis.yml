@@ -15,12 +15,10 @@ stages:
   - test
   - name: Build assets
     if: branch = develop OR branch =~ ^release
-  - name: GitHub release
-    if: branch = master
   - name: npm release
     if: tag =~ ^v
   - name: GitHub pages
-    if: tag =~ ^v
+    if: branch = master
 
 jobs:
   include:
@@ -44,16 +42,6 @@ jobs:
           - develop
           - release/*
 
-    - stage: GitHub release
-      node_js: node
-      script: echo "Deploying to GitHub releases ..."
-      deploy:
-        provider: releases
-        api_key: $GITHUB_TOKEN
-        skip_cleanup: true
-        on:
-          branch: master
-
     - stage: npm release
       node_js: node
       script: echo "Deploying to npm ..."
@@ -75,4 +63,4 @@ jobs:
         skip_cleanup: true
         github_token: $GITHUB_TOKEN
         on:
-          tags: true
+          branch: master
