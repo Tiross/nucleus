@@ -13,7 +13,7 @@
 
 const Entity = require('./Entity');
 
-const Icon = function(raw) {
+const Icon = function (raw) {
   // Call parent constructor
   Entity.call(this, raw);
 

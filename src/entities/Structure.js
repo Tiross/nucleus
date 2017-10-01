@@ -13,7 +13,7 @@
 
 const Entity = require('./Entity');
 
-const Structure = function(raw) {
+const Structure = function (raw) {
   // Call parent constructor
   Entity.call(this, raw);
 
@@ -36,7 +36,7 @@ const Structure = function(raw) {
 Structure.prototype = Object.create(Entity.prototype);
 
 // TODO: Remove code duplication
-Structure.prototype.getFlags = function() {
+Structure.prototype.getFlags = function () {
   const raw_flags = this.raw.annotations.flag || [];
   const flags = {};
 

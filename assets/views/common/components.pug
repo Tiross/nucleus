@@ -15,12 +15,15 @@ include ../entities/colors.pug
 include ../entities/fonts.pug
 include ../entities/icons.pug
 include ../entities/mixins.pug
+include ../entities/table.pug
 
 
 
 mixin components(components)
   -var lastEntity = null
+
   each component in components
+    -var tableHeader = tableHeader && lastEntity.table
 
     //- Color preview
     if component.type === 'color'
@@ -43,7 +46,16 @@ mixin components(components)
       +icon(component)
 
     if component.type === 'nuclide'
-      +nuclide(component)
+      if component.table
+        //- Make the table header if not already present
+        if !tableHeader
+          +table-header()
+          -tableHeader = true
+
+        +table(component)
+      else
+        +nuclide(component)
+        -tableHeader = true
 
     //- Everything else
     if (component.type === 'atom') || (component.type === 'structure') || (component.type === 'molecule')

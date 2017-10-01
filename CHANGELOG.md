@@ -21,6 +21,8 @@ Features
 
 * Added contrast color
 
+* Show nuclide in table layout
+
 Bugfixes
 --------
 
