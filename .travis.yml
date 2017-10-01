@@ -15,10 +15,10 @@ stages:
   - test
   - name: Build assets
     if: branch = develop OR branch =~ ^release
-  - name: npm release
-    if: tag =~ ^v
   - name: GitHub pages
     if: branch = master
+  - name: npm release
+    if: tag =~ ^v
 
 jobs:
   include:
