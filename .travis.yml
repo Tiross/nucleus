@@ -8,29 +8,69 @@ cache:
   directories:
     - node_modules
 
-script:
-  - npm run lint
-  - npm run test
+stages:
+  - lint
+  - test
+  - name: Build assets
+    if: branch = develop OR branch =~ ^release
+  - name: GitHub release
+    if: branch = master
+  - name: npm release
+    if: tag =~ ^v
+  - name: GitHub pages
+    if: tag =~ ^v
 
-before_deploy:
-  - npm run build
-  - npm run build_docs
-  - node index.js --config demo.nucleus.json
+jobs:
+  include:
+    - stage: lint
+      script: npm run lint
+      node_js: node
 
-deploy:
-  - provider: pages
-    skip_cleanup: true
-    local_dir: docs/build
-    github_token: $GITHUB_TOKEN
-    on:
+    - stage: lint
+      script: npm run lint
+      node_js: lts/*
+
+    - stage: Build assets
+      skip_cleanup: true
+      before_script:
+        - npm run build
+        - npm run build_docs
+      script: deploy/develop.sh
       node_js: node
-      branch: master
-      tags: true
-  - provider: script
-    skip_cleanup: true
-    script: deploy/develop.sh
-    on:
+      on:
+        branch:
+          - develop
+          - release/*
+
+    - stage: GitHub release
       node_js: node
-      branch:
-        - develop
-        - release/*
+      script: skip
+      deploy:
+        provider: releases
+        api_key: $GITHUB_TOKEN
+        skip_cleanup: true
+        on:
+          branch: master
+
+    - stage: npm release
+      node_js: node
+      script: echo "Deploying to npm ..."
+      deploy:
+        provider: npm
+        api_key: $NPM_API_KEY
+        on:
+          tags: true
+
+    - stage: GitHub pages
+      script:
+        - npm run build
+        - npm run build_docs
+        - node index.js --config demo.nucleus.json
+      node_js: node
+      deploy:
+        provider: pages
+        local_dir: docs/build
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
+        on:
+          tags: true
