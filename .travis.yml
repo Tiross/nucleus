@@ -52,15 +52,13 @@ jobs:
           tags: true
 
     - stage: GitHub pages
-      script:
+      skip_cleanup: true
+      before_script:
         - npm run build
         - npm run build_docs
         - node index.js --config demo.nucleus.json
+      script: deploy/gh-pages.sh
       node_js: node
       deploy:
-        provider: pages
-        local_dir: docs/build
-        skip_cleanup: true
-        github_token: $GITHUB_TOKEN
         on:
           branch: master
