@@ -45,6 +45,7 @@ describe('Nuclide', function () {
       namespace: undefined,
       script: false,
       section: 'Nuclides > Other',
+      table: false,
       type: 'nuclide',
       value: 'bar',
     });

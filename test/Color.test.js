@@ -46,6 +46,7 @@ describe('Color', function () {
       script: false,
       section: 'Nuclides > Colors > Other',
       sort: 65280,
+      table: false,
       type: 'color',
       value: '#00FF00',
       values: {
@@ -101,6 +102,7 @@ describe('Color', function () {
       namespace: null,
       script: false,
       section: 'Nuclides > Colors > Other',
+      table: false,
       type: 'color',
       sort: 65280,
       value: '#00FF00',

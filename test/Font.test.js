@@ -50,6 +50,7 @@ describe('Font', function () {
       ],
       script: false,
       section: 'Nuclides > Fonts > Other',
+      table: false,
       type: 'font',
       value: 'Comic sans serif',
     });
