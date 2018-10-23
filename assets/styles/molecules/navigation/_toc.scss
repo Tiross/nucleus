@@ -1,0 +1,69 @@
+// navigation/_toc.scss -- Top-level navigation
+//
+// Copyright (C) 2016 Michael Seibt
+//
+// With contributions from: -
+//
+// This software may be modified and distributed under the terms
+// of the MIT license. See the LICENSE file for details.
+
+/**
+ * A nested table of content list, suitable for two-level navigation.
+ *
+ * @molecule Table of content
+ * @section Navigation
+ * @markup
+ *  <div class="SG-toc">
+ *    <ul>
+ *      <li class="SG-toc__category">A category</li>
+ *      <li>First Level #1</li>
+ *      <li>
+ *        First Level #2
+ *        <ul>
+ *          <li>Second Level #1</li>
+ *          <li>Second Level #2</li>
+ *        </ul>
+ *      </li>
+ *      <li class="SG-toc__category">A category</li>
+ *      <li>First Level #3</li>
+ *    </ul>
+ *  </div>
+ */
+.SG-toc {
+  margin-bottom: 4em;
+
+  ul {
+    margin: 0;
+    padding-left: 0;
+    line-height: 30px;
+  }
+
+  & > ul > li {
+    list-style-type: none;
+    font-size: 14px;
+  }
+
+  & > ul > li > ul {
+    margin-bottom: 1em;
+    padding-left: 1.5em;
+    list-style-type: disc;
+    color: $color--dark-gray;
+    font-size: 14px;
+  }
+
+  & > ul > li > ul > li > ul {
+    font-size: 12px;
+  }
+
+  .SG-toc__category {
+    margin-bottom: .5em;
+    border-bottom: 1px dashed $color--light-gray;
+    padding-bottom: .5em;
+    color: $color--accent;
+    font-size: 16px;
+
+    &:not(:first-child) {
+      margin-top: 2em;
+    }
+  }
+}

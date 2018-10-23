@@ -1,8 +1,8 @@
 .ui-resizable-e {
   top: 0;
-  right: -5px;
+  right: -15px;
   cursor: e-resize;
-  width: 7px;
+  width: 30px;
   height: 100%;
 }
 
@@ -10,9 +10,4 @@
   display: block;
   position: absolute;
   font-size: .1px;
-}
-
-.ui-resizable-e {
-  right: -15px;
-  width: 30px;
 }
