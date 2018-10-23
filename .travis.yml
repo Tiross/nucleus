@@ -2,8 +2,16 @@
 language: node_js
 
 node_js:
-  - node
   - lts/*
+  - node
+  - 10
+  - 9
+  - 8
+  - 7
+  - 6
+  - 5
+  - 4
+  - 0.12
 
 cache:
   directories:
