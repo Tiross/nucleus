@@ -223,7 +223,7 @@ gulp.task('build:icons', [], function () {
             fontPath: '../fonts/',
             className: 'ico'
           }))
-          .pipe(rename({ basename: 'icons' }))
+          .pipe(rename({ basename: 'icons', extname: '.scss' }))
           .pipe(gulp.dest(config.sources + '/styles/nuclides/'));
       })
     .pipe(gulp.dest(config.target + '/fonts/'));
