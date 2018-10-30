@@ -1,6 +1,5 @@
 node_modules
 coverage
-build
 styleguide
 npm-debug.log
 .idea/
@@ -8,4 +7,6 @@ npm-debug.log
 ._*
 
 # Generated files
+build/
 icons.scss
+sprites.scss
