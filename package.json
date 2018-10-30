@@ -13,7 +13,7 @@
     }
   ],
   "scripts": {
-    "test": "istanbul cover _mocha",
+    "test": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls",
     "lint": "gulp lint",
     "build": "gulp build --production",
     "build_docs": "gulp dist --gulpfile docs/gulpfile.js --production"
@@ -64,6 +64,7 @@
     "autoprefixer": "^9.3.0",
     "clipboard": "^1.5.12",
     "consolidate": "^0.14.1",
+    "coveralls": "^3.0.2",
     "cssnano": "^4.1.7",
     "del": "^3.0.0",
     "gridle": "^2.0.48",

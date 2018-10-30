@@ -2,8 +2,13 @@
 language: node_js
 
 node_js:
-  - node
   - lts/*
+  - node
+  - 10
+  - 9
+  - 8
+  - 7
+  - 6
 
 cache:
   directories:
@@ -23,11 +28,6 @@ jobs:
   include:
     - stage: lint
       script: npm run lint
-      node_js: node
-
-    - stage: lint
-      script: npm run lint
-      node_js: lts/*
 
     - stage: Build assets
       skip_cleanup: true
