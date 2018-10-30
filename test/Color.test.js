@@ -51,7 +51,7 @@ describe('Color', function () {
       value: '#00FF00',
       values: {
         hex: '#00FF00',
-        rgba: 'rgba(0, 255, 0, 1)',
+        rgba: 'rgb(0, 255, 0)',
         darker: '#00E600',
         contrast: null,
       },
@@ -108,7 +108,7 @@ describe('Color', function () {
       value: '#00FF00',
       values: {
         hex: '#00FF00',
-        rgba: 'rgba(0, 255, 0, 1)',
+        rgba: 'rgb(0, 255, 0)',
         darker: '#00E600',
         contrast: null,
       },

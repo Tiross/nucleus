@@ -22,21 +22,6 @@
   text-align: center;
   text-decoration: none;
 
-  // Pink box with white text
-  &:hover {
-    background-color: $color--pink;
-
-    .ico::before,
-    .feature__description {
-      color: white;
-    }
-
-    .SG-button {
-      border-color: white;
-      color: white;
-    }
-  }
-
   .SG-button {
     position: absolute;
     bottom: 20px;
@@ -57,5 +42,20 @@
     margin: 1.5em 0 2em;
     color: $color--dark-gray;
     font-size: 21px;
+  }
+
+  // Pink box with white text
+  &:hover {
+    background-color: $color--pink;
+
+    .ico::before,
+    .feature__description {
+      color: white;
+    }
+
+    .SG-button {
+      border-color: white;
+      color: white;
+    }
   }
 }

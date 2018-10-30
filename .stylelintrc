@@ -30,6 +30,7 @@
       }
     ],
     "number-leading-zero": "never",
+    "order/order": [],
     "value-no-vendor-prefix": true
   }
 }

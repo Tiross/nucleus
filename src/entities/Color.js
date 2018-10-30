@@ -35,9 +35,9 @@ const Color = function (raw) {
 
     this.fields.sort = colorValue.rgbNumber();
     this.fields.values = {
-      hex: colorValue.hexString(),
-      rgba: colorValue.rgbaString(),
-      darker: colorValue.darken(0.1).hexString(),
+      hex: colorValue.hex(),
+      rgba: colorValue.rgb().string(),
+      darker: colorValue.darken(0.1).hex(),
       contrast: raw.annotations.contrast || config.colorContrast,
     };
   }
