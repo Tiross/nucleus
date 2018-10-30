@@ -8,6 +8,7 @@
 [![Build Status](https://travis-ci.org/Tiross/nucleus.svg?branch=master)](https://travis-ci.org/Tiross/nucleus)
 [![npm](https://badge.fury.io/js/nucleus-generator.svg)](https://www.npmjs.com/package/nucleus-generator)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](LICENSE)
+[![Coverage Status](https://coveralls.io/repos/github/Tiross/nucleus/badge.svg)](https://coveralls.io/github/Tiross/nucleus)
 
 Nucleus is a living style guide generator for atomic css based components. It's a Node application parsing the source SCSS files and reading information from DocBlock annotations.
 
