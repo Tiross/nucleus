@@ -158,21 +158,22 @@ gulp.task('clean:static', function () {
         'app': './app',
       },
       output: {
-        path: TARGET + '/scripts/',
+        path: __dirname + '/' + TARGET + '/scripts/',
         publicPath: '/scripts/',
         filename: '[name].js',
         chunkFilename: '[chunkhash].bundle.js'
       },
+      mode: PRODUCTION ? 'production' : 'development',
       module: {
-        loaders: [
-          { test: /\.html$/, loader: "tpl-loader" }
-        ]
+        rules: [
+          {
+            test: /\.html$/,
+            use: 'underscore-template-loader',
+          },
+        ],
       },
-      amd: {jQuery: true },
-      resolve: {
-        fallback: [
-          __dirname + '/' + SOURCES + '/scripts'
-        ]
+      amd: {
+        jQuery: true
       },
       plugins: [
         new webpack.ProvidePlugin({
@@ -180,7 +181,7 @@ gulp.task('clean:static', function () {
           jQuery: 'jquery',
           'window.jQuery': 'jquery',
         }),
-      ].concat(PRODUCTION ? [new webpack.optimize.UglifyJsPlugin({ output: {comments: false} })] : [])
+      ],
     }, function(e,s) { webpack_error_handler(e,s,callback); });
   });
 

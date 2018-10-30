@@ -146,30 +146,29 @@ gulp.task('build:views', [], function () {
       entry: {
         'app': './app',
       },
+      mode: config.production ? 'production' : 'development',
       output: {
-        path: config.target + '/scripts/',
+        path: __dirname + '/' + config.target + '/scripts/',
         publicPath: '/scripts/',
         filename: '[name].js',
         chunkFilename: '[chunkhash].bundle.js'
       },
       module: {
-        loaders: [
-          { test: /\.html$/, loader: "tpl-loader" }
-        ]
+        rules: [
+          {
+            test: /\.html$/,
+            use: 'underscore-template-loader',
+          },
+        ],
       },
       amd: {jQuery: true },
-      resolve: {
-        fallback: [
-          __dirname + '/' + config.sources + '/scripts'
-        ]
-      },
       plugins: [
         new webpack.ProvidePlugin({
           $: 'jquery',
           jQuery: 'jquery',
           'window.jQuery': 'jquery',
         }),
-      ].concat(config.production ? [new webpack.optimize.UglifyJsPlugin({ output: {comments: false} })] : [])
+      ]
     }, function(e,s) { webpack_error_handler(e,s,callback); });
   });
 
