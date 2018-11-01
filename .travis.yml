@@ -17,19 +17,16 @@ cache:
 stages:
   - lint
   - test
-  - name: Build assets
-    if: branch = develop OR branch =~ ^release
-  - name: GitHub pages
-    if: branch = master AND type IN (push)
-  - name: npm release
-    if: tag =~ ^v
+  - build
+  - deploy
 
 jobs:
   include:
     - stage: lint
       script: npm run lint
 
-    - stage: Build assets
+    - stage: build
+      name: Build assets
       skip_cleanup: true
       before_script:
         - npm run build
@@ -40,8 +37,10 @@ jobs:
         branch:
           - develop
           - release/*
+        type: push
 
-    - stage: npm release
+    - stage: deploy
+      name: npm release
       node_js: node
       script: echo "Deploying to npm ..."
       deploy:
@@ -51,7 +50,8 @@ jobs:
         on:
           tags: true
 
-    - stage: GitHub pages
+    - stage: deploy
+      name: GitHub pages
       skip_cleanup: true
       before_script:
         - npm run build
@@ -61,3 +61,4 @@ jobs:
       node_js: node
       on:
         branch: master
+        type: push
