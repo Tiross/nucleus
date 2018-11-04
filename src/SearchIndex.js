@@ -11,10 +11,10 @@
 'use strict';
 
 const SearchIndex = {
-  index: []
+  index: [],
 };
 
-SearchIndex.create = function ( styles ) {
+SearchIndex.create = function (styles) {
   for (let s in styles) {
     this.index = this.index.concat(this.indexCategory(styles[s]));
   }
@@ -27,7 +27,7 @@ SearchIndex.indexCategory = function (category) {
 
   for (let e in category) {
     // It's a set of elements
-    if (e == '_e') {
+    if (e === '_e') {
       categoryIndex = categoryIndex.concat(this.createElementIndex(category[e]));
       continue;
     }
@@ -39,7 +39,7 @@ SearchIndex.indexCategory = function (category) {
   return categoryIndex;
 };
 
-SearchIndex.createElementIndex = function ( elements ) {
+SearchIndex.createElementIndex = function (elements) {
   let elementIndex = [];
   let element;
 
@@ -52,7 +52,7 @@ SearchIndex.createElementIndex = function ( elements ) {
       description: element.description,
       descriptor: element.descriptor,
       location: element.location + '#' + element.hash,
-      style: element // TODO: pass only what we need
+      style: element, // TODO: pass only what we need
     });
   }
 

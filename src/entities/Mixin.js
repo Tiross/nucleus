@@ -25,10 +25,10 @@ const Mixin = function (raw) {
     'param',
   ]);
 
-  this.fields.name = raw.descriptor.match(/[^\s\(]+/)[0];
+  this.fields.name = raw.descriptor.match(/[^\s(]+/)[0];
   this.fields.example = this.getExample();
   this.fields.parameters = this.getParameters();
-  this.fields.signature = raw.descriptor.match(/[^\s\(]+(.*)/)[1];
+  this.fields.signature = raw.descriptor.match(/[^\s(]+(.*)/)[1];
 };
 
 Mixin.prototype = Object.create(Nuclide.prototype);
@@ -64,7 +64,7 @@ Mixin.prototype.getParameters = function () {
     param = this.getParameter(docParameters[p]);
     paramCodeRE = new RegExp('(\\' + param.name + '.*?(?=\\,\\s\\$|$))');
     paramCode = paramString[1].match(paramCodeRE)[0];
-    param.optional = paramCode.match(/:/) ? true : false;
+    param.optional = !!paramCode.match(/:/);
     parameters.push(param);
   }
 
@@ -86,7 +86,7 @@ Mixin.prototype.getParameter = function (parameterString) {
 
   return {
     name: param[1].trim(),
-    description: param[2].trim()
+    description: param[2].trim(),
   };
 };
 
@@ -97,6 +97,5 @@ Mixin.prototype.getExample = function () {
 
   return this.raw.annotations.example;
 };
-
 
 module.exports = Mixin;

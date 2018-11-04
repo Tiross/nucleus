@@ -22,7 +22,7 @@ module.exports = {
     return {
       title: 'Annotation ' + chalk.underline('@' + key) +
         ' not allowed for type ' + type + ' of ' + chalk.underline(raw.descriptor) + ' in ' + raw.file,
-      text: 'Valid annotations are @' + validKeys.join(', @') + '. This element will not appear in the final StyleGuide until you fix this error.'
+      text: 'Valid annotations are @' + validKeys.join(', @') + '. This element will not appear in the final StyleGuide until you fix this error.',
     };
   },
 
@@ -31,7 +31,7 @@ module.exports = {
     return {
       title: 'The section annotation must be a string for ' + chalk.underline(raw.descriptor) + ' in ' + raw.file,
       text: "Maybe you forgot to set a section? By the way, sections can be nested like 'Section1 > Section2 > ...'." +
-        "This element will not appear in the final StyleGuide until you fix this error."
+        'This element will not appear in the final StyleGuide until you fix this error.',
     };
   },
 
@@ -39,8 +39,8 @@ module.exports = {
   entity_no_annotations: function (raw) {
     return {
       title: 'There are no annotations for ' + chalk.underline(raw.descriptor) + ' in ' + raw.file,
-      text: "Wow, that's strange. This element should not be in the pipeline, and will therefore be ignored. " +
-        "You could double-check why this got here in the first place."
+      text: 'Wow, that\'s strange. This element should not be in the pipeline, and will therefore be ignored. ' +
+        'You could double-check why this got here in the first place.',
     };
   },
 
@@ -48,7 +48,7 @@ module.exports = {
     return {
       'title': 'Don\'t pass multiple configuration files.',
       'text': 'Probably you tried to use the --config parameter along with the shorthand version -c. ' +
-        'Only one at a time is valid. Otherwise, I would not know which file to load, and I\'m not good at decision-making.'
+        'Only one at a time is valid. Otherwise, I would not know which file to load, and I\'m not good at decision-making.',
     };
   },
   no_input_files: function () {
@@ -56,21 +56,21 @@ module.exports = {
       'title': 'Could not find any input files.',
       'text': 'Double-check the ' + chalk.underline('files') + ' property in the configuration. This should either be a ' +
         'single glob pattern, or an array of patterns. Looks like there are no files matching this pattern. ' +
-        'Btw, the current working dir is ' + process.cwd()
+        'Btw, the current working dir is ' + process.cwd(),
     };
   },
   no_target: function () {
     return {
       'title': 'No target specified.',
       'text': 'Double-check the ' + chalk.underline('target') + ' property in the configuration. This should be a writeable path. ' +
-        'Btw, the current working dir is ' + process.cwd()
+        'Btw, the current working dir is ' + process.cwd(),
     };
   },
   next_node_failed: function () {
     return {
       'title': 'Annotation block without rule.',
       'text': 'There was an annotation block, which is not followed by a CSS rule, variable or mixin. Check the file above. ' +
-        'At least, you could add an empty rule.'
+        'At least, you could add an empty rule.',
     };
   },
   no_valid_template: function () {
@@ -79,7 +79,7 @@ module.exports = {
       'text': 'Double-check the ' + chalk.underline('template') + ' property in the configuration. ' +
         'This should be a valid folder with template files to generate a valid styleguide.' +
         'Default template is used. ' +
-        'Btw, the current working dir is ' + process.cwd()
+        'Btw, the current working dir is ' + process.cwd(),
     };
   },
 };

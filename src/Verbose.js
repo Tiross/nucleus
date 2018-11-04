@@ -21,20 +21,20 @@ const Verbose = {
     SILENT: 0,
     ERROR: 1,
     DEFAULT: 2,
-    DEBUG: 3
+    DEBUG: 3,
   },
   level: 2,
   spinner: require('ora')({
     spinner: {
       interval: 100,
       frames: [
-        " 🕐 ", " 🕑 ", " 🕒 ", " 🕓 ", " 🕔 ", " 🕕 ", " 🕖 ", " 🕗 ", " 🕘 ", " 🕙 ", " 🕚 "
-      ]
+        ' 🕐 ', ' 🕑 ', ' 🕒 ', ' 🕓 ', ' 🕔 ', ' 🕕 ', ' 🕖 ', ' 🕗 ', ' 🕘 ', ' 🕙 ', ' 🕚 ',
+      ],
     },
   }),
   ERRORS: require('./messages/errors'),
-  WARNINGS : require('./messages/warnings'),
-  INFOS : require('./messages/infos'),
+  WARNINGS: require('./messages/warnings'),
+  INFOS: require('./messages/infos'),
 };
 
 Verbose.log = function (text) {
@@ -64,7 +64,7 @@ Verbose.debug = function (data) {
     // Pretty-print JSONs
     if (typeof data === 'object') {
       data = prettyjson.render(data, {
-        keysColor: 'cyan'
+        keysColor: 'cyan',
       });
     }
     this.log(data);
@@ -132,8 +132,8 @@ Verbose.error = function (error, data, critical) {
   if (!e) {
     e = function () {
       return {
-        'title': error,
-        'text': undefined
+        title: error,
+        text: undefined,
       };
     };
   }
@@ -180,8 +180,8 @@ Verbose.finished = function () {
   if (this.level >= this.LEVELS.DEFAULT) {
     const seconds = process.hrtime(this.startTime)[0];
 
-    this.log('\n ' + chalk.green('Finished!') + ' ')
-    this.log(chalk.dim('Took me ' +  seconds + ' second' + (seconds !== 1 ? 's' : '') + '.\n'));
+    this.log('\n ' + chalk.green('Finished!') + ' ');
+    this.log(chalk.dim('Took me ' + seconds + ' second' + (seconds !== 1 ? 's' : '') + '.\n'));
   }
 
   this.exit(0);

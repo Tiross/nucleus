@@ -28,10 +28,10 @@ var iconfont    = require('gulp-iconfont');         // Generates an icon-font
 var consolidate = require('gulp-consolidate');      // Passes a file to a template engine
 var rename      = require("gulp-rename");           // Renames a set of files
 var logwarn     = require('gulp-logwarn');          // Warns on leftover debug code
-var jshint      = require('gulp-jshint');           // Hints JavaScript
 var copy        = require('gulp-copy');             // Copies files (ignores path prefixes)
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
+const eslint = require('gulp-eslint');
 const postcss = require('gulp-postcss');
 const sass = require('gulp-sass');
 const stylelint = require('gulp-stylelint');
@@ -211,8 +211,9 @@ gulp.task('lint:scripts', function () {
       SOURCES + '/scripts/*.js',
       SOURCES + '/scripts/**/*.js'
     ])
-    .pipe(logwarn(LOG_CODE))
-    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
   ;
 });
 
@@ -272,7 +273,7 @@ gulp.task('lint:styles', function () {
       .watch([
         SOURCES + '/scripts/*.js',
         SOURCES + '/scripts/**/*.js'
-      ], ['scripts', 'lint:scripts'])
+      ], ['lint:scripts', 'scripts'])
       .on('change', watcher_log_callback);
   });
 

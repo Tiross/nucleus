@@ -30,7 +30,7 @@ const Color = function (raw) {
   this.fields.location = 'nuclides.html';
   this.fields.section = 'Nuclides';
 
-  if (typeof(raw.element) !== 'undefined') {
+  if (typeof raw.element !== 'undefined') {
     const colorValue = ColorConverter(raw.element.value.replace(/ *!default/, ''));
 
     this.fields.sort = colorValue.rgbNumber();

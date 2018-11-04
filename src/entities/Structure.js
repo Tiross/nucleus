@@ -37,19 +37,18 @@ Structure.prototype = Object.create(Entity.prototype);
 
 // TODO: Remove code duplication
 Structure.prototype.getFlags = function () {
-  const raw_flags = this.raw.annotations.flag || [];
+  const rawFlags = this.raw.annotations.flag || [];
   const flags = {};
 
-  if (raw_flags.indexOf('full-width') !== -1) {
+  if (rawFlags.indexOf('full-width') !== -1) {
     flags.fullWidth = true;
   }
 
-  if (raw_flags.indexOf('inline') !== -1) {
+  if (rawFlags.indexOf('inline') !== -1) {
     flags.inline = true;
   }
 
   return flags;
 };
-
 
 module.exports = Structure;

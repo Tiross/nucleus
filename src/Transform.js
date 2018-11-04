@@ -39,7 +39,6 @@ const Transform = {};
 Transform.forView = function (styles) {
   const viewData = {};
   const dot = new Dot(' > ');
-  const that = this;
 
   for (let s in styles) {
     Verbose.spin('Analyzing styles');
@@ -58,11 +57,11 @@ Transform.forView = function (styles) {
     // TODO: _e is a bad idea!!
     // TODO: Extract!
     let section = dot.pick(fields.section, viewData) || {
-      '_e': []
+      '_e': [],
     };
     section._e.push(fields);
     dot.copy('data', fields.section, {
-      data: section
+      data: section,
     }, viewData);
   }
 
@@ -92,7 +91,6 @@ Transform.getStyleType = function (style) {
 
   for (let t in typeAnnotations) {
     if (this.hasAnnotation(typeAnnotations[t], style)) {
-
       // Do we have multiple style type annotations?
       if (foundType !== null) {
         Verbose.warn('multiple_types', [style]);
@@ -182,7 +180,7 @@ Transform.sort = function (obj) {
 
       return A.toString().localeCompare(B);
     });
-  } else if (typeof(obj) === 'object') {
+  } else if (typeof obj === 'object') {
     keys.forEach(function (key) {
       obj[key] = that.sort(obj[key]);
     });

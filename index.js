@@ -1,26 +1,15 @@
 #!/usr/bin/env node
 
-/* index.js -- Bootstraps the application and starts the pipeline
- *
- * Copyright (C) 2016 Michael Seibt
- *
- * With contributions from:
- *  - Marco Vito Moscaritolo (@mavimo)
- *
- * This software may be modified and distributed under the terms
- * of the MIT license. See the LICENSE file for details.
- */
-
 'use strict';
 
-var Config = require('./src/Config');
-var Verbose = require('./src/Verbose');
-var Crawler = require('./src/Crawler');
-var Transform = require('./src/Transform');
-var Substitute = require('./src/Substitute');
-var SearchIndex = require('./src/SearchIndex');
+const Config = require('./src/Config');
+const Verbose = require('./src/Verbose');
+const Crawler = require('./src/Crawler');
+const Transform = require('./src/Transform');
+const Substitute = require('./src/Substitute');
+const SearchIndex = require('./src/SearchIndex');
 
-var jade = require('pug');
+const jade = require('pug');
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +22,7 @@ var jade = require('pug');
 */
 
 // If requested, run the init script and stop the execution here
-if(Config.shouldRunInit()) {
+if (Config.shouldRunInit()) {
   require('./init');
   process.exit(0);
 }
@@ -53,7 +42,7 @@ Verbose.status('Found ' + config.files.length + ' files.');
 */
 
 var styles = [];
-for(var f in config.files) {
+for (var f in config.files) {
   var file = config.files[f];
   Verbose.spin('Crawling ' + file);
   var style = Crawler.processFile(file);
@@ -92,10 +81,10 @@ require('mkdirp').sync(config.target);
 
 // Build the template files
 var templateFiles = ['atoms', 'molecules', 'index', 'nuclides', 'structures'];
-for(var t in templateFiles) {
+for (var t in templateFiles) {
   Verbose.spin('Generating files');
-  var html = jade.renderFile(config.template.replace(/\/$/, '')+'/'+templateFiles[t]+'.pug', {
-    styles : styleguides,
+  var html = jade.renderFile(config.template.replace(/\/$/, '') + '/' + templateFiles[t] + '.pug', {
+    styles: styleguides,
     index: searchIndex,
     meta: {
       css: config.css,
@@ -103,38 +92,32 @@ for(var t in templateFiles) {
       namespace: config.namespace,
       counterCSS: config.counterCSS,
       scripts: config.scripts,
-      demo: !!config.demo
-    }
+      demo: !!config.demo,
+    },
   });
-  require('fs').writeFileSync('./'+config.target+'/'+templateFiles[t]+'.html', html);
+  require('fs').writeFileSync('./' + config.target + '/' + templateFiles[t] + '.html', html);
 }
 
 // Copy assets
-if(config.target !== 'build') {
-var fs = require('fs');
-require('mkdirp').sync(config.target + '/styles');
-require('mkdirp').sync(config.target + '/fonts');
-require('mkdirp').sync(config.target + '/scripts');
+if (config.target !== 'build') {
+  var fs = require('fs');
+  var path = require('path');
+  require('mkdirp').sync(config.target + '/styles');
+  require('mkdirp').sync(config.target + '/fonts');
+  require('mkdirp').sync(config.target + '/scripts');
 
-fs
-  .writeFileSync(config.target + '/styles/app.css',
-    fs.readFileSync(__dirname + '/build/styles/app.css'));
-fs
-  .writeFileSync(config.target + '/scripts/app.js',
-    fs.readFileSync(__dirname + '/build/scripts/app.js'));
-fs
-  .writeFileSync(config.target + '/favicon.ico',
-    fs.readFileSync(__dirname + '/build/favicon.ico'));
-fs
-  .writeFileSync(config.target + '/fonts/SG-icons.eot',
-    fs.readFileSync(__dirname + '/build/fonts/SG-icons.eot'));
-fs
-  .writeFileSync(config.target + '/fonts/SG-icons.ttf',
-    fs.readFileSync(__dirname + '/build/fonts/SG-icons.ttf'));
-fs
-  .writeFileSync(config.target + '/fonts/SG-icons.woff',
-    fs.readFileSync(__dirname + '/build/fonts/SG-icons.woff'));
-
+  [
+    'styles/app.css',
+    'scripts/app.js',
+    'favicon.ico',
+    'fonts/SG-icons.eot',
+    'fonts/SG-icons.ttf',
+    'fonts/SG-icons.woff',
+  ].forEach((file) => {
+    fs
+      .writeFileSync(path.join(config.target, file), fs.readFileSync(path.join(__dirname, 'build', file)))
+    ;
+  });
 }
 
 /*

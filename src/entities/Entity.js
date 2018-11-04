@@ -32,7 +32,7 @@ const Entity = function (raw) {
   Object.defineProperty(this, Symbol.toStringTag, {
     get: function () {
       return that.type;
-    }
+    },
   });
 
   this.raw.descriptor = this.getDescriptor();
@@ -72,8 +72,9 @@ Entity.prototype.validate = function () {
   }
 
   // Section should not start or end with a '>' separator
-  if ((this.raw.annotations.section[0] === '>') ||
-    (this.raw.annotations.section.slice(-1)[0] === '>')) {
+  if ((this.raw.annotations.section[0] === '>')
+    || (this.raw.annotations.section.slice(-1)[0] === '>')
+  ) {
     Verbose.warn('section_delimiter', [this.raw]);
   }
 
@@ -87,10 +88,9 @@ Entity.prototype.getDescription = function () {
   const type = this.type.toLowerCase();
 
   // Single-line annotation block means @color is the description.
-  if (
-      this.singleLine
+  if (this.singleLine
     && !this.raw.annotations.description
-    && typeof(this.raw.annotations[type]) !== 'undefined'
+    && typeof this.raw.annotations[type] !== 'undefined'
   ) {
     return this.raw.annotations[type];
   }
@@ -112,7 +112,7 @@ Entity.prototype.getFields = function () {
     this.type + 's',
     this.getSection(),
   ].forEach(function (section) {
-    if (typeof(section) !== 'undefined' && sections.indexOf(section) === -1) {
+    if (typeof section !== 'undefined' && sections.indexOf(section) === -1) {
       sections.push(section);
     }
   });
@@ -138,8 +138,8 @@ Entity.prototype.getFields = function () {
     fields.description = '';
   }
 
-  if (typeof(this.raw.annotations.sort) !== 'undefined') {
-      fields.sort = this.raw.annotations.sort;
+  if (typeof this.raw.annotations.sort !== 'undefined') {
+    fields.sort = this.raw.annotations.sort;
   }
 
   return fields;
@@ -157,7 +157,7 @@ Entity.prototype.setFillable = function (annotations) {
  * @return null
  */
 Entity.prototype.setDefaultValues = function () {
-  if (typeof(this.raw.annotations) === 'undefined') {
+  if (typeof this.raw.annotations === 'undefined') {
     this.raw.annotations = {
     };
   }
@@ -183,7 +183,7 @@ Entity.prototype.getSection = function () {
 
   return this.raw.annotations.section
     .trim()
-    .replace(/(^\>[ ]*|[ ]*\>$)/g, '')
+    .replace(/(^>[ ]*|[ ]*>$)/g, '')
   ;
 };
 
@@ -194,10 +194,9 @@ Entity.prototype.getSection = function () {
  * @return {string}
  */
 Entity.prototype.getDescriptor = function () {
-  return this.raw.element ?
-    this.raw.element.prop ||
-    this.raw.element.selector ||
-    this.raw.element.params || 'unknown' : 'unknown';
+  const desc = this.raw.element.prop || this.raw.element.selector || this.raw.element.params;
+
+  return this.raw.element ? desc || 'unknown' : 'unknown';
 };
 
 /**
@@ -208,8 +207,8 @@ Entity.prototype.getDescriptor = function () {
 Entity.prototype.getModifiers = function () {
   // Check for a modifier annotation.
   if (typeof this.raw.annotations.modifiers !== 'undefined' && this.raw.annotations.modifiers !== null) {
-    const modifiers        = this.raw.annotations.modifiers;
-    const modifiersArray   = modifiers.split('\n');
+    const modifiers = this.raw.annotations.modifiers;
+    const modifiersArray = modifiers.split('\n');
     let formattedModifiers = []; // the container array for final output.
     /**
      * Loop through the modifier annotation, and
@@ -263,15 +262,15 @@ Entity.prototype.hash = function () {
 };
 
 Entity.prototype.hasAnnotation = function (name) {
-  if (typeof(this.raw) === 'undefined') {
+  if (typeof this.raw === 'undefined') {
     return false;
   }
 
-  if (typeof(this.raw.annotations) === 'undefined') {
+  if (typeof this.raw.annotations === 'undefined') {
     return false;
   }
 
-  if (typeof(this.raw.annotations[name]) === 'undefined') {
+  if (typeof this.raw.annotations[name] === 'undefined') {
     return false;
   }
 

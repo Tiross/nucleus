@@ -32,7 +32,7 @@ Crawler.processFile = function (file) {
   fileContent = fileContent.toString().replace(/(?:\r\n|\r|\n)/g, '\n');
 
   const root = postcss().process(fileContent, {
-    syntax: syntax
+    syntax: syntax,
   }).root;
 
   return this.processNodes(root.nodes, file);
@@ -127,7 +127,7 @@ Crawler.isDocBlock = function (comment) {
     return false;
   }
 
-  return comment.match(/(^|[ ])\*\s\@/gm) !== null;
+  return comment.match(/(^|[ ])\*\s@/gm) !== null;
 };
 
 /**
@@ -153,7 +153,7 @@ Crawler.removeCommentChars = function (docBlock) {
  * @return {Boolean}
  */
 Crawler.isAnnotationLine = function (line) {
-  return line.match(/^\@[\w-]+/) !== null;
+  return line.match(/^@[\w-]+/) !== null;
 };
 
 /**
@@ -197,7 +197,6 @@ Crawler.getDescription = function (docBlockLines) {
  *         A key-value pair of the annotation.
  */
 Crawler.getAnnotation = function (line) {
-
   // if it starts with a leading space, it's a multi-line
   // annotation's content.
   if (line.match(/^[\s]/)) {
@@ -213,13 +212,13 @@ Crawler.getAnnotation = function (line) {
   }
 
   // Otherwise, it's probably a key-value pair
-  line.match(/^\@([\w-]+)[\s]?([^\n]*)/gm);
+  line.match(/^@([\w-]+)[\s]?([^\n]*)/gm);
   const key = RegExp.$1;
   const val = RegExp.$2;
 
   return {
     key: key,
-    value: val ? val : true
+    value: val || true,
   };
 };
 
@@ -256,7 +255,7 @@ Crawler.addAnnotationByType = function (annotation, annotations, lastAnnotationK
 
       lastAnnotationValue[lastValueIndex] = [
         lastAnnotationValue[lastValueIndex],
-        annotation.value
+        annotation.value,
       ].join('\n').trim();
 
       return annotations;
@@ -264,7 +263,7 @@ Crawler.addAnnotationByType = function (annotation, annotations, lastAnnotationK
 
     annotations[lastAnnotationKey] = [
       lastAnnotationValue,
-      annotation.value
+      annotation.value,
     ].join('\n').trim();
 
     return annotations;

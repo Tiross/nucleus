@@ -18,7 +18,7 @@ const Substitute = {
   map: {},
   methods: {},
   staticLipsum: false,
-  placeholderService: false
+  placeholderService: false,
 };
 
 Substitute.injectConfig = function (config) {
@@ -65,7 +65,7 @@ Substitute.substitute = function (markup) {
     return markup;
   }
 
-  while (match = markup.match(/@{([^}]+)}/)) {
+  while ((match = markup.match(/@{([^}]+)}/))) {
     markup = markup.replace(match[0], this.resolve(match[1]));
   }
 
@@ -103,7 +103,7 @@ Substitute.methods.lipsum = function (quantity, type) {
       rnd += 0.01;
 
       return rnd;
-    } : Math.rand
+    } : Math.rand,
   });
 };
 

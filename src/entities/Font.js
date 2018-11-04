@@ -65,7 +65,7 @@ const Font = function (raw) {
 
   this.fields.parameters = [];
 
-  if (typeof(raw.annotations) !== 'undefined') {
+  if (typeof raw.annotations !== 'undefined') {
     for (let variation in variations) {
       if (variations.hasOwnProperty(variation) && variation in raw.annotations) {
         this.fields.parameters.push(variations[variation]);

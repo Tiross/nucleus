@@ -29,7 +29,7 @@ const Nuclide = function (raw) {
 
   this.fields.table = this.hasAnnotation('table') ? raw.annotations.table : false;
 
-  if (typeof(raw.element) !== 'undefined') {
+  if (typeof raw.element !== 'undefined') {
     this.fields.value = raw.element.value;
   }
 };

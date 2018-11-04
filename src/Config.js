@@ -16,6 +16,7 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
 const merge = require('merge');
 const argv = require('yargs').alias('c', 'config').alias('v', 'verbose').alias('r', 'norandom').argv;
 
@@ -34,7 +35,7 @@ const Config = {};
  */
 Config.parse = function () {
   const defaultConfig = require('../default.nucleus.json');
-  defaultConfig.template = __dirname + '/../assets/views';
+  defaultConfig.template = path.join(__dirname, '/../assets/views');
 
   let config = defaultConfig;
 
@@ -59,7 +60,7 @@ Config.parse = function () {
 
   try {
     userConfig = require(process.cwd() + '/' + configFile);
-  } catch(e) {
+  } catch (e) {
     userConfig = {};
   }
   config = merge(true, defaultConfig, userConfig);
@@ -99,7 +100,7 @@ Config.parse = function () {
   try {
     fs.accessSync(config.template, fs.F_OK);
   } catch (e) {
-    config.template = __dirname + '/../assets/views';
+    config.template = path.join(__dirname, '/../assets/views');
     Verbose.error('no_valid_template');
   }
 
@@ -116,7 +117,7 @@ Config.parse = function () {
  * @return {array}
  *         Array of file names
  */
-Config.getFilesFromGlob = function ( glob ) {
+Config.getFilesFromGlob = function (glob) {
   return require('glob').sync(glob);
 };
 
