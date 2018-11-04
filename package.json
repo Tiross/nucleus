@@ -19,7 +19,7 @@
     "build_docs": "gulp dist --gulpfile docs/gulpfile.js --production"
   },
   "bin": {
-    "nucleus": "./bin.js"
+    "nucleus": "./index.js"
   },
   "repository": {
     "type": "git",
